@@ -1,6 +1,6 @@
 ---
 parent: Harmony 3 motor control application examples
-title: PMSM FOC using PLL Estimator
+title: PMSM FOC using Quadrature Encoder
 has_children: false
 has_toc: false
 nav_order: 1
@@ -8,13 +8,13 @@ nav_order: 1
 
 [![MCHP](https://www.microchip.com/ResourcePackages/Microchip/assets/dist/images/logo.png)](https://www.microchip.com)
 
-# PMSM FOC using PLL Estimator
+# PMSM FOC using Quadrature Encoder
 
-This example application shows how to control the Permanent Magnet Synchronous Motor (PMSM) with PLL Estimator based Field Oriented Control (FOC) on a SAME70 Micro-controller. 
+This example application shows how to control the Permanent Magnet Synchronous Motor (PMSM) with Quadrature Encoder based Field Oriented Control (FOC) on a SAME70 Micro-controller. 
 
 ## Description
 
-Permanent Magnet Synchronous Motor (PMSM) is controlled using Field Oriented Control (FOC). Rotor position and speed is determined using PLL estimator technique. Motor start/stop operation is controlled by the switch and motor speed can be changed by the on-board potentiometer. Waveforms and variables can be monitored runtime using X2CScope. 
+Permanent Magnet Synchronous Motor (PMSM) is controlled using Field Oriented Control (FOC). Rotor position and speed is determined using quadrature encoder sensor. Motor start/stop operation is controlled by the switch and motor speed can be changed by the on-board potentiometer. Waveforms and variables can be monitored runtime using X2CScope. 
 
 Key features enabled in this project are:
 
@@ -37,6 +37,9 @@ Key features enabled in this project are:
 - **PWM Peripheral**: 
 
     This peripheral is used to generated three phase synchronous PWM waveforms. Fault functionality is also enabled to switch off the output waveforms asynchronously.
+- **TC QDEC Peripheral**:
+
+    TC peripheral is configured in QDEC mode. It is used to decode the rotor position and speed from quadrature encoder signals. 
 - **X2CScope**: 
 
     This component adds X2C scope protocol code. This uses UART to communicate to the host PC. X2CScope allows user to monitor variables runtime.
@@ -58,12 +61,12 @@ Field Oriented Control is the technique used to achieve the decoupled control of
 6. The output stator voltage space vector is transformed back from the d,q-coordinate system into the two phase system fixed with the stator by the Inverse Park transformation. 
 7. Using the space vector modulation, the three-phase output voltage is generated. 
 
-**PLL estimator** :
+**Quadrature Encoder based FOC** :
 
-This estimator uses PLL structure to estimate the rotor position and thus speed.  Its operating principle
-is based on the fact that the d-component of the Back Electromotive Force (BEMF) must be equal to zero at
-a steady state functioning mode. It can not estimate the rotor angle at 
-lower rotor speeds because of very low back EMF. So, open loop startup is used till required minimum speed is achieved. 
+Rotor position and speed are determined using quadrature encoder sensor. TC peripheral is configured in QDEC position mode. It counts
+the decoded quadrature pulses which is the position of the rotor. In this example, counter is a free running counter and software logic is implemented to get the exact angular position from the count. Speed is calculated by measuring the number of quadrature pulses in a fixed time interval. 
+
+Rotor is first aligned to a known position by exiciting either d-axis or q-axis. And then motor is controlled in a closed loop there after. 
 
 The following block diagram shows the software realization of the FOC algorithm.
 
@@ -90,7 +93,7 @@ To build the application, refer to the following table and open the project usin
 | mclv2_sam_e70_pim.X | MPLABX project for MCLV2 board with ATSAME70 PIM |
 |||
 
-[Hardware Setup and Running The Application on MCLV2 with ATSAME70 PIM](../docs/mclv2_atsame70_pim_sensorless.md)
+[Hardware Setup and Running The Application on MCLV2 with ATSAME70 PIM](../docs/mclv2_atsame70_pim_encoder.md)
 
 
 ### MCHV3 with ATSAME70 PIM
@@ -108,6 +111,6 @@ To build the application, refer to the following table and open the project usin
 | mchv3_sam_e70_pim.X | MPLABX project for MCHV3 board with ATSAME70 PIM |
 |||
 
-[Hardware Setup and Running The Application on MCHV3 with ATSAME70 PIM](../docs/mchv3_atsame70_pim_sensorless.md)
+[Hardware Setup and Running The Application on MCHV3 with ATSAME70 PIM](../docs/mchv3_atsame70_pim_encoder.md)
 
 
