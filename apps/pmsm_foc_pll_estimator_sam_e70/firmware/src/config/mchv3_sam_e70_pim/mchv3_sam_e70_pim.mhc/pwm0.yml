@@ -21,16 +21,6 @@ children:
   - type: Integer
     attributes: {id: PWM_CH_0_CDTY}
     children:
-    - type: Attributes
-      children:
-      - type: Integer
-        attributes: {id: max}
-        children:
-        - {type: Value, value: '3750'}
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -38,43 +28,13 @@ children:
   - type: KeyValueSet
     attributes: {id: PWM_CH_0_CMR_CALG}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
         attributes: {id: pwm0, value: '1'}
-  - type: KeyValueSet
-    attributes: {id: PWM_CH_0_CMR_CPOL}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: KeyValueSet
-    attributes: {id: PWM_CH_0_CMR_CPRE}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
   - type: Boolean
     attributes: {id: PWM_CH_0_CMR_DTE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -82,12 +42,6 @@ children:
   - type: Integer
     attributes: {id: PWM_CH_0_CPRD}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -116,12 +70,6 @@ children:
   - type: Boolean
     attributes: {id: PWM_CH_0_FAULT_ENABLE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -129,12 +77,6 @@ children:
   - type: KeyValueSet
     attributes: {id: PWM_CH_0_FPE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -148,32 +90,9 @@ children:
         attributes: {id: text}
         children:
         - {type: Value, value: '**** PWM Frequency is 20000.0 Hz ****'}
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: Boolean
-    attributes: {id: PWM_CH_0_IER1_CHID}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
   - type: Integer
     attributes: {id: PWM_CH_1_CDTY}
     children:
-    - type: Attributes
-      children:
-      - type: Integer
-        attributes: {id: max}
-        children:
-        - {type: Value, value: '3750'}
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -188,12 +107,6 @@ children:
   - type: Boolean
     attributes: {id: PWM_CH_1_CMR_DTE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -229,12 +142,6 @@ children:
   - type: Boolean
     attributes: {id: PWM_CH_1_FAULT_ENABLE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -242,12 +149,6 @@ children:
   - type: KeyValueSet
     attributes: {id: PWM_CH_1_FPE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -262,49 +163,15 @@ children:
         children:
         - {type: Value, value: '**** PWM Frequency is 20000.0 Hz ****'}
   - type: Boolean
-    attributes: {id: PWM_CH_1_IER1_CHID}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: Boolean
     attributes: {id: PWM_CH_1_SYNCENABLE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
         attributes: {id: pwm0, value: 'true'}
-  - type: Comment
-    attributes: {id: PWM_CH_1_SYNC_COMMENT}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
   - type: Integer
     attributes: {id: PWM_CH_2_CDTY}
     children:
-    - type: Attributes
-      children:
-      - type: Integer
-        attributes: {id: max}
-        children:
-        - {type: Value, value: '3750'}
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -319,12 +186,6 @@ children:
   - type: Boolean
     attributes: {id: PWM_CH_2_CMR_DTE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -360,12 +221,6 @@ children:
   - type: Boolean
     attributes: {id: PWM_CH_2_FAULT_ENABLE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -373,12 +228,6 @@ children:
   - type: KeyValueSet
     attributes: {id: PWM_CH_2_FPE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
@@ -393,45 +242,12 @@ children:
         children:
         - {type: Value, value: '**** PWM Frequency is 20000.0 Hz ****'}
   - type: Boolean
-    attributes: {id: PWM_CH_2_IER1_CHID}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: Boolean
     attributes: {id: PWM_CH_2_SYNCENABLE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
         attributes: {id: pwm0, value: 'true'}
-  - type: Comment
-    attributes: {id: PWM_CH_2_SYNC_COMMENT}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: Menu
-    attributes: {id: PWM_COMPARE}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
   - type: Boolean
     attributes: {id: PWM_COMP_0_CMPM_CEN}
     children:
@@ -442,12 +258,6 @@ children:
   - type: Integer
     attributes: {id: PWM_COMP_0_CMPV_CV}
     children:
-    - type: Attributes
-      children:
-      - type: Integer
-        attributes: {id: max}
-        children:
-        - {type: Value, value: '3750'}
     - type: Values
       children:
       - type: Dynamic
@@ -459,163 +269,13 @@ children:
       children:
       - type: Dynamic
         attributes: {id: pwm0, value: 'true'}
-  - type: Integer
-    attributes: {id: PWM_COMP_1_CMPV_CV}
-    children:
-    - type: Attributes
-      children:
-      - type: Integer
-        attributes: {id: max}
-        children:
-        - {type: Value, value: '3750'}
-  - type: Integer
-    attributes: {id: PWM_COMP_2_CMPV_CV}
-    children:
-    - type: Attributes
-      children:
-      - type: Integer
-        attributes: {id: max}
-        children:
-        - {type: Value, value: '3750'}
-  - type: Integer
-    attributes: {id: PWM_COMP_3_CMPV_CV}
-    children:
-    - type: Attributes
-      children:
-      - type: Integer
-        attributes: {id: max}
-        children:
-        - {type: Value, value: '3750'}
-  - type: Integer
-    attributes: {id: PWM_COMP_4_CMPV_CV}
-    children:
-    - type: Attributes
-      children:
-      - type: Integer
-        attributes: {id: max}
-        children:
-        - {type: Value, value: '3750'}
-  - type: Integer
-    attributes: {id: PWM_COMP_5_CMPV_CV}
-    children:
-    - type: Attributes
-      children:
-      - type: Integer
-        attributes: {id: max}
-        children:
-        - {type: Value, value: '3750'}
-  - type: Integer
-    attributes: {id: PWM_COMP_6_CMPV_CV}
-    children:
-    - type: Attributes
-      children:
-      - type: Integer
-        attributes: {id: max}
-        children:
-        - {type: Value, value: '3750'}
-  - type: Integer
-    attributes: {id: PWM_COMP_7_CMPV_CV}
-    children:
-    - type: Attributes
-      children:
-      - type: Integer
-        attributes: {id: max}
-        children:
-        - {type: Value, value: '3750'}
-  - type: Menu
-    attributes: {id: PWM_FAULT}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: KeyValueSet
-    attributes: {id: PWM_FAULT_0_FPV_FPVH}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: KeyValueSet
-    attributes: {id: PWM_FAULT_0_FPV_FPVL}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
   - type: Boolean
     attributes: {id: PWM_FAULT_0_IER1_FCHID}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
         attributes: {id: pwm0, value: 'true'}
-  - type: KeyValueSet
-    attributes: {id: PWM_FAULT_1_FPV_FPVH}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: KeyValueSet
-    attributes: {id: PWM_FAULT_1_FPV_FPVL}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: Boolean
-    attributes: {id: PWM_FAULT_1_IER1_FCHID}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: KeyValueSet
-    attributes: {id: PWM_FAULT_2_FPV_FPVH}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: KeyValueSet
-    attributes: {id: PWM_FAULT_2_FPV_FPVL}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
-  - type: Boolean
-    attributes: {id: PWM_FAULT_2_IER1_FCHID}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
   - type: KeyValueSet
     attributes: {id: PWM_FMR_FMOD_INDEX_2}
     children:
@@ -716,15 +376,6 @@ children:
       children:
       - type: Dynamic
         attributes: {id: pwm0, value: PWM0_ChannelsStop}
-  - type: Menu
-    attributes: {id: PWM_SYNC_CHANNELS}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
 - type: Attachments
   children:
   - type: DirectCapability

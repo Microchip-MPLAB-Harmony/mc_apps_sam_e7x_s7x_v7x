@@ -85,15 +85,6 @@ children:
         attributes: {id: visible}
         children:
         - {type: Value, value: 'true'}
-  - type: Comment
-    attributes: {id: AFEC_0_DUAL_CHANNEL}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
   - type: Boolean
     attributes: {id: AFEC_0_IER_EOC}
     children:

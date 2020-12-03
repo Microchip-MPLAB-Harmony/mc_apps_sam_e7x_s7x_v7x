@@ -5,7 +5,7 @@ frameworkPath: ../../..
 processor: ATSAME70Q21B
 projectName: ''
 settings:
-  PackageFilter: motor_control;csp;motor_control;x2c;
+  PackageFilter: bootloader;bsp;core;csp;csp_apps_pic32mk;motor_control;tflite;training;x2c;
   FORCE_OPTIMIZATION: 'false'
   GENERATE_BACKUP: 'true'
   TRUSTZONE: 'false'

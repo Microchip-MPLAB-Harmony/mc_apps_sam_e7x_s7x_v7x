@@ -109,7 +109,7 @@ void  MCSPE_InitializeSpeedControl(void)
 void MCSPE_SpeedCommand( void )
 {
 
-    gMCSPE_OutputSignals.potReading = (float)(MCHAL_ADCChannelResultGet(MCHAL_ADC_POT) >> MCHAL_ADC_RESULT_SHIFT);
+    
     gMCSPE_StateSignals.potFiltered =   gMCSPE_StateSignals.potFiltered
                                   + ((  gMCSPE_OutputSignals.potReading -  gMCSPE_StateSignals.potFiltered ) * gMCSPE_Parameters.filterParam );
 
@@ -120,6 +120,11 @@ void MCSPE_SpeedCommand( void )
     {
         gMCSPE_OutputSignals.commandSpeed = gMCSPE_Parameters.minSpeed;
     }
+}
+
+void MCSPE_PotentiometerRead( void )
+{
+    gMCSPE_OutputSignals.potReading = (float)(MCHAL_ADCPotResultGet(MCHAL_ADC_POT) >> MCHAL_ADC_RESULT_SHIFT);
 }
 
 

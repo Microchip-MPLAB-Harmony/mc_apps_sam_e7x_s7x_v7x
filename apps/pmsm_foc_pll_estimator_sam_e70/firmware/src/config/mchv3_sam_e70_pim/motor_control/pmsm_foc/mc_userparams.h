@@ -42,6 +42,7 @@
 #ifndef _USER_HEADER
 #define _USER_HEADER
 
+#include "mc_pmsm_foc_common.h"
 /***********************************************************************************************/
 /*                    include files                                                            */
 /***********************************************************************************************/
@@ -61,9 +62,9 @@
 #define FIELD_WEAKENING                  (DISABLED)  /* If enabled - Field weakening */
 #define ALIGNMENT_METHOD                 (FORCED_ALIGNMENT)  /* alignment method  */
 
+
 #define Q_AXIS_ALIGNMENT                 (ENABLED)
 #define ANGLE_OFFSET_DEG                 (float)45.0    /* Angle offset while switching to closed loop */
-
 #define CURRENT_MEASUREMENT              (DUAL_SHUNT)  /* Current measurement shunts */
 
 #define POTENTIOMETER_INPUT_ENABLED       ENABLED
@@ -98,7 +99,7 @@
 
 /* Field weakening - Limit for -ve Idref */
 #if(FIELD_WEAKENING == ENABLED)
-#define MAX_FW_NEGATIVE_ID_REF              (float)(-2)
+#define MAX_FW_NEGATIVE_ID_REF              (float)(-2.5)
 #endif
 
 /******************************************************************************/
@@ -118,7 +119,7 @@
 
 /******* Velocity Control Loop Coefficients **********************************/
 #define     SPEEDCNTR_PTERM            (float)(0.005)
-#define     SPEEDCNTR_ITERM            (float)(0.00002 * 0.01f)
+#define     SPEEDCNTR_ITERM            (float)(0.000002 * 0.01f)
 #define     SPEEDCNTR_CTERM            (float)(0.5)
 #define     SPEEDCNTR_OUTMAX           (float)(4)
 
