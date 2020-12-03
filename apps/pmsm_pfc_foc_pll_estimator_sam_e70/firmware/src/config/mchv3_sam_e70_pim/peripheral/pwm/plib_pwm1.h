@@ -118,8 +118,10 @@ void PWM1_ChannelOverrideDisable(PWM_CHANNEL_NUM channel);
 
 bool PWM1_ChannelCounterEventStatusGet (PWM_CHANNEL_NUM channel);
 
+#ifdef __cplusplus // Provide C++ Compatibility
+}
+#endif
+
 #endif //PLIB_PWM1_H
 
-/**
- End of File
-*/
+/* End of File */

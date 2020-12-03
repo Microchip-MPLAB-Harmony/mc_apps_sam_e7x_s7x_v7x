@@ -338,7 +338,7 @@ void PFCAPP_PowerFactCorrISR(uint32_t status, uintptr_t context)
                                     * ( gDcVoltageParam.measured - gDcVoltageParam.filtered );
 
     /* Measure current for power factor correction */
-    i_currentMeasured_df32 = (float)AFEC1_ChannelResultGet( PFC_CURRENT_ADC_CH ) ;
+    i_currentMeasured_df32 = AFEC1_ChannelResultGet( PFC_CURRENT_ADC_CH ) ;
 
     gAcCurrentParam.measured = (float)((i_currentMeasured_df32 - PFC_IacOffset_df32) * PFC_ADC_CURR_SCALE);
 
@@ -348,7 +348,7 @@ void PFCAPP_PowerFactCorrISR(uint32_t status, uintptr_t context)
     }
 
     /* Get AC voltage from ADC channel */
-    v_acBusVoltage_df32 = (float)AFEC1_ChannelResultGet( PFC_VOLTAGE_ADC_CH);
+    v_acBusVoltage_df32 = AFEC1_ChannelResultGet( PFC_VOLTAGE_ADC_CH);
     gAcVoltageParam.measured = (float)((v_acBusVoltage_df32 - AC_VOLTAGE_OFFSET) * PFC_AC_VOLTAGE_ADC_TO_PHY_RATIO);
 
     if (gAcVoltageParam.measured >= PFC_AC_MAX_VOLTAGE_PEAK)

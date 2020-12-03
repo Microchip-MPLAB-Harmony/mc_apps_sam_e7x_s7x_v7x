@@ -153,49 +153,6 @@ __STATIC_INLINE void MCAPP_MotorCurrentControl( void )
 			gCtrlParam.sync_cnt = 0;
 	    }
 
-		/* Check if field weakening is enabled */
-#if(FIELD_WEAKENING == 1)
-		float VqRefSquare, VdSquare,OmegaLs;
-		VdSquare = gMCLIBVoltageDQ.vd * gMCLIBVoltageDQ.vd;
-
-	    if(gMCLIBEstimParam.velEstim > RATED_SPEED_RAD_PER_SEC_ELEC)
-		{
-			if(VdSquare >= MAX_STATOR_VOLT_SQUARE)
-			{
-			   VdSquare = MAX_STATOR_VOLT_SQUARE;
-			}
-			VqRefSquare = sqrtf((float)(MAX_STATOR_VOLT_SQUARE - VdSquare));
-			gfocParam.fwVqRefFiltered = gfocParam.fwVqRefFiltered + ((VqRefSquare - gfocParam.fwVqRefFiltered) * KFILTER_ESDQ );
-
-			gfocParam.dIqRefdt = (gCtrlParam.iqRef - gfocParam.lastIqRef) * PWM_FREQUENCY;
-			gfocParam.lastIqRef = gCtrlParam.iqRef;
-			OmegaLs = (gCtrlParam.velRef * MOTOR_PER_PHASE_INDUCTANCE);
-
-			/* Id reference for feed forward control */
-			gCtrlParam.idRefFF = ((gfocParam.fwVqRefFiltered * gfocParam.dcBusVoltageBySqrt3) - (MOTOR_PER_PHASE_RESISTANCE * gCtrlParam.iqRef)
-			                   - (MOTOR_PER_PHASE_INDUCTANCE * gfocParam.dIqRefdt) - gMCLIBEstimParam.bemfAmplitudeFilt)/OmegaLs;
-
-			/* Limit idRef. (0 > VdRef > MAX_FW_NEGATIVE_ID_REF) */
-			if(gCtrlParam.idRefFF > 0)
-			{
-				gCtrlParam.idRef = 0;
-			}
-			else if(gCtrlParam.idRefFF < MAX_FW_NEGATIVE_ID_REF)
-			{
-				gCtrlParam.idRef = MAX_FW_NEGATIVE_ID_REF;
-			}
-			else
-			{
-				gCtrlParam.idRef = gCtrlParam.idRefFF;
-			}
-		}
-		else
-		{
-			/* Field weakening is disabled below rated speed. */
-			gCtrlParam.idRef = 0;
-		}
-#endif // End of #ifdef FIELD_WEAKENING
-
 
 #if(TORQUE_MODE == 1)
 		/* If TORQUE MODE is enabled then skip the velocity control loop */
@@ -209,17 +166,6 @@ __STATIC_INLINE void MCAPP_MotorCurrentControl( void )
 
 		gfocParam.lastVd = gMCLIBVoltageDQ.vd;
         gMCLIBVoltageDQ.vd    = gPIParmD.out;          /* This is in %. It should be converted to volts, multiply with (DC/sqrt(3)) */
-
-		/* Check if field weakening is enabled */
-#if(FIELD_WEAKENING == 1)
-
-        /* dynamic d-q adjustment with d component priority */
-        /* vq=sqrt (vs^2 - vd^2) */
-        /* limit vq maximum to the one resulting from the calculation above */
-        VdSquare = gPIParmD.out * gPIParmD.out;
-        VqRefSquare = MAX_STATOR_VOLT_SQUARE - VdSquare;
-        gPIParmQ.outMax = sqrtf((float)(VqRefSquare));
-#endif // End of #ifdef FIELD_WEAKENING
 
         /* PI control for Iq torque control */
         gPIParmQ.inMeas = gMCLIBCurrentDQ.iq;          /* This is in Amps */

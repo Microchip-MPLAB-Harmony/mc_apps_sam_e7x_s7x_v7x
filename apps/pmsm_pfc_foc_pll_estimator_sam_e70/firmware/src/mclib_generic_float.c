@@ -652,10 +652,6 @@ float cosineTable[TABLE_SIZE] =
  void MCLIB_PLLEstimator(MCLIB_ESTIMATOR* estimParam, MCLIB_POSITION* position)
 {
     float tempqVelEstim;
-	#if(FIELD_WEAKENING == true)
-	float bemfAmp;
-	#endif
-
     if(estimParam->velEstim < 0)
     {
         tempqVelEstim = estimParam->velEstim * (-1);
@@ -694,14 +690,6 @@ float cosineTable[TABLE_SIZE] =
 							((estimParam->rs  * gMCLIBCurrentAlphaBeta.iBeta ))
 							- estimParam->vIndbeta;
 
-	#if (FIELD_WEAKENING == true)
-	/* In field weakening BEMF amplitude is estimated to calculate Id_ref */
-	bemfAmp = sqrtf((estimParam->esa * estimParam->esa) + (estimParam->esb * estimParam->esb));
-	/* Filter first order for BEMF amplitude.
-       BEMFFilter = 1/TFilterd * Intergal{ (BEMF-BEMFFilter).dt } */
-	estimParam->bemfAmplitudeFilt = estimParam->bemfAmplitudeFilt +
-	                              ((bemfAmp - estimParam->bemfAmplitudeFilt) * estimParam->kFilterEsdq) ;
-	#endif
 
     /* Update LastValpha and LastVbeta. Convert per unit representation to volts  */
 	estimParam->lastValpha = estimParam->dcBusVoltageBySqrt3 * gMCLIBVoltageAlphaBeta.vAlpha;
