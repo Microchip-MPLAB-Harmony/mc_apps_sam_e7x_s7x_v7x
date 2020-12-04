@@ -71,6 +71,7 @@ static void PMSM_FOC_ButtonPolling( void );
 
 static tMCCTRL_TASK_STATE_E PMSM_FOC_IsSpeedLoopActive( void );
 static tMCCTRL_TASK_STATE_E PMSM_FOC_IsPositionLoopActive( void );
+void MCINF_PositionLoopTasks( void );
 static void PMSM_FOC_StartAdcInterrupt( void );
 
 /******************************************************************************/
@@ -93,6 +94,7 @@ static void PMSM_FOC_StartAdcInterrupt( void )
     /* Enable ADC interrupt for field oriented control */
     MCHAL_ADCCallbackRegister( MCHAL_ADC_PH_U, MCCTRL_CurrentOffsetCalibration, (uintptr_t)NULL );
     MCHAL_IntEnable(MCHAL_CTRL_IRQ);
+    MCHAL_ADCEnable();
 
     /* Enable interrupt for fault detection */
     MCHAL_PWMCallbackRegister(MCHAL_PWM_PH_U, MCERR_FaultControlISR, (uintptr_t)NULL);
@@ -183,8 +185,8 @@ void PMSM_FOC_MotorStart(void)
     MCRPOS_ResetPositionSensing(MCRPOS_FORCE_ALIGN);
 
     gMCCTRL_CtrlParam.mcStateLast = gMCCTRL_CtrlParam.mcState;
-    /* Switch the motor control state to MCAPP_FIELD_ALIGNMENT */
-    gMCCTRL_CtrlParam.mcState = MCAPP_FIELD_ALIGNMENT;
+        /* Switch the motor control state to MCAPP_FIELD_ALIGNMENT */
+        gMCCTRL_CtrlParam.mcState = MCAPP_FIELD_ALIGNMENT;
     /* Enable / Re-enable PWM output */
     gMCPWM_SVPWM.dPwm1 = gMCPWM_SVPWM.neutralPWM;
     gMCPWM_SVPWM.dPwm2 = gMCPWM_SVPWM.neutralPWM;
@@ -205,7 +207,7 @@ void PMSM_FOC_MotorStop(void)
     /* Disable PWM output */
     MCPWM_PWMOutputDisable();
     gMCCTRL_CtrlParam.mcStateLast = gMCCTRL_CtrlParam.mcState;
-    /* Switch the motor control state to MCAPP_FIELD_ALIGNMENT */
+    /* Switch the motor control state to MCAPP_IDLE */
     gMCCTRL_CtrlParam.mcState = MCAPP_IDLE;
 
     /* Reset global variables for next run */
@@ -216,7 +218,6 @@ void PMSM_FOC_MotorStop(void)
 }
 
 
-#ifndef MCHV3
 /******************************************************************************/
 /* Function name: PMSM_FOC_DirectionToggle                                    */
 /* Function parameters: None                                                  */
@@ -232,7 +233,6 @@ void PMSM_FOC_DirectionToggle(void)
     MCHAL_DIR_LED_TOGGLE();
 
 }
-#endif
 
 /******************************************************************************/
 /* Function name: PMSM_FOC_Tasks                                              */
@@ -246,9 +246,10 @@ void PMSM_FOC_Tasks()
     if( MCCTRL_LOOP_ACTIVE == PMSM_FOC_IsSpeedLoopActive())
     {
         PMSM_FOC_ButtonPolling();
+       /* Speed Loop Control tasks  */
+        PMSM_FOC_SpeedLoopTasks();
     }
-    /* Speed Loop Control tasks  */
-    PMSM_FOC_SpeedLoopTasks();
+
  }
 
 
@@ -313,9 +314,7 @@ void PMSM_FOC_ButtonPolling()
     {
         PMSM_FOC_ButtonResponse((tPMSM_FOC_SWITCH_STATE_E)(!MCHAL_START_STOP_SWITCH_GET()), &PMSM_FOC_MotorStart);
 
-      #ifndef MCHV3
         PMSM_FOC_ButtonResponse((tPMSM_FOC_SWITCH_STATE_E)(!MCHAL_DIR_SWITCH_GET()), &PMSM_FOC_DirectionToggle);
-      #endif
 
     }
     else
