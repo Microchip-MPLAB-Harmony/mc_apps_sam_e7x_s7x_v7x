@@ -101,7 +101,7 @@ typedef struct
 // *****************************************************************************
 // *****************************************************************************
 
-void PMSM_FOC_Tasks();
+void PMSM_FOC_Tasks(void);
 
 void PMSM_FOC_Initialize(void);
 void PMSM_FOC_ResetParameters(void);
@@ -113,9 +113,7 @@ void PMSM_FOC_SpeedLoopTasks( void );
 
 void PMSM_FOC_ButtonResponse( const tPMSM_FOC_SWITCH_STATE_E  buttonState,  void (*buttonFunction)(void) );
 
-#ifndef MCHV3
 void PMSM_FOC_DirectionToggle(void);
-#endif
 
 
 

@@ -61,6 +61,7 @@
 #include "math.h"
 
 
+
 /******************************************************************************/
 /* Local Function Prototype                                                   */
 /******************************************************************************/
@@ -76,6 +77,7 @@ __STATIC_INLINE void MCCTRL_MotorControl(void );
 __STATIC_INLINE void  MCCTRL_LoopSynchronization(void);
 static void MCCTRL_InitiaizeInfrastructure( void );
 
+   
 
 #if (ENABLED == FIELD_WEAKENING )
 static void MCCTRL_InitializeFieldWeakening( void );
@@ -364,6 +366,8 @@ __STATIC_INLINE void MCCTRL_StateMachine( void )
 
         }
         break;
+        
+        
         case MCAPP_FIELD_ALIGNMENT:
         {
             /* Read inputs for initial rotor position detection */
@@ -496,6 +500,7 @@ __STATIC_INLINE void  MCCTRL_LoopSynchronization(void)
 
     gMCPWM_SVPWM.period = MCHAL_PWMPrimaryPeriodGet(MCHAL_PWM_PH_U);
     gMCPWM_SVPWM.neutralPWM = (uint32_t)(0.5f * gMCPWM_SVPWM.period );
+    gMCPWM_SVPWM.enableSVPWM = 1;
 }
 
 
@@ -523,8 +528,6 @@ void MCCTRL_CurrentLoopTasks( uint32_t status, uintptr_t context )
     /* Current Measurement */
     MCCUR_CurrentMeasurement( );
 
-    /* Voltage measurement */
-    MCVOL_VoltageMeasurement( );
 
     /* Clarke, Park transform */
     MCCTRL_SignalTransformation();
@@ -534,6 +537,12 @@ void MCCTRL_CurrentLoopTasks( uint32_t status, uintptr_t context )
 
     /* Motor control */
     MCCTRL_MotorControl( );
+
+    /* Voltage measurement */
+    MCVOL_VoltageMeasurement( );     
+    /* Read potentiometer value */
+    MCSPE_PotentiometerRead();
+
 
      /* sync count for slow control loop execution */
     MCCTRL_LoopSynchronization();
@@ -552,6 +561,13 @@ void MCCTRL_CurrentLoopTasks( uint32_t status, uintptr_t context )
     MCLIB_ResetPIParameters(&gMCLIB_IqPIController);
     MCLIB_ResetPIParameters(&gMCLIB_IdPIController);
     MCLIB_ResetPIParameters(&gMCLIB_SpeedPIController);
+    gMCCTRL_CtrlParam.idRef = 0;
+    gMCCTRL_CtrlParam.iqRef = 0;
+    gMCRPOS_OutputSignals.speed = 0;
+    gMCRPOS_OutputSignals.angle = 0;
+    gMCSPE_OutputSignals.commandSpeed = 0;
+    gMCCTRL_CtrlParam.velRef = 0;
+
 
 #if (ENABLED == FIELD_WEAKENING )
     MCCTRL_ResetFieldWeakening();
