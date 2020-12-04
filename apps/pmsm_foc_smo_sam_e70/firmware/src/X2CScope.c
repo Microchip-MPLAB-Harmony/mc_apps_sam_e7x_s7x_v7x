@@ -33,6 +33,7 @@
 #include "X2CScopeCommunication.h"
 #include "X2CScope.h"
 
+
 void X2CScope_Init(void)
 {
     X2CScope_HookUARTFunctions(sendSerial, receiveSerial, isReceiveDataAvailable, isSendReady);

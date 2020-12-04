@@ -694,7 +694,7 @@ inline void MC_APP_MC_UpdateFeedbackSignals(void)
     phaseCurrentA = AFEC0_ChannelResultGet(PH_U_CURRENT_ADC_CH); // Phase Current A
     phaseCurrentB = AFEC0_ChannelResultGet(PH_V_CURRENT_ADC_CH);// Phase Current B 
     potReading = AFEC0_ChannelResultGet(POT_ADC_CH);   // Speed Potentiometer  
-    ParkParm.DCBusVoltage = (float)AFEC0_ChannelResultGet(DC_BUS_VOLTAGE_ADC_CH)* VOLTAGE_ADC_TO_PHY_RATIO; // Reads and translates to actual bus voltage
+    ParkParm.DCBusVoltage = (float)(AFEC0_ChannelResultGet(DC_BUS_VOLTAGE_ADC_CH) * VOLTAGE_ADC_TO_PHY_RATIO); // Reads and translates to actual bus voltage
     ParkParm.MaxPhaseVoltage = (float)(ParkParm.DCBusVoltage*ONE_BY_SQRT3); 
 	
     /* Moving Average Filter is implemented to calculate the current offset. Window size of the moving average filter = 2^MOVING_AVG_WINDOW_SIZE
