@@ -1,9 +1,8 @@
 ---
-parent: Harmony 3 motor control application examples
+parent: Motor Control Application Examples for SAM E7x/S7x/V7x family
 title: PFC with PMSM FOC using PLL Estimator
 has_children: false
 has_toc: false
-nav_order: 1
 ---
 
 [![MCHP](https://www.microchip.com/ResourcePackages/Microchip/assets/dist/images/logo.png)](https://www.microchip.com)
@@ -160,17 +159,17 @@ Parameters for reference rectified AC current PI Controller:
 #### Downloading and building the application
 
 To clone or download this application from Github, go to the [main page of this repository](https://github.com/Microchip-MPLAB-Harmony/mc_apps_sam_e7x_s7x_v7x) and then click **Clone** button to clone this repository or download as zip file.
-This content can also be downloaded using content manager by following these [instructions](https://github.com/Microchip-MPLAB-Harmony/contentmanager/wiki).
+This content can also be downloaded using content manager by following these [instructions](https://microchip-mplab-harmony.github.io/contentmanager/).
 
-Path of the application within the repository is **apps/pmsm_foc_pll_estimator_sam_e70** .
+Path of the application within the repository is **apps/pmsm_pfc_foc_pll_estimator_sam_e70** .
 
 To build the application, refer to the following table and open the project using its IDE.
 
-| Project Name      | Description                                    |
-| ----------------- | ---------------------------------------------- |
-| mchv3_sam_e70_pim.X | MPLABX project for MCHV3 board with ATSAME70 PIM |
+| Project Name      | Description                                    | Hardware Setup Guide |
+| ----------------- | ---------------------------------------------- | ----------------- |
+| mchv3_sam_e70_pim.X | MPLABX project for MCHV3 board with ATSAME70 PIM | [Hardware Setup and Running The Application on MCHV3 with ATSAME70 PIM](../docs/mchv3_atsame70_pim_sensorless.md) |
 |||
 
-[Hardware Setup and Running The Application on MCHV3 with ATSAME70 PIM](../docs/mchv3_atsame70_pim_sensorless.md)
+
 
 

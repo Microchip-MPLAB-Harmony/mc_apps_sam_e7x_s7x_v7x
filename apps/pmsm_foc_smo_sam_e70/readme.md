@@ -1,9 +1,8 @@
 ---
-parent: Harmony 3 motor control application examples
+parent: Motor Control Application Examples for SAM E7x/S7x/V7x family
 title: PMSM FOC using Sliding Mode Observer
 has_children: false
 has_toc: false
-nav_order: 1
 ---
 
 [![MCHP](https://www.microchip.com/ResourcePackages/Microchip/assets/dist/images/logo.png)](https://www.microchip.com)
@@ -194,17 +193,17 @@ Parameters for Iq current loop:
 #### Downloading and building the application
 
 To clone or download this application from Github, go to the [main page of this repository](https://github.com/Microchip-MPLAB-Harmony/mc_apps_sam_e7x_s7x_v7x) and then click **Clone** button to clone this repository or download as zip file.
-This content can also be downloaded using content manager by following these [instructions](https://github.com/Microchip-MPLAB-Harmony/contentmanager/wiki).
+This content can also be downloaded using content manager by following these [instructions](https://microchip-mplab-harmony.github.io/contentmanager/).
 
-Path of the application within the repository is **apps/pmsm_foc_pll_estimator_sam_e70** .
+Path of the application within the repository is **apps/pmsm_foc_smo_sam_e70** .
 
 To build the application, refer to the following table and open the project using its IDE.
 
-| Project Name      | Description                                    |
-| ----------------- | ---------------------------------------------- |
-| mclv2_sam_e70_pim.X | MPLABX project for MCLV2 board with ATSAME70 PIM |
+| Project Name      | Description                                    | Hardware Setup Guide | 
+| ----------------- | ---------------------------------------------- | ------------------ |
+| mclv2_sam_e70_pim.X | MPLABX project for MCLV2 board with ATSAME70 PIM | [Hardware Setup and Running The Application on MCLV2 with ATSAME70 PIM](../docs/mclv2_atsame70_pim_sensorless.md)|
 |||
 
-[Hardware Setup and Running The Application on MCLV2 with ATSAME70 PIM](../docs/mclv2_atsame70_pim_sensorless.md)
+
 
 

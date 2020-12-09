@@ -1,4 +1,11 @@
-﻿# Microchip MPLAB® Harmony 3 Motor Control Application Examples for SAM E7x/S7x/V7x family
+﻿---
+title: Motor Control Application Examples for SAM E7x/S7x/V7x family
+nav_order: 1
+has_children: true
+has_toc: false
+---
+
+# Microchip MPLAB® Harmony 3 Motor Control Application Examples for SAM E7x/S7x/V7x family
 
 MPLAB Harmony 3 is an extension of the MPLAB® ecosystem for creating
 embedded firmware solutions for Microchip 32-bit SAM and PIC32 microcontroller
@@ -17,13 +24,12 @@ notes and licensing information.
  - [Release Notes](./release_notes.md)
  - [MPLAB Harmony License](mplab_harmony_license.md)
 
-# Contents Summary
+## Contents Summary
 
 | Folder     | Description                                               |
 |------------|-----------------------------------------------------------|
 | apps       | Demonstration applications for Motor Control              |
-| doc        | Demonstration user guide in .chm format                   |
-| docs       | Demonstration user guide in HTML format                   |
+| docs       | Contains documentation in html format for offline viewing (to be used only after cloning this repository onto a local machine). Use [github pages](https://microchip-mplab-harmony.github.io/mc_apps_sam_e7x_s7x_v7x/) of this repository for viewing it online. |
 |||
 
 
@@ -32,9 +38,8 @@ notes and licensing information.
 The following applications are provided to demonstrate the typical or interesting usage models of motor control algorithms.
 These applications are generated using PMSM_FOC component and are fully configurable. 
 
-### SAME7x/S7x/V7x Family
-| Name | Description|
-|:---------|:-----------|
+| Name | Description |
+|------------|-----------------------------------------------------------|
 | [PMSM FOC using PLL Estimator](apps/pmsm_foc_pll_estimator_sam_e70/readme.md) | Sensorless Field Oriented Control of PMSM using PLL Estimator |
 | [PMSM FOC using Quadrature Encoder](apps/pmsm_foc_encoder_sam_e70/readme.md) | Sensor Field Oriented Control of PMSM using Quadrature Encoder |
 |||
@@ -43,9 +48,8 @@ These applications are generated using PMSM_FOC component and are fully configur
 
 These applications contain static algorithm code and peripherals are configured using MHC. Configurations can be changed in userparam.h file. 
 
-### SAME7x/S7x/V7x Family
-| Name | Description|
-|:---------|:-----------|
+| Name | Description |
+|------------|-----------------------------------------------------------|
 | [PFC and PMSM FOC using PLL Estimator](apps/pmsm_pfc_foc_pll_estimator_sam_e70/readme.md) | Power Factor Correction and Sensorless Field Oriented Control of PMSM using PLL Estimator |
 | [PMSM FOC using Sliding Mode Observer](apps/pmsm_foc_smo_sam_e70/readme.md) | Sensorless Field Oriented Control of PMSM using Sliding Mode Observer |
 |||

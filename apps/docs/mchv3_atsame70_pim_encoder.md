@@ -1,3 +1,10 @@
+---
+parent: Hardware Setup
+title: MCHV3 Development Board Setup for Quadrature Encoder
+has_children: false
+has_toc: false
+---
+
 # MCHV3 Development Board
 ## Setting up the hardware
 
@@ -12,26 +19,26 @@ The following table shows the target hardware for the application projects.
 
 - Mount the ATSAME70 Motor Control Plug In Module on U9 header. 
 
-    ![PIM Install](images/mchv3/same70_pim_mchv3.png)
+    ![PIM Install](./images/mchv3/same70_pim_mchv3.png)
 
 - Place the "PFC - External Opamp Configuration" Matrix board at J4.
 
-    ![External OPAMP](images/mchv3/same70_pfc_external_opamp_mchv3.png)
+    ![External OPAMP](./images/mchv3/same70_pfc_external_opamp_mchv3.png)
 
 - Motor Connections: 
     - Phase U - M1 
     - Phase V - M2 
     - Phase W - M3
 
-    ![Motor Connections](images/mchv3/mchv3_back_panel.png)
+    ![Motor Connections](./images/mchv3/mchv3_back_panel.png)
 
 - Encoder Connections:
     - A+ - HA
     - B+ - HB
-    - +5V - +5V
-    - GND - G
+    - 5V - +5V
+    - 0V - GND
 
-    ![Encoder Connections](images/mchv3/encoder_connection.png)
+    ![Encoder Connections](./images/mchv3/encoder_connection.png)
 
 - Jumper Settings: 
     - J11 - VAC ( Short Pin 3 - 4)
@@ -39,20 +46,20 @@ The following table shows the target hardware for the application projects.
     - J13 - IB ( Short Pin 1 - 2)
     - J14 - Fault_IP/IBUS ( Short Pin 1 - 2)
 
-    ![jumper Settings](images/mchv3/same70_mchv3_jumper_settings.png)
+    ![jumper Settings](./images/mchv3/same70_mchv3_jumper_settings.png)
 
 - Power the board with (110V/220V) AC mains. For additional safety, it is recommended to use a current limited power supply while testing this software demonstration on a non-default hardware and motor. 
 
-    ![jumper Settings](images/mchv3/mchv3_ac_mains.png)
+    ![jumper Settings](./images/mchv3/mchv3_ac_mains.png)
 
 - Installing Isolated Embedded Debugger
 Default programmer or debugger daughter card shipped with the MCHV3 board cannot program or debug SAM series MCU and therefore, it needs to be replaced with an Isolated Embedded Debugger Interface for MCHV.
 
-    ![Isolated EDBG](images/mchv3/mchv3_replacing_isolated_edbg.png)
+    ![Isolated EDBG](./images/mchv3/mchv3_replacing_isolated_edbg.png)
 
 - Complete Setup
 
-    ![Setup](images/mchv3/same70_mchv3_hardware_setup.png)
+    ![Setup](./images/mchv3/same70_mchv3_hardware_setup.png)
 
 ## Running the Application
 

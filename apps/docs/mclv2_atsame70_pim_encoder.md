@@ -1,3 +1,10 @@
+---
+parent: Hardware Setup
+title: MCLV2 Development Board Setup for Quadrature Encoder
+has_children: false
+has_toc: false
+---
+
 # MCLV2 Development Board
 ## Setting up the hardware
 
@@ -12,42 +19,42 @@ The following table shows the target hardware for the application projects.
 
 - Mount the ATSAME70 Motor Control Plug In Module on U9 header. 
 
-    ![PIM Install](images/mclv2/pll_same70_pim_mclv2.png)
+    ![PIM Install](./images/mclv2/pll_same70_pim_mclv2.png)
 
 - Place the "External Opamp Configuration" Matrix board at J14.
 
-    ![External OPAMP](images/mclv2/pll_same70_mclv2_ext_opamp.png)
+    ![External OPAMP](./images/mclv2/pll_same70_mclv2_ext_opamp.png)
 
 - Motor Connections: 
-    - Phase U - M1 
-    - Phase V - M2 
-    - Phase W - M3
+    - White (Phase U) - M1 
+    - Black (Phase V) - M2 
+    - Red (Phase W) - M3
 
-    ![Motor Connections](images/mclv2/pll_same70_mclv2_motor_connection.png)
+    ![Motor Connections](./images/mclv2/pll_same70_mclv2_motor_connection.png)
 
 - Encoder Connections: Connect encoder wires as shown below
-    - 1 : +5V
-    - 2 : HA
-    - 3 : HB
-    - 8 : G
+    - (Red) +5V : +5V
+    - (Black) -5V : GND
+    - (White) A : HA
+    - (Blue) B : HB
 
-    ![Encoder Connections](images/mclv2/encoder_connection.png)
+    ![Encoder Connections](./images/mclv2/encoder_connection.png)
 
 - Jumper Settings: 
     - JP1 - Curr, JP2 - Curr, JP3 - Curr 
     - In order to use RS232 port for X2CScope Communication JP4 - UART, JP5 - UART 
     - In order to use USB port for X2CScope Communication JP4 - USB, JP5 - USB
 
-    ![jumper Settings](images/mclv2/pll_same70_mclv2_jumper_settings.png)
+    ![jumper Settings](./images/mclv2/pll_same70_mclv2_jumper_settings.png)
 
 
 - Power the board with a 24V DC supply using J2 or BP1-BP2. For additional safety, it is recommended to use a current limited power supply while testing this software demonstration on a non-default hardware and motor. 
 
-    ![jumper Settings](images/mclv2/pll_same70_power_mclv2.png)
+    ![jumper Settings](./images/mclv2/pll_same70_power_mclv2.png)
 
 - Complete Setup
 
-    ![Setup](images/mclv2/pll_same70_mclv2.png)
+    ![Setup](./images/mclv2/pll_same70_mclv2.png)
 
 ## Running the Application
 
