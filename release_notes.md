@@ -31,7 +31,9 @@ Applications migrated from motor_control repository to this application reposito
 ### Known Issues
 
 * Isolated EDBG Card 
-  * This board is not supported in MPLABX v5.40. We recommend using [MPLABX v5.45 or above](https://www.microchip.com/mplab/mplab-x-ide) for programming/debugging any SAM E/V/S7x applications dsPICDEM™ MCHV-3 High Voltage Development Board
+  * The Isolated EDBG Card may appear "grayed out" (disabled) under the list of tools in MPLABX v5.45. In order to resolve this issue, please go to Tools -> Options ->Embedded->Generic Settings and enable "Exclude device checks for kits" by selecting the check box. 
+  
+  ![Exclude_Device_Checks](apps/docs/images/mchv3/exclude_device_checks_edbg.jpg)
 
   * If programming failure occurs with message "java.lang.RuntimeException:RDDI_DAP_OPERATION_FAILED", then reset the Isolated EDBG Card's configuration by Go to File -> Project Properties -> EDBG -> Reset 
 
