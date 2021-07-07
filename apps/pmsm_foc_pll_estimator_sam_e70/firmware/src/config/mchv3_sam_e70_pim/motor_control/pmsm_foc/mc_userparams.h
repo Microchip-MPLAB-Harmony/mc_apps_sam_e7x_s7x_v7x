@@ -57,17 +57,19 @@
 #define BOARD                            (MCHV3)                            
 #define POSITION_FEEDBACK                (SENSORLESS_PLL)
 
-#define OPEN_LOOP_FUNCTIONING            (DISABLED)  /* If enabled - Keep running in open loop */
-#define TORQUE_MODE                      (DISABLED)  /* If enabled - torque control */
+#define CONTROL_LOOP                     (SPEED_LOOP)
+
 #define FIELD_WEAKENING                  (DISABLED)  /* If enabled - Field weakening */
-#define ALIGNMENT_METHOD                 (FORCED_ALIGNMENT)  /* alignment method  */
+#define ALIGNMENT_METHOD                 (Q_AXIS)  /* alignment method  */
 
 
-#define Q_AXIS_ALIGNMENT                 (ENABLED)
 #define ANGLE_OFFSET_DEG                 (float)45.0    /* Angle offset while switching to closed loop */
 #define CURRENT_MEASUREMENT              (DUAL_SHUNT)  /* Current measurement shunts */
 
 #define POTENTIOMETER_INPUT_ENABLED       ENABLED
+
+#define SPEED_REF_RPM                     (float)1000   /* Speed Ref */
+
 /***********************************************************************************************/
 /* Motor Configuration Parameters */
 /***********************************************************************************************/
@@ -86,12 +88,12 @@
 
 /* Motor Start-up configuration parameters */
 #define LOCK_TIME_IN_SEC                (2)   /* Startup - Rotor alignment time */
+
 #define OPEN_LOOP_END_SPEED_RPM         (500) /* Startup - Control loop switches to close loop at this speed */
 #define OPEN_LOOP_RAMP_TIME_IN_SEC      (5)   /* Startup - Time to reach OPEN_LOOP_END_SPEED_RPM in seconds */
+
 #define Q_CURRENT_REF_OPENLOOP          (0.4) /* Startup - Motor start to ramp up in current control mode */
-#if (TORQUE_MODE == ENABLED)
-#define Q_CURRENT_REF_TORQUE            (0.2)   /* Iq ref for torque mode */
-#endif
+
 
 /* Current ramp parameters for open loop to close loop transition  */
 #define Q_CURRENT_OPENLOOP_STEP                    ((float)0.001)
@@ -125,16 +127,16 @@
 
 
 /* First order low pass Filter constants used inside the project             */
-#define KFILTER_ESDQ                   (float)((float)4000/(float)32767)
+#define KFILTER_ESDQ                   (float)((float)0.122)
 #define KFILTER_BEMF_AMPLITUDE         (float)((float)4000/(float)32767)
-#define KFILTER_VELESTIM               (float)((float)4000/(float)32767)
+#define KFILTER_VELESTIM               (float)((float)0.122)
 #define KFILTER_POT                    (float)((float)250/(float)32767)
 
 /***********************************************************************************************/
 /* Driver board configuration Parameters */
 /***********************************************************************************************/
 
-#define MAX_CURRENT                                         ((float)(16.4)) /* Max current as per above calculations */
+#define MAX_CURRENT                                         ((float)(16.40159)) /* Max current as per above calculations */
 #define MAX_ADC_COUNT                                       (float)4095     /*  ADC Resolution*/
 #define MAX_ADC_INPUT_VOLTAGE                               (float)3.3      /* volts */
 
