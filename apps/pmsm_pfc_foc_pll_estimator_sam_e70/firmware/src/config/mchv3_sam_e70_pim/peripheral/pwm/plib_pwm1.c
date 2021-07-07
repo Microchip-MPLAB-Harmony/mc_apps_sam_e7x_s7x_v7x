@@ -53,6 +53,7 @@
 */
 #include "device.h"
 #include "plib_pwm1.h"
+#include "interrupts.h"
 
 
 
