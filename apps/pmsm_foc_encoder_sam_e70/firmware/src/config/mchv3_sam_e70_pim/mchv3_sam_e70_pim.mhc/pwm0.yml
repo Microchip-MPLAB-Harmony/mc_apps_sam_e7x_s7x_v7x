@@ -98,14 +98,14 @@ children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: pwm0, value: '150'}
+        attributes: {id: pwm0, value: '300'}
   - type: Integer
     attributes: {id: PWM_CH_0_DT_DTL}
     children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: pwm0, value: '150'}
+        attributes: {id: pwm0, value: '300'}
   - type: Boolean
     attributes: {id: PWM_CH_0_ENABLE}
     children:
@@ -211,14 +211,14 @@ children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: pwm0, value: '150'}
+        attributes: {id: pwm0, value: '300'}
   - type: Integer
     attributes: {id: PWM_CH_1_DT_DTL}
     children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: pwm0, value: '150'}
+        attributes: {id: pwm0, value: '300'}
   - type: Boolean
     attributes: {id: PWM_CH_1_ENABLE}
     children:
@@ -342,14 +342,14 @@ children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: pwm0, value: '150'}
+        attributes: {id: pwm0, value: '300'}
   - type: Integer
     attributes: {id: PWM_CH_2_DT_DTL}
     children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: pwm0, value: '150'}
+        attributes: {id: pwm0, value: '300'}
   - type: Boolean
     attributes: {id: PWM_CH_2_ENABLE}
     children:
