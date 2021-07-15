@@ -60,6 +60,15 @@ children:
       children:
       - type: Dynamic
         attributes: {id: afec0, value: AFEC0_ConversionStart}
+  - type: Combo
+    attributes: {id: AFEC_0_CGR_GAIN}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
   - type: Boolean
     attributes: {id: AFEC_0_CHER}
     children:
@@ -67,6 +76,15 @@ children:
       children:
       - type: Dynamic
         attributes: {id: afec0, value: 'true'}
+  - type: Integer
+    attributes: {id: AFEC_0_COCR_AOFF}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
   - type: Comment
     attributes: {id: AFEC_0_DUAL_CHANNEL}
     children:
@@ -79,17 +97,65 @@ children:
   - type: Boolean
     attributes: {id: AFEC_0_IER_EOC}
     children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
         attributes: {id: afec0, value: 'true'}
+  - type: String
+    attributes: {id: AFEC_0_NAME}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: Combo
+    attributes: {id: AFEC_0_NEG_INP}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: String
+    attributes: {id: AFEC_0_POS_INP}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
   - type: Boolean
     attributes: {id: AFEC_0_SHMR_DUAL}
     children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
         attributes: {id: afec0, value: 'true'}
+  - type: Combo
+    attributes: {id: AFEC_10_CGR_GAIN}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
   - type: Boolean
     attributes: {id: AFEC_10_CHER}
     children:
@@ -97,6 +163,51 @@ children:
       children:
       - type: Dynamic
         attributes: {id: afec0, value: 'true'}
+  - type: Integer
+    attributes: {id: AFEC_10_COCR_AOFF}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: Boolean
+    attributes: {id: AFEC_10_IER_EOC}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: String
+    attributes: {id: AFEC_10_NAME}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: Combo
+    attributes: {id: AFEC_10_NEG_INP}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: String
+    attributes: {id: AFEC_10_POS_INP}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
   - type: Combo
     attributes: {id: AFEC_6_CGR_GAIN}
     children:
@@ -158,6 +269,15 @@ children:
         attributes: {id: visible}
         children:
         - {type: Value, value: 'true'}
+  - type: Combo
+    attributes: {id: AFEC_7_CGR_GAIN}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
   - type: Boolean
     attributes: {id: AFEC_7_CHER}
     children:
@@ -165,6 +285,51 @@ children:
       children:
       - type: Dynamic
         attributes: {id: afec0, value: 'true'}
+  - type: Integer
+    attributes: {id: AFEC_7_COCR_AOFF}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: Boolean
+    attributes: {id: AFEC_7_IER_EOC}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: String
+    attributes: {id: AFEC_7_NAME}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: Combo
+    attributes: {id: AFEC_7_NEG_INP}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
+  - type: String
+    attributes: {id: AFEC_7_POS_INP}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
   - type: Comment
     attributes: {id: AFEC_CLK_ENABLE_COMMENT}
     children:
@@ -200,6 +365,12 @@ children:
   - type: KeyValueSet
     attributes: {id: AFEC_MR_TRGSEL_VALUE}
     children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic

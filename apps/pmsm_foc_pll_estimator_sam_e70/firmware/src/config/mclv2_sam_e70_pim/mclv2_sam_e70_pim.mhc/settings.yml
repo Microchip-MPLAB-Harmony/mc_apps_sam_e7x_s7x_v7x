@@ -1,13 +1,13 @@
 configName: mclv2_sam_e70_pim
 folderName: ''
 format_version: v1.0
-frameworkPath: ../../../../Harmony3_3.1.0
+frameworkPath: ../../..
 processor: ATSAME70Q21B
 projectName: ''
 settings:
-  PackageFilter: bootloader;bootloader_apps_i2c;bsp;core;csp;csp_apps_pic32cm_jh00_jh01;csp_apps_pic32cm_le00_ls00;csp_apps_pic32cm_mc00;csp_apps_pic32cx_bz24_bz25;csp_apps_pic32mk;csp_apps_pic32mx;csp_apps_sam_c20_c21;csp_apps_sam_d5x_e5x;csp_apps_sam_l10_l11;csp_apps_sam_l21;csp_apps_sam_l22;gfx;motor_control;touch;validation;x2c;
+  PackageFilter: core;csp;csp_apps_sam_d5x_e5x;mc_apps_pic32cm_mc;mc_apps_pic32mk;mc_apps_sam_c2x;mc_apps_sam_d5x_e5x;mc_apps_sam_e7x_s7x_v7x;motor_control;x2c
   FORCE_OPTIMIZATION: 'false'
   GENERATE_BACKUP: 'true'
   CMSISPath: .\dev_packs\arm\CMSIS\5.7.0
   MERGE_STRATEGY: USER_ALL
-  DFPPath: .\dev_packs\Microchip\SAME70_DFP\4.3.73\same70b\atdf\ATSAME70Q21B.atdf
+  DFPPath: .\dev_packs\Microchip\SAME70_DFP\4.5.86\same70b\atdf\ATSAME70Q21B.atdf
