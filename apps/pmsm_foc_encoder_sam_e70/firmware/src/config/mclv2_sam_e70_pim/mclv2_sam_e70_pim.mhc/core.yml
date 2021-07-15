@@ -3114,10 +3114,16 @@ children:
   - type: Boolean
     attributes: {id: USE_SYSTICK_INTERRUPT}
     children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: readOnly}
+        children:
+        - {type: Value, value: 'false'}
     - type: Values
       children:
-      - type: User
-        attributes: {value: 'false'}
+      - type: Dynamic
+        attributes: {id: core, value: 'false'}
   - type: Boolean
     attributes: {id: WDT_INTERRUPT_ENABLE}
     children:

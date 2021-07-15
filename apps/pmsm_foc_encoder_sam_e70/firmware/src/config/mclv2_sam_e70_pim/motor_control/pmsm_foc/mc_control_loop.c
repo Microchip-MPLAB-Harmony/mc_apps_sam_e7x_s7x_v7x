@@ -73,6 +73,11 @@ __STATIC_INLINE void MCCTRL_StateMachine( void );
 __STATIC_INLINE void MCCTRL_CurrentControl(void);
 __STATIC_INLINE void MCCTRL_MotorControl(void );
 
+#if (POSITION_FEEDBACK == SENSORLESS_PLL || (POSITION_FEEDBACK == SENSORED_ENCODER && CONTROL_LOOP == OPEN_LOOP))
+__STATIC_INLINE tMCAPP_STATUS_E MCCTRL_OpenLoopControl( const int16_t rotationSign );
+static void MCCTRL_InitializeOpenLoopControl( void );
+static void MCCTRL_ResetOpenLoopControl( void );
+#endif
 
 __STATIC_INLINE void  MCCTRL_LoopSynchronization(void);
 static void MCCTRL_InitiaizeInfrastructure( void );
@@ -96,6 +101,16 @@ tMCCTRL_FW_INPUT_SIGNALS_S              gMCCTRL_FieldWeakeningInput;
 tMCCTRL_FW_OUTPUT_SIGNALS_S             gMCCTRL_FieldWeakeningOutput;
 tMCCTRL_FW_STATE_SIGNALS_S              gMCCTRL_FieldWeakeningState;
 tMCCTRL_FW_PARAM_S                      gMCCTRL_FieldWeakeningParam;
+#endif
+#if (POSITION_FEEDBACK == SENSORLESS_PLL || (POSITION_FEEDBACK == SENSORED_ENCODER && CONTROL_LOOP == OPEN_LOOP))
+tMCCTRL_CLOSING_LOOP_STATE_SIGNALS_S    gMCCTRL_ClosingLoopState;
+tMCCTRL_CLOSING_LOOP_PARAM_S            gMCCTRL_ClosingLoopParam;
+tMCCTRL_OPEN_LOOP_STATE_SIGNALS_S       gMCCTRL_OpenLoopState = { 0.0f };
+tMCCTRL_OPEN_LOOP_PARAM_S               gMCCTRL_OpenLoopParam = {
+                                                                  OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC_IN_LOOPTIME,
+                                                                  OPEN_LOOP_RAMPSPEED_INCREASERATE,
+                                                                  Q_CURRENT_REF_OPENLOOP
+                                                                };
 #endif
 
 tMCCTRL_TASK_PARAM_S gMCCTRL_TaskParameters = {
@@ -142,6 +157,64 @@ tMCLIB_PICONTROLLER_S gMCLIB_SpeedPIController =
 /*****************************************************************************/
 /*                   LOCAL FUNCTIONS                                         */
 /*****************************************************************************/
+#if (POSITION_FEEDBACK == SENSORLESS_PLL || (POSITION_FEEDBACK == SENSORED_ENCODER && CONTROL_LOOP == OPEN_LOOP))
+/*****************************************************************************/
+/* Function name: MCCTRL_InitializeOpenLoopControl                            */
+/* Function parameters: None                                                 */
+/* Function return: None                                                     */
+/* Description: Initialize open loop parameters and state                    */
+/*****************************************************************************/
+static void MCCTRL_InitializeOpenLoopControl( void )
+{
+    /* Initialize open loop parameters */
+    gMCCTRL_OpenLoopParam.maxOpenLoopSpeed  = OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC_IN_LOOPTIME;
+    gMCCTRL_OpenLoopParam.openLoopSpeedRate = OPEN_LOOP_RAMPSPEED_INCREASERATE;
+    gMCCTRL_OpenLoopParam.openLoopCurrent   = Q_CURRENT_REF_OPENLOOP;
+
+    /* Initialize open loop state */
+    gMCCTRL_OpenLoopState.openLoopAngle = 0.0f;
+}
+
+/*****************************************************************************/
+/* Function name: MCCTRL_OpenLoopControl                                      */
+/* Function parameters: rotationSign                                          */
+/* Function return: status                                                     */
+/* Description: Open Loop control                                            */
+/*****************************************************************************/
+__STATIC_INLINE tMCAPP_STATUS_E MCCTRL_OpenLoopControl( const int16_t rotationSign )
+{
+    tMCAPP_STATUS_E status = MCAPP_IN_PROGRESS;
+    if (gMCCTRL_OpenLoopState.openLoopAngle  < gMCCTRL_OpenLoopParam.maxOpenLoopSpeed )
+    {
+        gMCCTRL_OpenLoopState.openLoopAngle += gMCCTRL_OpenLoopParam.openLoopSpeedRate;
+    }
+    else
+    {
+        status = MCAPP_SUCCESS;
+    }
+
+    /* Set open loop reference current */
+    gMCCTRL_CtrlParam.iqRef = rotationSign * gMCCTRL_OpenLoopParam.openLoopCurrent;
+    gMCCTRL_CtrlParam.idRef = 0.0f;
+
+    gMCCTRL_CtrlParam.velRef = gMCCTRL_OpenLoopState.openLoopAngle / FAST_LOOP_TIME_SEC;
+    gMCLIB_Position.angle +=  ( (float)rotationSign * gMCCTRL_OpenLoopState.openLoopAngle );
+    MCLIB_WrapAngle(&gMCLIB_Position.angle);
+    return status;
+}
+
+/*****************************************************************************/
+/* Function name: MCCTRL_ResetOpenLoopControl                                 */
+/* Function parameters: None                                                 */
+/* Function return: None                                                     */
+/* Description: Reset open loop parameters and state                         */
+/*****************************************************************************/
+static void MCCTRL_ResetOpenLoopControl( void )
+{
+    /* Reset open loop state */
+    gMCCTRL_OpenLoopState.openLoopAngle = 0.0f;
+}
+#endif
 
 #if(ENABLED == FIELD_WEAKENING )
 /*****************************************************************************/
@@ -284,7 +357,7 @@ __STATIC_INLINE void MCCTRL_SignalTransformation(void )
 __STATIC_INLINE float MCCTRL_IqrefCalculation( void )
 {
     float iqRef = 0.0f;
-  #if( DISABLED == TORQUE_MODE )
+  #if( CONTROL_LOOP == SPEED_LOOP )
 
     /* Quadrature axis reference current limitation */
     if( gMCLIB_IdPIController.inRef < MAX_MOTOR_CURRENT )
@@ -305,10 +378,20 @@ __STATIC_INLINE float MCCTRL_IqrefCalculation( void )
     iqRef = gMCLIB_SpeedPIController.out;
 
 
+  #elif ( CONTROL_LOOP == TORQUE_LOOP )
+  #if POTENTIOMETER_INPUT_ENABLED == ENABLED
+    iqRef = gMCCTRL_CtrlParam.iqPotInput * POT_ADC_COUNT_FW_TORQUE_RATIO;
+    if (iqRef < Q_CURRENT_MIN_TORQUE)
+    {
+        iqRef = Q_CURRENT_MIN_TORQUE;
+    } 
+    iqRef = gMCCTRL_CtrlParam.rotationSign * iqRef;
+    
   #else
-    iqRef = gMCCTRL_CtrlParam.rotationSign * Q_CURRENT_REF_TORQUE;
+    iqRef = gMCCTRL_CtrlParam.rotationSign *  gMCCTRL_CtrlParam.iqUserInput;
   #endif
-    return iqRef;
+  #endif
+    return ( iqRef);
 }
 
 /******************************************************************************/
@@ -350,6 +433,17 @@ __STATIC_INLINE float MCCTRL_IdrefCalculation( void )
 }
 
 /******************************************************************************/
+/* Function name: MCCTRL_PotentiometerRead                                    */
+/* Function parameters: None                                                  */
+/* Function return: None                                                      */
+/* Description: Motor Control potentiometer read for torque mode              */
+/******************************************************************************/
+__STATIC_INLINE void MCCTRL_PotentiometerRead (void)
+{
+    gMCCTRL_CtrlParam.iqPotInput = (float)(MCHAL_ADCPotResultGet(MCHAL_ADC_POT) >> MCHAL_ADC_RESULT_SHIFT);
+}
+
+/******************************************************************************/
 /* Function name: MCCTRL_StateMachine                                          */
 /* Function parameters: None                                                  */
 /* Function return: None                                                      */
@@ -374,7 +468,11 @@ __STATIC_INLINE void MCCTRL_StateMachine( void )
             if( MCAPP_SUCCESS == MCRPOS_InitialRotorPositonDetection(&gMCRPOS_RotorAlignOutput))
             {
                 gMCCTRL_CtrlParam.mcStateLast = gMCCTRL_CtrlParam.mcState;
+                #if (CONTROL_LOOP == OPEN_LOOP)
+                gMCCTRL_CtrlParam.mcState = MCAPP_OPEN_LOOP;
+                #else
                 gMCCTRL_CtrlParam.mcState = MCAPP_CLOSED_LOOP;
+                #endif
             }
             gMCCTRL_CtrlParam.iqRef =  gMCCTRL_CtrlParam.rotationSign * gMCRPOS_RotorAlignOutput.iqRef;
             gMCCTRL_CtrlParam.idRef =  gMCRPOS_RotorAlignOutput.idRef;
@@ -382,6 +480,39 @@ __STATIC_INLINE void MCCTRL_StateMachine( void )
         }
         break;
 
+#if (POSITION_FEEDBACK == SENSORLESS_PLL || (POSITION_FEEDBACK == SENSORED_ENCODER && CONTROL_LOOP == OPEN_LOOP))
+        case MCAPP_OPEN_LOOP:
+        {
+            if( MCAPP_SUCCESS == MCCTRL_OpenLoopControl( gMCCTRL_CtrlParam.rotationSign))
+            {
+                gMCLIB_SpeedPIController.dSum = gMCCTRL_CtrlParam.iqRef;
+                gMCCTRL_CtrlParam.mcState = MCAPP_CLOSING_LOOP;
+            }
+        }
+        break;
+
+        case MCAPP_CLOSING_LOOP:
+        {
+            {
+                if( gMCCTRL_ClosingLoopState.stabilizationCounter < CLOSING_LOOP_TIME_COUNTS )
+                {
+                    gMCCTRL_ClosingLoopState.stabilizationCounter++;
+                }
+                else
+                {
+                    /* switch to close loop */
+                  #if(CONTROL_LOOP != OPEN_LOOP)
+                    gMCCTRL_CtrlParam.mcState = MCAPP_CLOSED_LOOP;
+                    gMCCTRL_ClosingLoopState.stabilizationCounter = 0;
+                  #endif
+                }
+            }
+            /* the angle set depends on startup ramp */
+            gMCLIB_Position.angle += ( gMCCTRL_CtrlParam.rotationSign * gMCCTRL_CtrlParam.velRef  * FAST_LOOP_TIME_SEC );
+            MCLIB_WrapAngle( &gMCLIB_Position.angle);
+        }
+        break;
+#endif
         case MCAPP_CLOSED_LOOP:
         {
             /* Switched to closed by slowly decreasing the offset which is present in the estimated angle during open loop */
@@ -494,6 +625,10 @@ __STATIC_INLINE void  MCCTRL_LoopSynchronization(void)
  void MCCTRL_InitializeMotorControl(void)
 {
     MCCTRL_InitiaizeInfrastructure();
+#if (POSITION_FEEDBACK == SENSORLESS_PLL || (POSITION_FEEDBACK == SENSORED_ENCODER && CONTROL_LOOP == OPEN_LOOP))    
+    /* Initialize open loop control */
+    MCCTRL_InitializeOpenLoopControl();
+#endif
 #if (ENABLED == FIELD_WEAKENING )
     MCCTRL_InitializeFieldWeakening();
 #endif
@@ -540,9 +675,14 @@ void MCCTRL_CurrentLoopTasks( uint32_t status, uintptr_t context )
 
     /* Voltage measurement */
     MCVOL_VoltageMeasurement( );     
+#if (POTENTIOMETER_INPUT_ENABLED == ENABLED && CONTROL_LOOP == SPEED_LOOP)    
     /* Read potentiometer value */
     MCSPE_PotentiometerRead();
-
+#endif    
+#if (POTENTIOMETER_INPUT_ENABLED == ENABLED && CONTROL_LOOP == TORQUE_LOOP)    
+    /* Read potentiometer value */
+    MCCTRL_PotentiometerRead();
+#endif
 
      /* sync count for slow control loop execution */
     MCCTRL_LoopSynchronization();
@@ -565,10 +705,16 @@ void MCCTRL_CurrentLoopTasks( uint32_t status, uintptr_t context )
     gMCCTRL_CtrlParam.iqRef = 0;
     gMCRPOS_OutputSignals.speed = 0;
     gMCRPOS_OutputSignals.angle = 0;
+#if (CONTROL_LOOP == SPEED_LOOP)    
     gMCSPE_OutputSignals.commandSpeed = 0;
+#endif    
     gMCCTRL_CtrlParam.velRef = 0;
 
 
+#if (POSITION_FEEDBACK == SENSORLESS_PLL || (POSITION_FEEDBACK == SENSORED_ENCODER && CONTROL_LOOP == OPEN_LOOP))
+    /* Reset open loop control */
+    MCCTRL_ResetOpenLoopControl();
+#endif
 #if (ENABLED == FIELD_WEAKENING )
     MCCTRL_ResetFieldWeakening();
 #endif

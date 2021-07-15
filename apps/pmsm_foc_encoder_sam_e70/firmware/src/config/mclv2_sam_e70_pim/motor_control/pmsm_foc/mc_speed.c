@@ -53,7 +53,7 @@
 #include "mc_pmsm_foc_common.h"
 #include "mc_hal.h"
 
-
+#if (CONTROL_LOOP == SPEED_LOOP)
 /******************************************************************************/
 /* Local Function Prototype                                                   */
 /******************************************************************************/
@@ -135,3 +135,4 @@ void  MCSPE_ResetSpeedControl(void)
     /* Reset speed command function states */
     gMCSPE_StateSignals.potFiltered =  0.0f;
 }
+#endif

@@ -107,12 +107,15 @@ typedef struct
     uint16_t                        positionLast;
     uint16_t                        positionCount;
     uint16_t                        positionCompensation;
+
+
 }tMCRPOS_STATE_SIGNAL_S;
 
 typedef struct
 {
     float                            angle;
     float                            speed;
+    float                            mechSpeedRPM;    
     float                            acceleration;
 }tMCRPOS_OUTPUT_SIGNAL_S;
 
