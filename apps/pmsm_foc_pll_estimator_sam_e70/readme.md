@@ -1,5 +1,5 @@
 ---
-parent: Motor Control Application Examples for SAM E7x/S7x/V7x family
+parent: Microchip MPLAB® Harmony 3 Motor Control Application Examples for SAM E7x/S7x/V7x family
 title: PMSM FOC using PLL Estimator
 has_children: false
 has_toc: false
