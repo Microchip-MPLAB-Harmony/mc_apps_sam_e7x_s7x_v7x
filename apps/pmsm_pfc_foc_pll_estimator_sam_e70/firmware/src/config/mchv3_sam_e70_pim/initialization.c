@@ -117,9 +117,9 @@ void SYS_Initialize ( void* data )
 
 
 
-    AFEC0_Initialize();
-
     PWM1_Initialize();
+
+    AFEC0_Initialize();
 
     AFEC1_Initialize();
 
