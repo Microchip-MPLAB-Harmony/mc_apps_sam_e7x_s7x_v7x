@@ -5,10 +5,9 @@ frameworkPath: ../../..
 processor: ATSAME70Q21B
 projectName: ''
 settings:
-  PackageFilter: bsp;csp;dev_packs;harmony-services;mc_apps_pic32cm_mc;mc_apps_pic32mk;mc_apps_sam_c2x;mc_apps_sam_d5x_e5x;mc_apps_sam_e7x_s7x_v7x;motor_control;motor_control
-    - Copy;quick_docs;x2c;x2c - Copy
+  PackageFilter: bsp;csp;dev_packs;harmony-services;mc_apps_pic32cm_mc;mc_apps_pic32mk;mc_apps_sam_c2x;mc_apps_sam_d5x_e5x;mc_apps_sam_e7x_s7x_v7x;mc_apps_sam_rh71;motor_control;quick_docs;x2c
   FORCE_OPTIMIZATION: 'false'
   GENERATE_BACKUP: 'true'
   CMSISPath: .\dev_packs\arm\CMSIS\5.8.0
-  MERGE_STRATEGY: USER_ALL
+  MERGE_STRATEGY: ALL
   DFPPath: .\dev_packs\Microchip\SAME70_DFP\4.6.98\same70b\atdf\ATSAME70Q21B.atdf

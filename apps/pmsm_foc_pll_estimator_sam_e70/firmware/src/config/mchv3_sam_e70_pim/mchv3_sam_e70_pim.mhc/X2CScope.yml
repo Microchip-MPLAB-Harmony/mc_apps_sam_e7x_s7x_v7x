@@ -40,18 +40,5 @@ children:
         attributes: {id: targetAttachmentID}
         children:
         - {type: Value, value: UART0_UART}
-  - type: DirectCapability
-    attributes: {id: x2cScope_Scope}
-    children:
-    - type: Attributes
-      children:
-      - type: String
-        attributes: {id: targetComponentID}
-        children:
-        - {type: Value, value: pmsm_foc}
-      - type: String
-        attributes: {id: targetAttachmentID}
-        children:
-        - {type: Value, value: pmsmfoc_X2CSCOPE}
 - type: ElementPosition
-  attributes: {x: '178', y: '243', id: X2CScope}
+  attributes: {x: '158', y: '310', id: X2CScope}

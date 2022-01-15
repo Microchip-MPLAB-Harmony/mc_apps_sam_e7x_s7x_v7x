@@ -12,4 +12,4 @@ children:
       - type: Dynamic
         attributes: {id: efc, value: '6'}
 - type: ElementPosition
-  attributes: {x: '350', y: '60', id: efc}
+  attributes: {x: '65', y: '64', id: efc}

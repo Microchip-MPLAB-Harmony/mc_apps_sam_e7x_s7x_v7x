@@ -8,11 +8,12 @@
         <logicalFolder name="f1" displayName="mchv3_sam_e70_pim" projectFiles="true">
           <logicalFolder name="f1" displayName="motor_control" projectFiles="true">
             <logicalFolder name="f1" displayName="pmsm_foc" projectFiles="true">
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_rotorposition.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/lib_mc_flyingstart.a</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_control_loop.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_currmeasurement.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_derivedparams.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_errorhandler.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_flyingstart.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_generic_lib.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_hal.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_lib.h</itemPath>
@@ -20,6 +21,7 @@
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_pmsm_foc.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_pmsm_foc_common.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_pwm.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_rotorposition.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_speed.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_userparams.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_voltagemeasurement.h</itemPath>
@@ -202,7 +204,6 @@
         <itemPath>../src/config/mchv3_sam_e70_pim/mchv3_sam_e70_pim.mhc/dfp.yml</itemPath>
         <itemPath>../src/config/mchv3_sam_e70_pim/mchv3_sam_e70_pim.mhc/efc.yml</itemPath>
         <itemPath>../src/config/mchv3_sam_e70_pim/mchv3_sam_e70_pim.mhc/GraphSettings.yml</itemPath>
-        <itemPath>../src/config/mchv3_sam_e70_pim/mchv3_sam_e70_pim.mhc/pmsm_foc.yml</itemPath>
         <itemPath>../src/config/mchv3_sam_e70_pim/mchv3_sam_e70_pim.mhc/project.yml</itemPath>
         <itemPath>../src/config/mchv3_sam_e70_pim/mchv3_sam_e70_pim.mhc/pwm0.yml</itemPath>
         <itemPath>../src/config/mchv3_sam_e70_pim/mchv3_sam_e70_pim.mhc/settings.yml</itemPath>
@@ -228,19 +229,17 @@
       <logicalFolder name="f1" displayName="config" projectFiles="true">
         <logicalFolder name="f1" displayName="mchv3_sam_e70_pim" projectFiles="true">
           <logicalFolder name="f1" displayName="motor_control" projectFiles="true">
-            <logicalFolder name="f1" displayName="pmsm_foc" projectFiles="true">
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_rotorposition.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_control_loop.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_currmeasurement.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_errorhandler.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_generic_lib.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_lib.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_picontrol.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_pmsm_foc.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_pwm.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_speed.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_voltagemeasurement.c</itemPath>
-            </logicalFolder>
+            <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_control_loop.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_currmeasurement.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_errorhandler.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_generic_lib.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_lib.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_picontrol.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_pmsm_foc.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_pwm.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_rotorposition.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_speed.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_voltagemeasurement.c</itemPath>
           </logicalFolder>
           <logicalFolder name="f2" displayName="peripheral" projectFiles="true">
             <logicalFolder name="f1" displayName="afec" projectFiles="true">
@@ -281,11 +280,12 @@
           <itemPath>../src/config/mchv3_sam_e70_pim/libc_syscalls.c</itemPath>
         </logicalFolder>
       </logicalFolder>
-      <itemPath>../src/main.c</itemPath>
+      <itemPath>../src/main_sam_e70_mchv3.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
     <Elem>../src</Elem>
+    <Elem>../../../pmsm_foc_encoder_sam_e70/firmware/src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -295,14 +295,14 @@
         <targetDevice>ATSAME70Q21B</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>EdbgTool</platformTool>
+        <platformTool>pkob4hybrid</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>4.00</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="SAME70_DFP" vendor="Microchip" version="4.6.98"/>
         <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
+        <pack name="SAME70_DFP" vendor="Microchip" version="4.6.98"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -310,6 +310,7 @@
         <linkerTool>
           <linkerLibItems>
             <linkerLibFileItem>../src/config/mchv3_sam_e70_pim/X2CCode/X2CScope/lib/libCORTEXM7_X2CScope.a</linkerLibFileItem>
+            <linkerLibFileItem>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/lib_mc_flyingstart.a</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
         <archiverTool>
@@ -507,6 +508,8 @@
         <property key="communication.activationmode" value="nohv"/>
         <property key="communication.interface" value="swd"/>
         <property key="communication.speed" value="2.000"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
         <property key="firmware.path"
                   value="Press to browse for a specific firmware version"/>
@@ -515,6 +518,7 @@
         <property key="firmware.update.action" value="firmware.update.use.latest"/>
         <property key="freeze.timers" value="false"/>
         <property key="lastid" value=""/>
+        <property key="loader.board_file" value="${ProjectDir}/board.xboard"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
         <property key="memories.configurationmemory" value="true"/>
@@ -528,7 +532,6 @@
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="400000-5fffff"/>
-        <property key="memories.rww" value="true"/>
         <property key="poweroptions.powerenable" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.preservedataflash" value="false"/>
@@ -1086,12 +1089,24 @@
                   value="ToolFirmwareOption.UseLatest"/>
         <property key="ToolFirmwareToolPack"
                   value="Press to select which tool pack to use"/>
+        <property key="arm.use_vtor" value="false"/>
+        <property key="arm.vtor_adr" value="exception_table"/>
+        <property key="communication.activationmode" value="nohv"/>
         <property key="communication.interface" value="swd"/>
         <property key="communication.interface.jtag" value="2wire"/>
         <property key="communication.speed" value="2.000"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.simultaneous.debug" value="false"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.path"
+                  value="Press to browse for a specific firmware version"/>
+        <property key="firmware.toolpack"
+                  value="Press to select which tool pack to use"/>
+        <property key="firmware.update.action" value="firmware.update.use.latest"/>
         <property key="freeze.timers" value="false"/>
+        <property key="lastid" value=""/>
+        <property key="loader.board_file" value="${ProjectDir}/board.xboard"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
         <property key="memories.configurationmemory" value="true"/>
@@ -1106,6 +1121,7 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="400000-5fffff"/>
         <property key="memories.rww" value="true"/>
+        <property key="poweroptions.powerenable" value="false"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgmentry.voltage" value="low"/>
@@ -1121,10 +1137,15 @@
         <property key="programoptions.programcalmem" value="false"/>
         <property key="programoptions.programuserotp" value="false"/>
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
+        <property key="script.has_reset" value="true"/>
+        <property key="script.log_level" value="1"/>
+        <property key="script.reset_delay" value="0"/>
+        <property key="script.show_output" value="false"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.uselatestoolpack"/>
         <property key="toolpack.updateoptions.packversion"
                   value="Press to select which tool pack to use"/>
+        <property key="voltagevalue" value=""/>
       </Tool>
       <pkob4hybrid>
         <property key="AutoSelectMemRanges" value="auto"/>

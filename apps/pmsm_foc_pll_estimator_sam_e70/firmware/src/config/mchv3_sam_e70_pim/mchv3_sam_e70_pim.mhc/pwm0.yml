@@ -423,15 +423,6 @@ children:
         attributes: {id: visible}
         children:
         - {type: Value, value: 'true'}
-  - type: Menu
-    attributes: {id: PWM_COMPARE}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
   - type: Boolean
     attributes: {id: PWM_COMP_0_CMPM_CEN}
     children:
@@ -725,20 +716,5 @@ children:
         attributes: {id: visible}
         children:
         - {type: Value, value: 'true'}
-- type: Attachments
-  children:
-  - type: DirectCapability
-    attributes: {id: PWM0_PWM}
-    children:
-    - type: Attributes
-      children:
-      - type: String
-        attributes: {id: targetComponentID}
-        children:
-        - {type: Value, value: pmsm_foc}
-      - type: String
-        attributes: {id: targetAttachmentID}
-        children:
-        - {type: Value, value: pmsmfoc_PWM}
 - type: ElementPosition
-  attributes: {x: '179', y: '165', id: pwm0}
+  attributes: {x: '160', y: '211', id: pwm0}

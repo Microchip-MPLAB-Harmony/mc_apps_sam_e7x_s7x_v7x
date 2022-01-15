@@ -58,6 +58,9 @@
 #include "mc_pwm.h"
 #include "mc_speed.h"
 #include "mc_picontrol.h"
+#if (ENABLED == FLYING_START )
+#include "mc_flyingstart.h"
+#endif
 #include "math.h"
 
 
@@ -460,8 +463,45 @@ __STATIC_INLINE void MCCTRL_StateMachine( void )
 
         }
         break;
-        
-        
+#if (ENABLED == FLYING_START )        
+        case MCAPP_FLYING_START:
+        {
+            tMC_FLYING_START_STATUS_E status;
+            status = MCCTRL_FlyingStartControl();
+            switch(status)
+            {
+
+                case MC_FLYING_START_IN_PROGRESS:
+                {
+                    gMCCTRL_CtrlParam.mcState = MCAPP_FLYING_START;
+                }
+                break;
+                
+                case MC_FLYING_START_DETECTED:
+                {
+                    gMCCTRL_CtrlParam.mcState = MCAPP_CLOSED_LOOP;
+                }
+                break;                
+                
+                case MC_FLYING_START_NOT_DETECTED:
+                {
+                    gMCCTRL_CtrlParam.mcState = MCAPP_FIELD_ALIGNMENT;
+                }
+                break;
+                
+                default:
+                {
+                    /* Undefined state: Should never come here */
+                    gMCCTRL_CtrlParam.mcState = MCAPP_FIELD_ALIGNMENT;
+                }
+                break;                    
+            }
+
+            gMCLIB_Position.angle = gMCRPOS_OutputSignals.angle;
+        }
+        break;       
+#endif
+       
         case MCAPP_FIELD_ALIGNMENT:
         {
             /* Read inputs for initial rotor position detection */
@@ -622,6 +662,10 @@ __STATIC_INLINE void  MCCTRL_LoopSynchronization(void)
  void MCCTRL_InitializeMotorControl(void)
 {
     MCCTRL_InitiaizeInfrastructure();
+#if (ENABLED == FLYING_START )
+    /*Initialize Flying Start Control*/
+    MCCTRL_InitializeFlyingStartControl();
+#endif
 #if (POSITION_FEEDBACK == SENSORLESS_PLL || (POSITION_FEEDBACK == SENSORED_ENCODER && CONTROL_LOOP == OPEN_LOOP))    
     /* Initialize open loop control */
     MCCTRL_InitializeOpenLoopControl();
@@ -706,7 +750,10 @@ void MCCTRL_CurrentLoopTasks( uint32_t status, uintptr_t context )
     gMCSPE_OutputSignals.commandSpeed = 0;
 #endif    
     gMCCTRL_CtrlParam.velRef = 0;
-
+#if (ENABLED == FLYING_START )
+    /*Reset Flying Start Control*/
+    MCCTRL_ResetFlyingStartControl();
+#endif
 
 #if (POSITION_FEEDBACK == SENSORLESS_PLL || (POSITION_FEEDBACK == SENSORED_ENCODER && CONTROL_LOOP == OPEN_LOOP))
     /* Reset open loop control */

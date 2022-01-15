@@ -58,9 +58,14 @@
 #define POSITION_FEEDBACK                (SENSORLESS_PLL)
 
 #define CONTROL_LOOP                     (SPEED_LOOP)
+#define FLYING_START                      ( ENABLED)
 #define FIELD_WEAKENING                  (DISABLED)  /* If enabled - Field weakening */
 #define ALIGNMENT_METHOD                 (Q_AXIS)  /* alignment method  */
 
+#define FLYING_START_TIME_SEC              (float)(0.4)
+#define MIN_FLYING_START_SPEED_RPM         (float)(500)
+#define FLYING_START_START_CURRRENT_A      (float)(0.4)
+#define NULL_BRAKE_TIME_SEC               (float)(2)
 
 #define ANGLE_OFFSET_DEG                 (float)45.0    /* Angle offset while switching to closed loop */
 #define CURRENT_MEASUREMENT              (DUAL_SHUNT)  /* Current measurement shunts */

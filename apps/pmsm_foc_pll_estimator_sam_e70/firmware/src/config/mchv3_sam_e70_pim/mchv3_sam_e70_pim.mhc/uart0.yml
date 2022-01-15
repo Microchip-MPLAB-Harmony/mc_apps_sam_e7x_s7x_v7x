@@ -92,4 +92,4 @@ children:
         children:
         - {type: Value, value: x2cScopeUartDependency}
 - type: ElementPosition
-  attributes: {x: '28', y: '243', id: uart0}
+  attributes: {x: '14', y: '328', id: uart0}

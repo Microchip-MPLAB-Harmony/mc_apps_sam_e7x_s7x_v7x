@@ -26,6 +26,7 @@
 #include <stdbool.h>                    // Defines true
 #include <stdlib.h>                     // Defines EXIT_FAILURE
 #include "definitions.h"                // SYS function prototypes
+#include "config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_pmsm_foc.h"
 
 
 // *****************************************************************************
@@ -38,18 +39,26 @@ int main ( void )
 {
     /* Initialize all modules */
     SYS_Initialize ( NULL );
+    
+    /* Initialize motor control module */
+    PMSM_FOC_Initialize();
 
     while ( true )
     {
         /* Maintain state machines of all polled MPLAB Harmony modules. */
         SYS_Tasks ( );
+        
+        /* Motor control tasks */
+        PMSM_FOC_Tasks();
+        
+        /* X2C Communication */
+        X2CScope_Communicate();
     }
 
     /* Execution should not come here during normal operation */
 
     return ( EXIT_FAILURE );
 }
-
 
 /*******************************************************************************
  End of File

@@ -187,8 +187,14 @@ void PMSM_FOC_MotorStart(void)
     MCRPOS_ResetPositionSensing(MCRPOS_FORCE_ALIGN);
 
     gMCCTRL_CtrlParam.mcStateLast = gMCCTRL_CtrlParam.mcState;
-        /* Switch the motor control state to MCAPP_FIELD_ALIGNMENT */
-        gMCCTRL_CtrlParam.mcState = MCAPP_FIELD_ALIGNMENT;
+       
+#if (ENABLED == FLYING_START )
+    /* Switch the motor control state to MCAPP_FLYING_START */
+    gMCCTRL_CtrlParam.mcState = MCAPP_FLYING_START;
+#else
+   /* Switch the motor control state to MCAPP_FIELD_ALIGNMENT */
+    gMCCTRL_CtrlParam.mcState = MCAPP_FIELD_ALIGNMENT;
+#endif
     /* Enable / Re-enable PWM output */
     gMCPWM_SVPWM.dPwm1 = gMCPWM_SVPWM.neutralPWM;
     gMCPWM_SVPWM.dPwm2 = gMCPWM_SVPWM.neutralPWM;

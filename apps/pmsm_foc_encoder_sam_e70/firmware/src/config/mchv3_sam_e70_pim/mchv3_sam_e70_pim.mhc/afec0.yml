@@ -400,20 +400,5 @@ children:
       children:
       - type: Dynamic
         attributes: {id: afec0, value: AFEC0_IRQn}
-- type: Attachments
-  children:
-  - type: DirectCapability
-    attributes: {id: AFEC0_ADC}
-    children:
-    - type: Attributes
-      children:
-      - type: String
-        attributes: {id: targetComponentID}
-        children:
-        - {type: Value, value: pmsm_foc}
-      - type: String
-        attributes: {id: targetAttachmentID}
-        children:
-        - {type: Value, value: pmsmfoc_ADC}
 - type: ElementPosition
-  attributes: {x: '166', y: '61', id: afec0}
+  attributes: {x: '314', y: '199', id: afec0}

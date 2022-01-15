@@ -114,6 +114,7 @@ typedef enum
 typedef enum
 {
     MCAPP_IDLE,
+    MCAPP_FLYING_START,
     MCAPP_FIELD_ALIGNMENT,
     MCAPP_OPEN_LOOP,
     MCAPP_CLOSING_LOOP,

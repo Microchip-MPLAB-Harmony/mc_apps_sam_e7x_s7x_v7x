@@ -14,6 +14,7 @@
             <make-dep-projects/>
             <sourceRootList>
                 <sourceRootElem>../src</sourceRootElem>
+                <sourceRootElem>../../../pmsm_foc_encoder_sam_e70/firmware/src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
