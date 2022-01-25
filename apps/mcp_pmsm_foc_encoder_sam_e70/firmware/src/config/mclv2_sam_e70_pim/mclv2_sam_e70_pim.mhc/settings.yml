@@ -1,0 +1,16 @@
+configName: mclv2_sam_e70_pim
+folderName: mclv2_sam_e70_pim
+format_version: v1.0
+frameworkPath: D:\Release
+processor: ATSAME70Q21B
+projectName: mclv2_sam_e70_pim
+settings:
+  PackageFilter: bsp;bsp_;csp;Devices;dev_packs;harmony-services;mc_apps_pic32cm_mc;mc_apps_pic32mk;mc_apps_pic32mk
+    - Copy;mc_apps_sam_c2x;mc_apps_sam_d5x_e5x;mc_apps_sam_e7x_s7x_v7x;mc_apps_sam_e7x_s7x_v7x
+    - Copy;mc_apps_sam_rh71;motor_control;quick_docs;x2c
+  FORCE_OPTIMIZATION: 'false'
+  GENERATE_BACKUP: 'true'
+  TRUSTZONE: 'false'
+  CMSISPath: .\dev_packs\arm\CMSIS\5.8.0
+  MERGE_STRATEGY: USER_ALL
+  DFPPath: .\dev_packs\Microchip\SAME70_DFP\4.6.98\same70b\atdf\ATSAME70Q21B.atdf
