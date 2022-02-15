@@ -127,12 +127,6 @@ void SYS_Initialize ( void* data )
 
     PWM0_Initialize();
 
-    TC0_QuadratureInitialize();
-  
-
- 
-     
-    
 	BSP_Initialize();
 
 

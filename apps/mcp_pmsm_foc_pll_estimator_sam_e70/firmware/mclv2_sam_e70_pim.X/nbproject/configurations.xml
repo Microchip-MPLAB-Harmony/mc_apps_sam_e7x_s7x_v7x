@@ -53,10 +53,6 @@
               <itemPath>../src/config/mclv2_sam_e70_pim/peripheral/pwm/plib_pwm0.h</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/peripheral/pwm/plib_pwm_common.h</itemPath>
             </logicalFolder>
-            <logicalFolder name="f8" displayName="tc" projectFiles="true">
-              <itemPath>../src/config/mclv2_sam_e70_pim/peripheral/tc/plib_tc0.h</itemPath>
-              <itemPath>../src/config/mclv2_sam_e70_pim/peripheral/tc/plib_tc_common.h</itemPath>
-            </logicalFolder>
             <logicalFolder name="f2" displayName="uart" projectFiles="true">
               <itemPath>../src/config/mclv2_sam_e70_pim/peripheral/uart/plib_uart_common.h</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/peripheral/uart/plib_uart0.h</itemPath>
@@ -258,9 +254,6 @@
             </logicalFolder>
             <logicalFolder name="f6" displayName="pwm" projectFiles="true">
               <itemPath>../src/config/mclv2_sam_e70_pim/peripheral/pwm/plib_pwm0.c</itemPath>
-            </logicalFolder>
-            <logicalFolder name="f8" displayName="tc" projectFiles="true">
-              <itemPath>../src/config/mclv2_sam_e70_pim/peripheral/tc/plib_tc0.c</itemPath>
             </logicalFolder>
             <logicalFolder name="f2" displayName="uart" projectFiles="true">
               <itemPath>../src/config/mclv2_sam_e70_pim/peripheral/uart/plib_uart0.c</itemPath>
