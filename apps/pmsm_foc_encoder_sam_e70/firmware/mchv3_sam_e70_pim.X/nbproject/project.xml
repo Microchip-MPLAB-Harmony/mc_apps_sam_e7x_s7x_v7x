@@ -14,6 +14,7 @@
             <make-dep-projects/>
             <sourceRootList>
                 <sourceRootElem>../src</sourceRootElem>
+                <sourceRootElem>../../../pmsm_foc_pll_estimator_sam_e70/firmware/src</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
