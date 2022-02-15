@@ -79,7 +79,7 @@ void PWM0_Initialize (void)
     /* PWM duty cycle */
     PWM0_REGS->PWM_CH_NUM[0].PWM_CDTY = 0U;
     /* Dead time */
-    PWM0_REGS->PWM_CH_NUM[0].PWM_DT = (150U << PWM_DT_DTL_Pos) | (150U);
+    PWM0_REGS->PWM_CH_NUM[0].PWM_DT = (95U << PWM_DT_DTL_Pos) | (95U);
          
     /* Enable counter event */
     PWM0_REGS->PWM_IER1 = 0x10000;
@@ -92,7 +92,7 @@ void PWM0_Initialize (void)
     PWM0_REGS->PWM_CH_NUM[1].PWM_CDTY = 0U;
     PWM0_REGS->PWM_CH_NUM[1].PWM_CMR = PWM_CMR_DTE_Msk;
     /* Dead time */
-    PWM0_REGS->PWM_CH_NUM[1].PWM_DT = (150U << PWM_DT_DTL_Pos) | (150U);
+    PWM0_REGS->PWM_CH_NUM[1].PWM_DT = (95U << PWM_DT_DTL_Pos) | (95U);
          
     /* Enable counter event */
     PWM0_REGS->PWM_IER1 = 0x10000;
@@ -105,7 +105,7 @@ void PWM0_Initialize (void)
     PWM0_REGS->PWM_CH_NUM[2].PWM_CDTY = 0U;
     PWM0_REGS->PWM_CH_NUM[2].PWM_CMR = PWM_CMR_DTE_Msk;
     /* Dead time */
-    PWM0_REGS->PWM_CH_NUM[2].PWM_DT = (150U << PWM_DT_DTL_Pos) | (150U);
+    PWM0_REGS->PWM_CH_NUM[2].PWM_DT = (95U << PWM_DT_DTL_Pos) | (95U);
          
     /* Enable counter event */
     PWM0_REGS->PWM_IER1 = 0x10000;
