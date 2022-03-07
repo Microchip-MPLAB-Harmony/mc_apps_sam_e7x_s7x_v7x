@@ -47,7 +47,7 @@ Key features enabled in this project are:
     The UART is used for X2CScope communication to observe graphs and variable values in run time 
 
 ## Project Details
-For details refer [Motor Control Plant](../../../motor_control/algorithms/pmsm_foc/mc_plant_docs/introduction.md)
+For details refer [Motor Control Plant](https://microchip-mplab-harmony.github.io/motor_control/algorithms/pmsm_foc/mc_plant_docs/introduction.md)
 
 ## Development Kits
 
