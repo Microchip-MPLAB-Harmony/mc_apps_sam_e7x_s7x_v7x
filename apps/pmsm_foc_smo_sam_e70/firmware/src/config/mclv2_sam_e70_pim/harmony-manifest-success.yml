@@ -7,7 +7,7 @@ project: pmsm_foc_smo_sam_e70
 creation_date: 2022-02-21T14:38:52.846+05:30[Asia/Calcutta]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
 operating_system: Windows 10
 mhc_mode: Standalone            # [IDE|Standalone|Headless]
-mhc_version: unknown
+mhc_version: NA
 mplabx_version: NA        # if MPLAB X plugin only
 plugin_version: NA        # if MPLAB X plugin only
 compiler: xc32
