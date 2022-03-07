@@ -10,21 +10,21 @@
 		"shortDescription": "This example application shows how to control the Permanent Magnet Synchronous Motor (PMSM) with Quadrature Encoder based Field Oriented Control (FOC) on a SAME70 Micro-controller. ",
 		"ide": {
 			"name": "MPLABX",
-			"semverRange": ">=5.50.0"
+			"semverRange": ">=6.00.0"
 		},
 		"compiler": [
 			{
 				"name": "XC32",
-				"semverRange": ">=3.1.0"
+				"semverRange": ">=4.00.0"
 			}
 		],
 		"dfp": {
 			"name": "SAME70_DFP",
-			"semverRange": "^4.5.86"
+			"semverRange": "^4.6.98"
 		},
 		"configurator": {
-			"name": "MHC",
-			"semverRange": ">=3.6.4"
+			"name": "MCC",
+			"semverRange": ">=1.0.9"
 		},
 		"device": {
 			"metaDataVersion": "1.0.0",
