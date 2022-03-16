@@ -26,20 +26,12 @@ nav_order: 99
 
 ### Known Issues
 
-* Isolated EDBG Card 
-  * The Isolated EDBG Card may appear "grayed out" (disabled) under the list of tools in MPLABX v5.50. In order to resolve this issue, please go to Tools -> Options ->Embedded->Generic Settings and enable "Exclude device checks for kits" by selecting the check box. 
-  
-  ![Exclude_Device_Checks](apps/docs/images/mchv3/exclude_device_checks_edbg.jpg)
-
-  * If programming failure occurs with message "java.lang.RuntimeException:RDDI_DAP_OPERATION_FAILED", then reset the Isolated EDBG Card's configuration by Go to File -> Project Properties -> EDBG -> Reset 
-
-* pmsm_foc_encoder_sam_e70_mchv3 application running on dsPICDEM MCHV-3 requires increasing bandwidth of the quadrature encoder signal filter to maintain signal integrity of quadrature sensor signals at higher motor speeds. Without these modifications, motor operation may fail at higher speeds.
-  * Reduce the capacitance value of C25, C26 and C27 from 100pF to 10pF 50V NPO 0805
+* same as v3.1.0
 
 ### Required MPLAB Harmony v3 Modules
 * csp v3.11.0
 * x2c v1.4.0
-* bsp v3.11.0
+* bsp v3.11.1
 * motor_control v3.8.0
 * dev_packs v3.11.0
 * mcc v1.0.9
