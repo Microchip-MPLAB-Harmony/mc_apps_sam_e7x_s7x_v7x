@@ -1,4 +1,4 @@
-<config configName="mchv3_sam_e70_pim" projectName="pmsm_foc_encoder_sam_e70_mchv3" configVersion="1.1" device="ATSAME70Q21B" deviceLibraryClass="com.microchip.mcc.harmony.Harmony3Library" coreVersion="5.4.1">
+<config configName="mchv3_sam_e70_pim" projectName="pmsm_foc_encoder_sam_e70_mchv3" configVersion="1.1" device="ATSAME70Q21B" deviceLibraryClass="com.microchip.mcc.harmony.Harmony3Library" coreVersion="5.4.2">
    <usedPackages class="java.util.ArrayList"/>
    <usedClasses class="java.util.TreeMap">
       <entry>
@@ -3854,7 +3854,7 @@
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\definitions.h</file>
-         <hash>67cebb81ede6d06770180fff8e7ecb93ecb67e0facf4001f8cff4e603b6b3c7a</hash>
+         <hash>17f996fe108ac95e94a97224f33bf231b0b2a93c04e59f5427ff4ecf3a5aa7bd</hash>
       </entry>
       <entry>
          <file>..\src\packs\ATSAME70Q21B_DFP\instance\piob.h</file>
