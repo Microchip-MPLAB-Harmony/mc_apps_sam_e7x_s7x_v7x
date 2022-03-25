@@ -1,4 +1,4 @@
-<config configName="mclv2_sam_e70_pim" projectName="mcp_pmsm_foc_encoder_sam_e70" configVersion="1.1" device="ATSAME70Q21B" deviceLibraryClass="com.microchip.mcc.harmony.Harmony3Library" coreVersion="5.4.1">
+<config configName="mclv2_sam_e70_pim" projectName="mcp_pmsm_foc_encoder_sam_e70" configVersion="1.1" device="ATSAME70Q21B" deviceLibraryClass="com.microchip.mcc.harmony.Harmony3Library" coreVersion="5.4.2">
    <usedPackages class="java.util.ArrayList"/>
    <usedClasses class="java.util.TreeMap">
       <entry>
@@ -69,16 +69,6 @@
           &lt;/String&gt;
         &lt;/Attributes&gt;
       &lt;/DirectDependency&gt;
-      &lt;DirectCapability dnOrder=&quot;1&quot; id=&quot;x2cScope_Scope&quot;&gt;
-        &lt;Attributes dnOrder=&quot;0&quot;&gt;
-          &lt;String dnOrder=&quot;0&quot; id=&quot;targetComponentID&quot;&gt;
-            &lt;Value dnOrder=&quot;0&quot;&gt;pmsm_foc&lt;/Value&gt;
-          &lt;/String&gt;
-          &lt;String dnOrder=&quot;1&quot; id=&quot;targetAttachmentID&quot;&gt;
-            &lt;Value dnOrder=&quot;0&quot;&gt;pmsmfoc_X2CSCOPE&lt;/Value&gt;
-          &lt;/String&gt;
-        &lt;/Attributes&gt;
-      &lt;/DirectCapability&gt;
     &lt;/Attachments&gt;
   &lt;/X2CScope&gt;
 &lt;/X2CScope&gt;
@@ -774,7 +764,8 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="core" name="!@#harmonyUserData"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;UserData&gt;
   &lt;UserData dnOrder=&quot;0&quot;&gt;
-    &lt;ComponentGraph dnOrder=&quot;0&quot; id=&quot;__ROOTVIEW&quot;&gt;
+    &lt;GraphSettings canvasHeight=&quot;570&quot; canvasWidth=&quot;458&quot; dnOrder=&quot;0&quot;/&gt;
+    &lt;ComponentGraph dnOrder=&quot;1&quot; id=&quot;__ROOTVIEW&quot;&gt;
       &lt;ElementPositions dnOrder=&quot;0&quot;&gt;
         &lt;ElementPosition dnOrder=&quot;0&quot; id=&quot;BSP_SAM_E70_PIM_MC_Board&quot; x=&quot;0&quot; y=&quot;537&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;1&quot; id=&quot;X2CScope&quot; x=&quot;140&quot; y=&quot;397&quot;/&gt;
@@ -789,7 +780,6 @@
         &lt;ElementPosition dnOrder=&quot;10&quot; id=&quot;uart0&quot; x=&quot;0&quot; y=&quot;298&quot;/&gt;
       &lt;/ElementPositions&gt;
     &lt;/ComponentGraph&gt;
-    &lt;GraphSettings canvasHeight=&quot;570&quot; canvasWidth=&quot;458&quot; dnOrder=&quot;1&quot;/&gt;
   &lt;/UserData&gt;
 &lt;/UserData&gt;
 </value>
@@ -2183,16 +2173,6 @@
           &lt;/String&gt;
           &lt;String dnOrder=&quot;1&quot; id=&quot;targetAttachmentID&quot;&gt;
             &lt;Value dnOrder=&quot;0&quot;&gt;TC0_QDEC&lt;/Value&gt;
-          &lt;/String&gt;
-        &lt;/Attributes&gt;
-      &lt;/DirectDependency&gt;
-      &lt;DirectDependency dnOrder=&quot;3&quot; id=&quot;pmsmfoc_X2CSCOPE&quot;&gt;
-        &lt;Attributes dnOrder=&quot;0&quot;&gt;
-          &lt;String dnOrder=&quot;0&quot; id=&quot;targetComponentID&quot;&gt;
-            &lt;Value dnOrder=&quot;0&quot;&gt;X2CScope&lt;/Value&gt;
-          &lt;/String&gt;
-          &lt;String dnOrder=&quot;1&quot; id=&quot;targetAttachmentID&quot;&gt;
-            &lt;Value dnOrder=&quot;0&quot;&gt;x2cScope_Scope&lt;/Value&gt;
           &lt;/String&gt;
         &lt;/Attributes&gt;
       &lt;/DirectDependency&gt;
@@ -4670,7 +4650,7 @@
       </entry>
       <entry>
          <file>..\src\config\mclv2_sam_e70_pim\definitions.h</file>
-         <hash>08894a17fb2919e75db57dd2c63cd273c87bf7a283b4a594686e2a3c38490aa7</hash>
+         <hash>0ace0c016e23a0c52dbd4b0105fdb70975674ed5d7cfc3f1a8c700747f16d866</hash>
       </entry>
       <entry>
          <file>..\src\config\mclv2_sam_e70_pim\X2CCode\X2CScope\inc\X2CScopeCommunication.h</file>
