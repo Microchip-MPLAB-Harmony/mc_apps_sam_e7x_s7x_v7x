@@ -1,4 +1,4 @@
-<config configName="mclv2_sam_e70_pim" projectName="mcp_pmsm_foc_pll_estimator_sam_e70" configVersion="1.1" device="ATSAME70Q21B" deviceLibraryClass="com.microchip.mcc.harmony.Harmony3Library" coreVersion="5.4.1">
+<config configName="mclv2_sam_e70_pim" projectName="mcp_pmsm_foc_pll_estimator_sam_e70" configVersion="1.1" device="ATSAME70Q21B" deviceLibraryClass="com.microchip.mcc.harmony.Harmony3Library" coreVersion="5.4.2">
    <usedPackages class="java.util.ArrayList"/>
    <usedClasses class="java.util.TreeMap">
       <entry>
@@ -1056,7 +1056,7 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="core" name="!@#harmonyUserData"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;UserData&gt;
   &lt;UserData dnOrder=&quot;0&quot;&gt;
-    &lt;GraphSettings canvasHeight=&quot;570&quot; canvasWidth=&quot;384&quot; dnOrder=&quot;0&quot;/&gt;
+    &lt;GraphSettings canvasHeight=&quot;536&quot; canvasWidth=&quot;386&quot; dnOrder=&quot;0&quot;/&gt;
     &lt;ComponentGraph dnOrder=&quot;1&quot; id=&quot;__ROOTVIEW&quot;&gt;
       &lt;ElementPositions dnOrder=&quot;0&quot;&gt;
         &lt;ElementPosition dnOrder=&quot;0&quot; id=&quot;BSP_SAM_E70_PIM_MC_Board&quot; x=&quot;0&quot; y=&quot;466&quot;/&gt;
@@ -1066,7 +1066,7 @@
         &lt;ElementPosition dnOrder=&quot;4&quot; id=&quot;core&quot; x=&quot;189&quot; y=&quot;46&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;5&quot; id=&quot;dfp&quot; x=&quot;0&quot; y=&quot;46&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;6&quot; id=&quot;efc&quot; x=&quot;0&quot; y=&quot;77&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;7&quot; id=&quot;pmsm_foc&quot; x=&quot;287&quot; y=&quot;214&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;7&quot; id=&quot;pmsm_foc&quot; x=&quot;274&quot; y=&quot;207&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;8&quot; id=&quot;pwm0&quot; x=&quot;134&quot; y=&quot;265&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;9&quot; id=&quot;uart0&quot; x=&quot;0&quot; y=&quot;262&quot;/&gt;
       &lt;/ElementPositions&gt;
@@ -4679,7 +4679,7 @@
       </entry>
       <entry>
          <file>..\src\config\mclv2_sam_e70_pim\peripheral\pwm\plib_pwm0.c</file>
-         <hash>7574d405790a0a8fc8393b4f9ffb4251be6c2fdcc59b464bdb062dcee62ed70c</hash>
+         <hash>acbb66f87df6c32f91c51150c7ccbb23f513d069f12db4ba4ec3c2e412838019</hash>
       </entry>
       <entry>
          <file>..\src\config\mclv2_sam_e70_pim\motor_control\pmsm_foc\mc_interface_handling.h</file>
