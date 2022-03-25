@@ -1,4 +1,4 @@
-<config configName="mclv2_sam_e70_pim" projectName="pmsm_foc_encoder_sam_e70_mclv2" configVersion="1.1" device="ATSAME70Q21B" deviceLibraryClass="com.microchip.mcc.harmony.Harmony3Library" coreVersion="5.4.1">
+<config configName="mclv2_sam_e70_pim" projectName="pmsm_foc_encoder_sam_e70_mclv2" configVersion="1.1" device="ATSAME70Q21B" deviceLibraryClass="com.microchip.mcc.harmony.Harmony3Library" coreVersion="5.4.2">
    <usedPackages class="java.util.ArrayList"/>
    <usedClasses class="java.util.TreeMap">
       <entry>
@@ -697,8 +697,7 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="core" name="!@#harmonyUserData"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;UserData&gt;
   &lt;UserData dnOrder=&quot;0&quot;&gt;
-    &lt;GraphSettings canvasHeight=&quot;377&quot; canvasWidth=&quot;450&quot; dnOrder=&quot;0&quot;/&gt;
-    &lt;ComponentGraph dnOrder=&quot;1&quot; id=&quot;__ROOTVIEW&quot;&gt;
+    &lt;ComponentGraph dnOrder=&quot;0&quot; id=&quot;__ROOTVIEW&quot;&gt;
       &lt;ElementPositions dnOrder=&quot;0&quot;&gt;
         &lt;ElementPosition dnOrder=&quot;0&quot; id=&quot;X2CScope&quot; x=&quot;169&quot; y=&quot;309&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;1&quot; id=&quot;afec0&quot; x=&quot;23&quot; y=&quot;171&quot;/&gt;
@@ -711,6 +710,7 @@
         &lt;ElementPosition dnOrder=&quot;8&quot; id=&quot;uart0&quot; x=&quot;24&quot; y=&quot;310&quot;/&gt;
       &lt;/ElementPositions&gt;
     &lt;/ComponentGraph&gt;
+    &lt;GraphSettings canvasHeight=&quot;377&quot; canvasWidth=&quot;450&quot; dnOrder=&quot;1&quot;/&gt;
   &lt;/UserData&gt;
 &lt;/UserData&gt;
 </value>
