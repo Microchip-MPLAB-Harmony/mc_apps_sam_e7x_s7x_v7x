@@ -20,13 +20,13 @@
  *
  */
 
-/* file generated from device description version 2021-12-23T09:59:43Z */
+/* file generated from device description version 2022-04-21T07:53:48Z */
 #ifndef _SAME70_GMAC_INSTANCE_
 #define _SAME70_GMAC_INSTANCE_
 
 
 /* ========== Instance Parameter definitions for GMAC peripheral ========== */
-#define GMAC_INSTANCE_ID                         _UL_(39)   
-#define GMAC_CLOCK_ID                            _UL_(39)   
+#define GMAC_INSTANCE_ID                         (39)       
+#define GMAC_CLOCK_ID                            (39)       
 
 #endif /* _SAME70_GMAC_INSTANCE_ */

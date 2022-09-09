@@ -20,12 +20,12 @@
  *
  */
 
-/* file generated from device description version 2021-12-23T09:59:43Z */
+/* file generated from device description version 2022-04-21T07:53:48Z */
 #ifndef _SAME70_RSTC_INSTANCE_
 #define _SAME70_RSTC_INSTANCE_
 
 
 /* ========== Instance Parameter definitions for RSTC peripheral ========== */
-#define RSTC_INSTANCE_ID                         _UL_(1)    
+#define RSTC_INSTANCE_ID                         (1)        
 
 #endif /* _SAME70_RSTC_INSTANCE_ */
