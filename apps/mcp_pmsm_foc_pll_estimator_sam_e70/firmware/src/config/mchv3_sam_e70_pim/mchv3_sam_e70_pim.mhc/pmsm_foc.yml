@@ -1,0 +1,542 @@
+format_version: v1.0
+type: UniqueComponent
+attributes: {id: pmsm_foc}
+children:
+- type: Symbols
+  children:
+  - type: String
+    attributes: {id: MCPMSMFOC_ADC_MODULE_01}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: afec0}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ANALOG_FRONT_END_IA_GAIN}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '10.06'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ANALOG_FRONT_END_IA_OFFSET}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '1.65'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ANALOG_FRONT_END_IA_SHUNT}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.01'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ANALOG_FRONT_END_IB_GAIN}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '10.06'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ANALOG_FRONT_END_IB_OFFSET}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '1.65'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ANALOG_FRONT_END_IB_SHUNT}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.01'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ANALOG_FRONT_END_VDC_BOTTOM_RES}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '2.2'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ANALOG_FRONT_END_VDC_TOP_RES}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '300.0'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_BEMF_CONST}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '44.38'}
+  - type: KeyValueSet
+    attributes: {id: MCPMSMFOC_BOARD_SEL}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1'}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_BUS_VOLTAGE_VDC_UNIT}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: AFEC0}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_BUS_VOLTAGE_VDC_UNIT_BUS_VOLTAGE_VDC_AFEC0}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: Channel 7}
+  - type: String
+    attributes: {id: MCPMSMFOC_BUS_VOLTAGE_VDC_UNIT_BUS_VOLTAGE_VDC_FINAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '7'}
+  - type: Integer
+    attributes: {id: MCPMSMFOC_BUTTONS_AVAILABLE}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '1'}
+  - type: String
+    attributes: {id: MCPMSMFOC_BUTTON_0_NAME}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: BUTTON_1}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_BUTTON_0_NUMBER}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: PE2}
+  - type: String
+    attributes: {id: MCPMSMFOC_BUTTON_1_NAME}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: BUTTON_02}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_BUTTON_1_NUMBER}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: PC1}
+  - type: Float
+    attributes: {id: MCPMSMFOC_CURRENT_SCALING_FACTORT}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.004053779'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_DC_BUS_RATIO}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.0072799474'}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_ENCODER_PERIPHERAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: TC0}
+  - type: String
+    attributes: {id: MCPMSMFOC_ENCODER_PERIPHERAL_QEA_FINAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0'}
+  - type: String
+    attributes: {id: MCPMSMFOC_ENCODER_PERIPHERAL_QEB_FINAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ID_PID_KC}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.5'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ID_PID_KI}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '2.0E-4'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ID_PID_KP}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.2'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_ID_PID_YMAX}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.98'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_IQ_PID_KC}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.5'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_IQ_PID_KI}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '2.0E-4'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_IQ_PID_KP}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.2'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_IQ_PID_YMAX}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.98'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_LD}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.00253'}
+  - type: Integer
+    attributes: {id: MCPMSMFOC_LEDS_AVAILABLE}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '2'}
+  - type: String
+    attributes: {id: MCPMSMFOC_LED_0_NAME}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: LED_01}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_LED_0_NUMBER}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: PC23}
+  - type: String
+    attributes: {id: MCPMSMFOC_LED_1_NAME}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: LED_02}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_LED_1_NUMBER}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: PA24}
+  - type: Float
+    attributes: {id: MCPMSMFOC_LQ}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.00253'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_MAX_MOTOR_CURRENT}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '4.0'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_MAX_SPEED}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '5000.0'}
+  - type: KeyValueSet
+    attributes: {id: MCPMSMFOC_MOTOR_CONNECTION}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0'}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_MOTOR_SEL}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: Lead Shine}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_PHASE_CURRENT_IA_UNIT}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: AFEC0}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_PHASE_CURRENT_IA_UNIT_PHASE_CURRENT_IA_AFEC0}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: Channel 0}
+  - type: String
+    attributes: {id: MCPMSMFOC_PHASE_CURRENT_IA_UNIT_PHASE_CURRENT_IA_FINAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0'}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_PHASE_CURRENT_IB_UNIT}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: AFEC0}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_PHASE_CURRENT_IB_UNIT_PHASE_CURRENT_IB_AFEC0}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: Channel 6}
+  - type: String
+    attributes: {id: MCPMSMFOC_PHASE_CURRENT_IB_UNIT_PHASE_CURRENT_IB_FINAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '6'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_POLE_PAIRS}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '5.0'}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_POTENTIOMETER_VPOT_UNIT}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: AFEC0}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_POTENTIOMETER_VPOT_UNIT_POTENTIOMETER_VPOT_AFEC0}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: Channel 10}
+  - type: String
+    attributes: {id: MCPMSMFOC_POTENTIOMETER_VPOT_UNIT_POTENTIOMETER_VPOT_FINAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '10'}
+  - type: String
+    attributes: {id: MCPMSMFOC_PWMPLIB}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: pwm0}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_PWM_INSTANCE}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: PWM0}
+  - type: String
+    attributes: {id: MCPMSMFOC_PWM_INSTANCE_PWM_A_FINAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0'}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_PWM_INSTANCE_PWM_A_PWM0}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: Channel 0}
+  - type: String
+    attributes: {id: MCPMSMFOC_PWM_INSTANCE_PWM_B_FINAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '1'}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_PWM_INSTANCE_PWM_B_PWM0}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: Channel 1}
+  - type: String
+    attributes: {id: MCPMSMFOC_PWM_INSTANCE_PWM_C_FINAL}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '2'}
+  - type: Combo
+    attributes: {id: MCPMSMFOC_PWM_INSTANCE_PWM_C_PWM0}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: Channel 2}
+  - type: Float
+    attributes: {id: MCPMSMFOC_R}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '1.39'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_RATED_SPEED}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '3000.0'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_SPEED_PID_KC}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.5'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_SPEED_PID_KI}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.0015'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_SPEED_PID_KP}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.003'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_SPEED_PID_YMAX}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '3.0'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_VOLTAGE_MAGNITUDE}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '325.0'}
+  - type: Float
+    attributes: {id: MCPMSMFOC_VOLTAGE_SCALING_FACTORT}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: '0.0072799474'}
+  - type: String
+    attributes: {id: MCPMSMFOC_X2CScope}
+    children:
+    - type: Values
+      children:
+      - type: Dynamic
+        attributes: {id: pmsm_foc, value: X2CScope}
+- type: Attachments
+  children:
+  - type: MultiCapability
+    attributes: {id: pmsmfoc_ADC}
+    children:
+    - type: TargetAttachments
+      children:
+      - type: TargetAttachment
+        attributes: {targetComponentID: afec0, targetAttachmentID: AFEC0_ADC}
+  - type: DirectDependency
+    attributes: {id: pmsmfoc_PWM}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: targetComponentID}
+        children:
+        - {type: Value, value: pwm0}
+      - type: String
+        attributes: {id: targetAttachmentID}
+        children:
+        - {type: Value, value: PWM0_PWM}
+  - type: DirectDependency
+    attributes: {id: pmsmfoc_QDEC}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: enabled}
+        children:
+        - {type: Value, value: 'true'}
+  - type: DirectDependency
+    attributes: {id: pmsmfoc_X2CSCOPE}
+    children:
+    - type: Attributes
+      children:
+      - type: String
+        attributes: {id: targetComponentID}
+        children:
+        - {type: Value, value: X2CScope}
+      - type: String
+        attributes: {id: targetAttachmentID}
+        children:
+        - {type: Value, value: x2cScope_Scope}
+- type: ElementPosition
+  attributes: {x: '279', y: '228', id: pmsm_foc}

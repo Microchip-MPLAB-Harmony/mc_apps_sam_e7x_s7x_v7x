@@ -20,15 +20,15 @@
  *
  */
 
-/* file generated from device description version 2021-12-23T09:59:43Z */
+/* file generated from device description version 2022-04-21T07:53:48Z */
 #ifndef _SAME70_QSPI_INSTANCE_
 #define _SAME70_QSPI_INSTANCE_
 
 
 /* ========== Instance Parameter definitions for QSPI peripheral ========== */
-#define QSPI_DMAC_ID_RX                          _UL_(6)    
-#define QSPI_DMAC_ID_TX                          _UL_(5)    
-#define QSPI_INSTANCE_ID                         _UL_(43)   
-#define QSPI_CLOCK_ID                            _UL_(43)   
+#define QSPI_DMAC_ID_RX                          (6)        
+#define QSPI_DMAC_ID_TX                          (5)        
+#define QSPI_INSTANCE_ID                         (43)       
+#define QSPI_CLOCK_ID                            (43)       
 
 #endif /* _SAME70_QSPI_INSTANCE_ */
