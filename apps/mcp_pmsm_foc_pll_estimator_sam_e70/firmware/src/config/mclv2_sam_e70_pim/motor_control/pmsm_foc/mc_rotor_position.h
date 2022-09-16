@@ -85,12 +85,12 @@
 /*
  * Q-axis back EMF filter parameter 
  */
-#define CONFIG_PllEdFilterParameter      (float)(0.0183)
+#define CONFIG_PllEdFilterParameter      (float)(0.183)
 
 /*
  * D-axis back EMF filter parameter 
  */
-#define CONFIG_PllEqFilterParameter  (float)(0.0183)
+#define CONFIG_PllEqFilterParameter  (float)(0.183)
 
 
 /*

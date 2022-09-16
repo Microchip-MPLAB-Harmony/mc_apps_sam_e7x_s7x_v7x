@@ -58,17 +58,20 @@ Headers inclusions
  *******************************************************************************/
 typedef enum
 {
-    startupState_InitialPosition,
+    startupState_IntermediateAlign,
+    startupState_FinalAlign,
     startupState_OpenLoopRamp,
     startupState_OpenLoopStable     
 }tmcSup_StartupState_e;
 
 typedef struct _tmcSup_Parameters_s
 {
+    float currentRampRate;
     float alignmentCurrent;
     float openLoopCurrent;
     float openLoopSpeedRate;
     uint32_t alignmentTimeLoopCount;
+    uint32_t quaterAlignmentTimeLoopCount;
     uint32_t halfAlignmentTimeLoopCount;
     uint32_t openLoopRampTimeLoopCount;
     uint32_t openLoopStabTimeLoopCount;
@@ -144,14 +147,19 @@ tStd_ReturnType_e  mcSupI_OpenLoopStartupInit( tmcSup_ConfigParameters_s * supPa
      pParam->alignmentTimeLoopCount = supParam->userParam.alignmentTime  / supParam->userParam.Ts;
 
      pParam->halfAlignmentTimeLoopCount = pParam->alignmentTimeLoopCount >> 1u;
+     pParam->quaterAlignmentTimeLoopCount = pParam->alignmentTimeLoopCount >> 2u;
     
      pParam->openLoopCurrent = supParam->userParam.openLoopCurrent;
      pParam->openLoopRampTimeLoopCount = supParam->userParam.openLoopRampTime / supParam->userParam.Ts;
      pParam->openLoopStabTimeLoopCount = supParam->userParam.openLoopStabTime / supParam->userParam.Ts;
+     pParam->currentRampRate = pParam->openLoopCurrent/ pParam->halfAlignmentTimeLoopCount;
     
      openLoopTransSpeedinRadPerSec  =  2.0f * CONSTANT_Pi * NUM_POLE_PAIRS * supParam->userParam.openLoopTransSpeed / 60.0f;
      pParam->openLoopSpeedRate =   openLoopTransSpeedinRadPerSec /( pParam->openLoopRampTimeLoopCount / supParam->userParam.Ts ); 
     
+     /* Update state variables */
+     mcSup_StateVariables_mas[supParam->Id].startupStatus = startupState_IntermediateAlign;
+             
     return returnType_Passed;
 }
 
@@ -188,37 +196,78 @@ uint8_t mcSupI_OpenLoopStartupRun( const tmcSup_InstanceId_e Id )
      
     switch( mcSup_StateVariables_mas[Id].startupStatus )
     {
-        /* Lock the rotor at specified rotor angle */
-        case startupState_InitialPosition:
-        {  
-            mcSup_StateVariables_mas[Id].trackCounter++;
-             
-            /* Set output ports for alignment */
-          #if(Q_AXIS == ALIGNMENT_METHOD )
-           *mcSup_OutputPorts_mas[Id].Idref = 0.0f;
-           *mcSup_OutputPorts_mas[Id].Iqref = mcMocI_RotationSign_gas8[Id] * mcSup_Parameters_mas[Id].alignmentCurrent;
-          #else
-           *mcSup_OutputPorts_mas[Id].Iqref = 0.0f;
-           *mcSup_OutputPorts_mas[Id].Idref = mcMocI_RotationSign_gas8[Id] * mcSup_Parameters_mas[Id].alignmentCurrent;
-          #endif
-
-            if( mcSup_Parameters_mas[Id].halfAlignmentTimeLoopCount >= mcSup_StateVariables_mas[Id].trackCounter )
+         case startupState_IntermediateAlign:
+        {   
+           float iref;
+            
+           mcSup_StateVariables_mas[Id].trackCounter++;
+          
+            if( mcSup_Parameters_mas[Id].quaterAlignmentTimeLoopCount >= mcSup_StateVariables_mas[Id].trackCounter )
+            {
+                 iref = mcSup_StateVariables_mas[Id].trackCounter *   mcSup_Parameters_mas[Id].currentRampRate; 
+              #if(Q_AXIS == ALIGNMENT_METHOD )
+                *mcSup_OutputPorts_mas[Id].theta = mcMocI_RotationSign_gas8[Id] * CONSTANT_Pi;
+                *mcSup_OutputPorts_mas[Id].Idref = 0.0f;
+                *mcSup_OutputPorts_mas[Id].Iqref = mcMocI_RotationSign_gas8[Id] * iref;
+              #else
+               *mcSup_OutputPorts_mas[Id].theta =  mcMocI_RotationSign_gas8[Id] * CONSTANT_PiBy2;
+               *mcSup_OutputPorts_mas[Id].Iqref = 0.0f;
+               *mcSup_OutputPorts_mas[Id].Idref = mcMocI_RotationSign_gas8[Id] * iref;
+              #endif
+            }
+            else if( mcSup_Parameters_mas[Id].halfAlignmentTimeLoopCount >= mcSup_StateVariables_mas[Id].trackCounter )
             {
               #if(Q_AXIS == ALIGNMENT_METHOD )
                 *mcSup_OutputPorts_mas[Id].theta = mcMocI_RotationSign_gas8[Id] * CONSTANT_Pi;
+                *mcSup_OutputPorts_mas[Id].Idref = 0.0f;
+                *mcSup_OutputPorts_mas[Id].Iqref = mcMocI_RotationSign_gas8[Id] *  mcSup_Parameters_mas[Id].alignmentCurrent;
+              #else
+               *mcSup_OutputPorts_mas[Id].theta = CONSTANT_PiBy2;
+               *mcSup_OutputPorts_mas[Id].Idref =  mcMocI_RotationSign_gas8[Id] *  mcSup_Parameters_mas[Id].alignmentCurrent;
+                *mcSup_OutputPorts_mas[Id].Iqref = 0.0f;
+              #endif
+            }
+            else 
+            {
+                mcSup_StateVariables_mas[Id].trackCounter = 0u;
+              /* Change open loop state */
+              mcSup_StateVariables_mas[Id].startupStatus = startupState_FinalAlign;             
+             
+            }
+        }
+        break;
+        
+         case startupState_FinalAlign:
+        {   
+           float iref;
+            
+           mcSup_StateVariables_mas[Id].trackCounter++;
+          
+            if( mcSup_Parameters_mas[Id].quaterAlignmentTimeLoopCount >= mcSup_StateVariables_mas[Id].trackCounter )
+            {
+                 iref = mcSup_StateVariables_mas[Id].trackCounter *   mcSup_Parameters_mas[Id].currentRampRate; 
+              #if(Q_AXIS == ALIGNMENT_METHOD )
+                *mcSup_OutputPorts_mas[Id].theta = 3.0f * mcMocI_RotationSign_gas8[Id] * CONSTANT_PiBy2;
+                *mcSup_OutputPorts_mas[Id].Idref = 0.0f;
+                *mcSup_OutputPorts_mas[Id].Iqref = mcMocI_RotationSign_gas8[Id] *  iref;
               #else
                *mcSup_OutputPorts_mas[Id].theta =  mcMocI_RotationSign_gas8[Id] * CONSTANT_PiBy2;
+               *mcSup_OutputPorts_mas[Id].Iqref = 0.0f;
+               *mcSup_OutputPorts_mas[Id].Idref = mcMocI_RotationSign_gas8[Id] * iref;
               #endif
-
             }
-            else if( mcSup_Parameters_mas[Id].alignmentTimeLoopCount >= mcSup_StateVariables_mas[Id].trackCounter )
+            else if( mcSup_Parameters_mas[Id].halfAlignmentTimeLoopCount >= mcSup_StateVariables_mas[Id].trackCounter )
             {
               #if(Q_AXIS == ALIGNMENT_METHOD )
-                *mcSup_OutputPorts_mas[Id].theta = 3*mcMocI_RotationSign_gas8[Id] * CONSTANT_PiBy2;
+                *mcSup_OutputPorts_mas[Id].theta = 3.0f * mcMocI_RotationSign_gas8[Id] * CONSTANT_PiBy2;
+                *mcSup_OutputPorts_mas[Id].Idref = 0.0f;
+                *mcSup_OutputPorts_mas[Id].Iqref = mcMocI_RotationSign_gas8[Id] *  mcSup_Parameters_mas[Id].alignmentCurrent;
               #else
                *mcSup_OutputPorts_mas[Id].theta = 0.0f;
+               *mcSup_OutputPorts_mas[Id].Idref =  mcMocI_RotationSign_gas8[Id] *  mcSup_Parameters_mas[Id].alignmentCurrent;
+                *mcSup_OutputPorts_mas[Id].Iqref = 0.0f;
               #endif
-            }
+            }    
             else 
             {
                 mcSup_StateVariables_mas[Id].trackCounter = 0u;
@@ -261,7 +310,7 @@ uint8_t mcSupI_OpenLoopStartupRun( const tmcSup_InstanceId_e Id )
             {
                 mcSup_StateVariables_mas[Id].trackCounter = 0u; 
             #if ( OPEN_LOOP  != CONTROL_LOOP )
-                mcSup_StateVariables_mas[Id].startupStatus = startupState_InitialPosition;
+                mcSup_StateVariables_mas[Id].startupStatus = startupState_IntermediateAlign;
                 status = 1u;
             #endif
             }
@@ -296,7 +345,7 @@ void mcSupI_OpenLoopStartupReset( const tmcSup_InstanceId_e Id )
     /* Reset state variables */
     mcSup_StateVariables_mas[Id].openLoopIncrementTheta = 0.0f;
     mcSup_StateVariables_mas[Id].trackCounter = 0u;
-    mcSup_StateVariables_mas[Id].startupStatus = startupState_InitialPosition;
+    mcSup_StateVariables_mas[Id].startupStatus = startupState_IntermediateAlign;
     
     /* Reset output ports */
     *mcSup_OutputPorts_mas[Id].Idref = 0.0f;

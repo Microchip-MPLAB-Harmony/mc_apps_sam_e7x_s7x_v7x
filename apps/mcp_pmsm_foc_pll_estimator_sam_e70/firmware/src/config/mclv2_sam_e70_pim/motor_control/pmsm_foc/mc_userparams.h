@@ -56,9 +56,6 @@
 #define OPEN_LOOP                        (0u)
 #define SPEED_LOOP                       (1u)
 #define TORQUE_LOOP                      (2u)
-#define POSITION_LOOP                    (3u)
-
-
 
 /** 
  *  Defining DEVELOPER_MODE allows the programmer to monitor debug signals via X2C Scope 
@@ -67,7 +64,7 @@
 
 #define DEVELOPER_MODE   ENABLE
 
-#define CONTROL_LOOP                     (SPEED_LOOP)
+#define CONTROL_LOOP                     (TORQUE_LOOP)
 
 /**
  *  Defining Q_AXIS_STARTUP causes the open loop startup by injecting current in Q axis  
@@ -78,6 +75,9 @@
 
 #define POTENTIOMETER_INPUT_ENABLED       ENABLE
 
+#define Q_CURRENT_REF_TORQUE             0.20   /* Iq ref for torque mode */
+#define Q_CURRENT_MIN_TORQUE             0.15   /* Min Iq current */
+#define Q_CURRENT_MAX_TORQUE             0.25   /* Max Iq mapped to Potentiometer max */
 
 /**
  *  Defining BIDIRECTION_CONTROL enables bi-directional control of the motor                            
@@ -92,12 +92,17 @@
 #define RAMP_PROFILE   Step
 
 /**
+ *  Flying start                     
+ */ 
+#define ENABLE_FLYING_START (DISABLE)
+
+/**
  *  Field Weakening                     
  */ 
-#define FIELD_WEAKENING (DISABLE)
+#define ENABLE_FLUX_WEAKENING (DISABLE)
 
 /* Field weakening - Limit for -ve Idref */
-#if(FIELD_WEAKENING == ENABLE)
+#if(ENABLE_FLUX_WEAKENING == ENABLE)
 #define MAX_FW_NEGATIVE_ID_REF              (float)(0)
 #endif
 
@@ -222,8 +227,8 @@
  * Direct axis current PI Controller Parameters 
  */
 #define D_CURRENT_TS    (float)CURRENT_CONTROL_SAMPLING_TIME
-#define D_CURRENT_KP    (float)(0.01)
-#define D_CURRENT_KI    (float)(1 * CURRENT_CONTROL_SAMPLING_TIME)
+#define D_CURRENT_KP    (float)(0.4)
+#define D_CURRENT_KI    (float)(10 * CURRENT_CONTROL_SAMPLING_TIME)
 #define D_CURRENT_KC    (float)(0.5)
 #define D_CURRENT_YMAX  (float)(0.98)
 
@@ -231,8 +236,8 @@
  * Quadrature axis current PI Controller Parameters 
  */
 #define Q_CURRENT_TS     (float)CURRENT_CONTROL_SAMPLING_TIME
-#define Q_CURRENT_KP     (float)(0.01)
-#define Q_CURRENT_KI     (float)(1 * CURRENT_CONTROL_SAMPLING_TIME)
+#define Q_CURRENT_KP     (float)(0.4)
+#define Q_CURRENT_KI     (float)(10 * CURRENT_CONTROL_SAMPLING_TIME)
 #define Q_CURRENT_KC    (float)(0.5)
 #define Q_CURRENT_YMAX   (float)(0.98)
 
@@ -255,7 +260,7 @@
 /**
   * Start-up current in amperes                          
   */
-#define START_UP_CURRENT_IN_AMPERE   (0.4) 
+#define START_UP_CURRENT_IN_AMPERE   (0.2) 
 
 
 /**

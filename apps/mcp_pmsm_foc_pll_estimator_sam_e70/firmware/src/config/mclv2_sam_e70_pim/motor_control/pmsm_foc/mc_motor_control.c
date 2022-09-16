@@ -46,6 +46,13 @@
 #include "mc_motor_control.h"
 #include "mc_hardware_abstraction.h"
 
+
+
+/*******************************************************************************
+ Constants  
+ *******************************************************************************/
+
+
 /*******************************************************************************
  Private Variables 
  *******************************************************************************/
@@ -53,7 +60,7 @@
 /*******************************************************************************
  Private Functions 
  *******************************************************************************/
- 
+
 /*******************************************************************************
  Interface Functions 
  *******************************************************************************/
@@ -95,19 +102,14 @@ void mcMocI_M1ControlApplicationInit( void )
     
     initStatus |= mcPwmI_PulseWidthModulationInit( &mcPwmI_ConfigParameters_gas[0u] );
     
-#ifdef ENABLE_FLUX_WEAKENING
-    initStatus |= mcFlxI_RotorPositionCalculationInit( &mcFlxI_ConfigParameters_gas[0u] );
+#if ( ENABLE == ENABLE_FLUX_WEAKENING )
+    initStatus |= mcFlxI_FluxRegulationInit( &mcFlxI_ConfigParameters_gas[0u] );
 #endif
     
-#ifdef ENABLE_FLYING_START
+#if ( ENABLE == ENABLE_FLYING_START )
      initStatus |= mcFlyI_FlyingStartInit( &mcFlyI_ConfigParameters_gas[0u] );
 #endif
-    
-#if ( POSITION_LOOP == CONTROL_LOOP )
-     /* Initialize position  control module */
-     initStatus |= mcPosI_PositionRegulationInit(&mcPosI_ConfigParameters_gas[0u]);
-#endif
-     
+        
      if( ( initStatus & returnType_Failed ) || ( initStatus & returnType_Aborted ))
      {
          /* Log initialization failure flag  */
@@ -165,9 +167,10 @@ void mcMocI_M1StartStop(void)
  */
 void mcMocI_M1Start(void)
 {
-#ifdef ENABLE_FLYING_START
+    mcMocI_RunningStatus_gde[0u] = 1u;
+#if ( ENABLE == ENABLE_FLYING_START )
     /* Switch the motor control state to flying start */
-    mcMocI_MotorRunningState_gae[0u] =  mcState_Foc;
+    mcMocI_MotorRunningState_gae[0u] =  mcState_FlyingStart;
 #else 
     /* Switch the motor control state to start-up */
     mcMocI_MotorRunningState_gae[0u] = mcState_Startup;
@@ -190,6 +193,8 @@ void mcMocI_M1Start(void)
  */
 void mcMocI_M1Stop(void)
 {
+    mcMocI_RunningStatus_gde[0u] = 0u;
+
     /* Disable PWM output */
     mcHalI_VoltageSourceInverterPwmDisable();
 
@@ -233,11 +238,9 @@ void mcMocI_M1DirectionToggle(void)
  */
 void mcMocI_M1ControlTasksRun( void  )
 {
-    /* Read phase currents ( Group 01 )*/
-    mcHalI_Group01SignalRead( 0u );
-    
-    /* Re-assign ADC channels and perform trigger  */
-    mcHalI_Group02SignalSoftwareTrigger( 0u );
+
+  if( 1u == mcMocI_RunningStatus_gde[0u] )
+  {
     
     /* Current Measurement */
     mcCurI_CurrentCalculationRun( 0u );
@@ -257,7 +260,7 @@ void mcMocI_M1ControlTasksRun( void  )
         {
         }
         break;
-#ifdef ENABLE_FLYING_START
+#if ( ENABLE == ENABLE_FLYING_START )
         case mcState_FlyingStart:
         {
            tStd_ReturnType_e completionStatus;
@@ -281,25 +284,21 @@ void mcMocI_M1ControlTasksRun( void  )
         case mcState_Startup:
         {
            if( 1u ==  mcSupI_OpenLoopStartupRun( 0u ) )
-           {
-               /* Switch angle from open loop to close loop */
-               mcLib_InvParkTransform(&mcMocI_DQVoltage_gas[0u], mcMocI_SpaceVectorAngle_gaf32[0u], &mcMocI_AlphaBetaVoltage_gas[0u]);
-               mcLib_InvParkTransform(&mcMocI_FeedbackDQCurrent_gas[0u], mcMocI_SpaceVectorAngle_gaf32[0u], & mcMocI_FeedbackAlphaBetaCurrent_gas[0u]);
-                
-               mcLib_ParkTransform(&mcMocI_AlphaBetaVoltage_gas[0u], mcRpoI_ElectricalRotorPosition_gaf32[0u], &mcMocI_DQVoltage_gas[0u]);
-               mcLib_ParkTransform(&mcMocI_FeedbackAlphaBetaCurrent_gas[0u], mcRpoI_ElectricalRotorPosition_gaf32[0u], &mcMocI_FeedbackDQCurrent_gas[0u]);
-              
-               /* Update PI controller states */
-               mcRegI_IdCurrentControlIntegralSet(0u, mcMocI_DQVoltage_gas[0u].direct );
-               mcRegI_IqCurrentControlIntegralSet(0u, mcMocI_DQVoltage_gas[0u].quadrature );
-               mcSpeI_SpeedControlIntegralSet( 0u, mcMocI_FeedbackDQCurrent_gas[0u].quadrature );
+           {   
+                /* Update speed controller parameters */
+                mcSpeI_SpeedControlIntegralSet( 0u, mcSpeI_ReferenceIqCurrent_gaf32[0u] );
+                mcSpeI_ReferenceElectricalSpeed_gaf32[0u] = mcRpoI_ElectricalRotorSpeed_gaf32[0u];
 
-               /* Change control state */
-               mcMocI_MotorRunningState_gae[0u] = mcState_Foc;
+                /* Reset the d-axis controller integral */
+                mcRegI_IdCurrentControlIntegralSet(0, 0.0f);
+
+                /* Change control state */
+                mcMocI_MotorRunningState_gae[0u] = mcState_Foc;
            }
    
         }
         break;
+ 
         case mcState_Foc:
         {
             /* Switched to closed by slowly decreasing the offset which is present in the estimated angle during open loop */
@@ -308,13 +307,10 @@ void mcMocI_M1ControlTasksRun( void  )
             /* d- axis reference current calculation */
             mcSpeI_ReferenceIdCurrent_gaf32[0u] = 0.0f;
           
-          #ifdef ENABLE_FLUX_WEAKENING
-            mcFlxI_RotorPositionCalculationRun( 0u );
+          #if ( ENABLE == ENABLE_FLUX_WEAKENING )
+            mcFlxI_FluxRegulationRun( 0u );
           #endif
             
-          #if ( POSITION_LOOP == CONTROL_LOOP )
-            mcPosI_PositionRegulationRun( 0u );
-          #endif
             /* Speed regulation  */
             mcSpeI_SpeedRegulationRun( 0u );
         }
@@ -333,15 +329,8 @@ void mcMocI_M1ControlTasksRun( void  )
 
     /* PWM modulation */
     mcPwmI_PulseWidthModulationRun( 0u );
+  }
     
-    /* Read voltage and potentiometer signal ( Group 02 ) */
-    mcHalI_Group02SignalRead( 0u );
-    
-    /* Re-assign and enable hardware trigger for Group 01 signal */
-    mcHalI_Group01SignalHardwareTrigger( 0u );
-      
-    /* Voltage measurement */
-    mcVolI_VoltageCalculationRun( 0u );
 }
 
 /*! \brief Motor M2 control application ISR tasks
@@ -389,19 +378,15 @@ void mcMocI_M1ControlReset( void )
     /* Reset PWM modulator */
     mcPwmI_PulseWidthModulationReset( 0u );
     
-#ifdef ENABLE_FLUX_WEAKENING
-    mcFlxI_RotorPositionCalculationReset( 0u );
+#if ( ENABLE == ENABLE_FLUX_WEAKENING )
+    mcFlxI_FluxRegulationReset( 0u );
 #endif
             
-#ifdef ENABLE_FLYING_START
+#if ( ENABLE == ENABLE_FLYING_START )
      mcFlyI_FlyingStartReset( 0u );
 #endif
     
-#if( POSITION_LOOP == CONTROL_LOOP )
-     /* Reset position  control module */
-     mcPosI_PositionRegulationReset( 0u );
-#endif
-    
+   
     /* Reset pulse width modulation function */
     mcPwmI_PulseWidthModulationReset( 0u );
 }

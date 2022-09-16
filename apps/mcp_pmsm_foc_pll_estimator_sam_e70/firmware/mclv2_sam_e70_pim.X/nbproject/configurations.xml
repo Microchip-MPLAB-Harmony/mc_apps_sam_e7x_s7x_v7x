@@ -6,9 +6,6 @@
                    projectFiles="true">
       <logicalFolder name="f1" displayName="config" projectFiles="true">
         <logicalFolder name="f1" displayName="mclv2_sam_e70_pim" projectFiles="true">
-          <logicalFolder name="f4" displayName="bsp" projectFiles="true">
-            <itemPath>../src/config/mclv2_sam_e70_pim/bsp/bsp.h</itemPath>
-          </logicalFolder>
           <logicalFolder name="f3" displayName="motor_control" projectFiles="true">
             <logicalFolder name="f1" displayName="pmsm_foc" projectFiles="true">
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_rotor_position.h</itemPath>
@@ -23,7 +20,6 @@
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_interface_handling.h</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_motor_control.h</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_pmsm_foc.h</itemPath>
-              <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_position_control.h</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_pwm.h</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_ramp_profiler.h</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_speed_control.h</itemPath>
@@ -98,7 +94,6 @@
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rswdt.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rtc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rtt.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/sdramc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/smc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/spi.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/ssc.h</itemPath>
@@ -145,7 +140,6 @@
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rswdt.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rtc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rtt.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/sdramc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/smc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/spi0.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/spi1.h</itemPath>
@@ -211,9 +205,6 @@
                    projectFiles="true">
       <logicalFolder name="f1" displayName="config" projectFiles="true">
         <logicalFolder name="f1" displayName="mclv2_sam_e70_pim" projectFiles="true">
-          <logicalFolder name="f5" displayName="bsp" projectFiles="true">
-            <itemPath>../src/config/mclv2_sam_e70_pim/bsp/bsp.c</itemPath>
-          </logicalFolder>
           <logicalFolder name="f4" displayName="motor_control" projectFiles="true">
             <logicalFolder name="f1" displayName="pmsm_foc" projectFiles="true">
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_rotor_position.c</itemPath>
@@ -228,7 +219,6 @@
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_interface_handling.c</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_motor_control.c</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_pmsm_foc.c</itemPath>
-              <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_position_control.c</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_pwm.c</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_ramp_profiler.c</itemPath>
               <itemPath>../src/config/mclv2_sam_e70_pim/motor_control/pmsm_foc/mc_speed_control.c</itemPath>
@@ -276,6 +266,7 @@
         </logicalFolder>
       </logicalFolder>
       <itemPath>../src/main.c</itemPath>
+      <itemPath>../src/config/mclv2_sam_e70_pim/pin_configurations.csv</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -317,7 +308,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>ICD4Tool</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>4.00</languageToolchainVersion>
+        <languageToolchainVersion>4.10</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>

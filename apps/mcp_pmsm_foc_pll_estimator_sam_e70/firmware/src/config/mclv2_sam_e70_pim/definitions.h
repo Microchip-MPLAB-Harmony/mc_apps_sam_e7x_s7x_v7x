@@ -58,7 +58,6 @@
 #include "peripheral/efc/plib_efc.h"
 #include "motor_control/pmsm_foc/mc_userparams.h"
 #include "motor_control/pmsm_foc/mc_pmsm_foc.h"
-#include "bsp/bsp.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility

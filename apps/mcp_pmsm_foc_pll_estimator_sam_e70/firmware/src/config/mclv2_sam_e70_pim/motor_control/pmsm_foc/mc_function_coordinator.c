@@ -292,11 +292,28 @@ void mcFcoI_ApplicationInit( void )
  */
 void mcFcoI_MotorAInterruptTasksRun( uint32_t status, uintptr_t context )
 {
+    /* Read phase currents ( Group 01 )*/
+    mcHalI_Group01SignalRead( 0u );
+    
+    /* Re-assign ADC channels and perform trigger  */
+    mcHalI_Group02SignalSoftwareTrigger( 0u );
+	
+    
+    /* Voltage measurement */
+    mcVolI_VoltageCalculationRun( 0u );
+    
     /* Motor A Control tasks  */
     mcMocI_M1ControlTasksRun(  );
         
     /* Synchronize ISR with the thread tasks  */
     mcFco_InterruptAndThreadSync();
+    
+      /* Read voltage and potentiometer signal ( Group 02 ) */
+    mcHalI_Group02SignalRead( 0u );
+    
+    /* Re-assign and enable hardware trigger for Group 01 signal */
+    mcHalI_Group01SignalHardwareTrigger( 0u );
+          
     /* Update X2C Scope */
     X2CScope_Update();
 }

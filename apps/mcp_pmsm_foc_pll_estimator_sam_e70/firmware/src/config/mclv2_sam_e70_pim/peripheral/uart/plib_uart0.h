@@ -77,10 +77,10 @@ void UART0_WriteByte( int data );
 
 bool UART0_TransmitterIsReady( void );
 
-bool UART0_TransmitComplete( void );
-
 bool UART0_ReceiverIsReady( void );
 
+
+bool UART0_TransmitComplete( void );
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
