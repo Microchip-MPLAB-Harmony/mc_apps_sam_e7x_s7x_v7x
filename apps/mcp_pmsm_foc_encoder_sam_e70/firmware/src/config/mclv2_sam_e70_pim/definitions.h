@@ -57,7 +57,6 @@
 #include "peripheral/pwm/plib_pwm0.h"
 #include "peripheral/efc/plib_efc.h"
 #include "peripheral/tc/plib_tc0.h"
-#include "bsp/bsp.h"
 #include "motor_control/pmsm_foc/mc_userparams.h"
 #include "motor_control/pmsm_foc/mc_pmsm_foc.h"
 
