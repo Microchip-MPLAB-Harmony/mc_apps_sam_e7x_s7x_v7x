@@ -56,9 +56,6 @@
 #define OPEN_LOOP                        (0u)
 #define SPEED_LOOP                       (1u)
 #define TORQUE_LOOP                      (2u)
-#define POSITION_LOOP                    (3u)
-
-
 
 /** 
  *  Defining DEVELOPER_MODE allows the programmer to monitor debug signals via X2C Scope 
@@ -78,6 +75,7 @@
 
 #define POTENTIOMETER_INPUT_ENABLED       ENABLE
 
+#define SPEED_REF_RPM                     (float)500   /* Speed Ref */
 
 /**
  *  Defining BIDIRECTION_CONTROL enables bi-directional control of the motor                            
@@ -92,12 +90,17 @@
 #define RAMP_PROFILE   Step
 
 /**
+ *  Flying start                     
+ */ 
+#define ENABLE_FLYING_START (DISABLE)
+
+/**
  *  Field Weakening                     
  */ 
-#define FIELD_WEAKENING (DISABLE)
+#define ENABLE_FLUX_WEAKENING (DISABLE)
 
 /* Field weakening - Limit for -ve Idref */
-#if(FIELD_WEAKENING == ENABLE)
+#if(ENABLE_FLUX_WEAKENING == ENABLE)
 #define MAX_FW_NEGATIVE_ID_REF              (float)(0)
 #endif
 
@@ -213,8 +216,8 @@
  * Speed PI Controller Parameters 
  */
 #define SPEED_TS        (float)CURRENT_CONTROL_SAMPLING_TIME
-#define SPEED_KP        (float)(0.003)
-#define SPEED_KI        (float)(0.0015 * CURRENT_CONTROL_SAMPLING_TIME)
+#define SPEED_KP        (float)(0.0006)
+#define SPEED_KI        (float)(0.015 * CURRENT_CONTROL_SAMPLING_TIME)
 #define SPEED_KC        (float)(0.5)
 #define SPEED_YMAX      (float)(3)
 
@@ -223,7 +226,7 @@
  */
 #define D_CURRENT_TS    (float)CURRENT_CONTROL_SAMPLING_TIME
 #define D_CURRENT_KP    (float)(0.2)
-#define D_CURRENT_KI    (float)(0.0002 * CURRENT_CONTROL_SAMPLING_TIME)
+#define D_CURRENT_KI    (float)(10 * CURRENT_CONTROL_SAMPLING_TIME)
 #define D_CURRENT_KC    (float)(0.5)
 #define D_CURRENT_YMAX  (float)(0.98)
 
@@ -232,7 +235,7 @@
  */
 #define Q_CURRENT_TS     (float)CURRENT_CONTROL_SAMPLING_TIME
 #define Q_CURRENT_KP     (float)(0.2)
-#define Q_CURRENT_KI     (float)(0.0002 * CURRENT_CONTROL_SAMPLING_TIME)
+#define Q_CURRENT_KI     (float)(10 * CURRENT_CONTROL_SAMPLING_TIME)
 #define Q_CURRENT_KC    (float)(0.5)
 #define Q_CURRENT_YMAX   (float)(0.98)
 
@@ -255,7 +258,7 @@
 /**
   * Start-up current in amperes                          
   */
-#define START_UP_CURRENT_IN_AMPERE   (0.4) 
+#define START_UP_CURRENT_IN_AMPERE   (0.2) 
 
 
 /**

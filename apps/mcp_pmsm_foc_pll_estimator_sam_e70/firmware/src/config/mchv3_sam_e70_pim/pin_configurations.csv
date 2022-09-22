@@ -16,7 +16,7 @@
 19,PC13,,Available,In,,,,,,,
 20,PB1,,Available,In,,,,,,,
 21,PB0,VPOT,AFEC0_AD10,n/a,n/a,No,Disabled,No,No,Disabled,Low
-22,PA20,IDC,AFEC0_AD9,n/a,n/a,No,Disabled,No,No,Disabled,Low
+22,PA20,,Available,In,,,,,,,
 23,PA19,,Available,In,,,,,,,
 24,PA18,VDC,AFEC0_AD7,n/a,n/a,No,Disabled,No,No,Disabled,Low
 25,PA17,IB,AFEC0_AD6,n/a,n/a,No,Disabled,No,No,Disabled,Low

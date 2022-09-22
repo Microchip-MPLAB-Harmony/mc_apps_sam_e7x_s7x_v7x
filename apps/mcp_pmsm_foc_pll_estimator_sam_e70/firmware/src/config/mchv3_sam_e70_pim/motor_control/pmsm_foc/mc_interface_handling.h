@@ -71,7 +71,7 @@ typedef struct
 
 typedef enum
 {
-#ifdef ENABLE_FLYING_START
+#if ( ENABLE == ENABLE_FLYING_START )
     mcState_FlyingStart,
 #endif
     mcState_Startup,

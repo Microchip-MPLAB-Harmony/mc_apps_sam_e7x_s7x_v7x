@@ -157,18 +157,9 @@ void mcRegI_CurrentRegulationRun( const tmcReg_InstanceId_e Id )
     mcReg_IdController_mas[Id].reference  =  *mcReg_InputPorts_mas[Id].Idref;
     mcLib_PiControllerRun(&mcReg_IdController_mas[Id] );
     
-    /* Quadrature axis current reference  */ 
-#if ( CONTROL_LOOP == TORQUE_LOOP )
-  #if ( ENABLE == POTENTIOMETER_INPUT_ENABLED )  
-    mcReg_IqController_mas[Id].reference = mcHalI_Potentiometer_gdu16 * Q_CURRENT_REF_TORQUE / 4096.0f; 
-  #else 
-    mcReg_IqController_mas[Id].reference  = Q_CURRENT_REF_TORQUE;
-  #endif
-#else 
-    mcReg_IqController_mas[Id].reference  = *mcReg_InputPorts_mas[Id].Iqref;
-#endif
     
     /* Quadrature axis current control  */
+    mcReg_IqController_mas[Id].reference  = *mcReg_InputPorts_mas[Id].Iqref;
     mcReg_IqController_mas[Id].feedback = *mcReg_InputPorts_mas[Id].Iqact;
     mcLib_PiControllerRun(&mcReg_IqController_mas[Id]);
   

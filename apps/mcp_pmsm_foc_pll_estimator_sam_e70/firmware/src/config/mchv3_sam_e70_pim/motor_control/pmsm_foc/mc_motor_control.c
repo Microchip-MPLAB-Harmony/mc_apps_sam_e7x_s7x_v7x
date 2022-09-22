@@ -51,24 +51,15 @@
 /*******************************************************************************
  Constants  
  *******************************************************************************/
-#define CONSTANT_Pi                                (float)(3.141593)
-#define CONSTANT_2Pi                              (float)(2.0f * CONSTANT_Pi )
-#define CONFIG_AngleDecrementRate      (float)(0.0005)
-#define CONFIG_TransitionDeltaAngle      (float)(0.0000 + CONFIG_AngleDecrementRate )
 
 
 /*******************************************************************************
  Private Variables 
  *******************************************************************************/
-typedef struct _tmcMoc_StateVariables_s
-{
-    float openToCloseLoopDelAngle;
-}tmcMoc_StateVariables_s;
 
 /*******************************************************************************
  Private Functions 
  *******************************************************************************/
-static tmcMoc_StateVariables_s mcMoc_StateVariables_mas[1u];
 
 /*******************************************************************************
  Interface Functions 
@@ -111,19 +102,14 @@ void mcMocI_M1ControlApplicationInit( void )
     
     initStatus |= mcPwmI_PulseWidthModulationInit( &mcPwmI_ConfigParameters_gas[0u] );
     
-#ifdef ENABLE_FLUX_WEAKENING
-    initStatus |= mcFlxI_RotorPositionCalculationInit( &mcFlxI_ConfigParameters_gas[0u] );
+#if ( ENABLE == ENABLE_FLUX_WEAKENING )
+    initStatus |= mcFlxI_FluxRegulationInit( &mcFlxI_ConfigParameters_gas[0u] );
 #endif
     
-#ifdef ENABLE_FLYING_START
+#if ( ENABLE == ENABLE_FLYING_START )
      initStatus |= mcFlyI_FlyingStartInit( &mcFlyI_ConfigParameters_gas[0u] );
 #endif
-    
-#if ( POSITION_LOOP == CONTROL_LOOP )
-     /* Initialize position  control module */
-     initStatus |= mcPosI_PositionRegulationInit(&mcPosI_ConfigParameters_gas[0u]);
-#endif
-     
+        
      if( ( initStatus & returnType_Failed ) || ( initStatus & returnType_Aborted ))
      {
          /* Log initialization failure flag  */
@@ -182,7 +168,7 @@ void mcMocI_M1StartStop(void)
 void mcMocI_M1Start(void)
 {
     mcMocI_RunningStatus_gde[0u] = 1u;
-#ifdef ENABLE_FLYING_START
+#if ( ENABLE == ENABLE_FLYING_START )
     /* Switch the motor control state to flying start */
     mcMocI_MotorRunningState_gae[0u] =  mcState_FlyingStart;
 #else 
@@ -252,15 +238,9 @@ void mcMocI_M1DirectionToggle(void)
  */
 void mcMocI_M1ControlTasksRun( void  )
 {
-    tmcMoc_StateVariables_s * pState;
-     
-    pState = &mcMoc_StateVariables_mas[0u];
 
-    /* Read phase currents ( Group 01 )*/
-    mcHalI_Group01SignalRead( 0u );
-    
-    /* Re-assign ADC channels and perform trigger  */
-    mcHalI_Group02SignalSoftwareTrigger( 0u );
+  if( 1u == mcMocI_RunningStatus_gde[0u] )
+  {
     
     /* Current Measurement */
     mcCurI_CurrentCalculationRun( 0u );
@@ -280,7 +260,7 @@ void mcMocI_M1ControlTasksRun( void  )
         {
         }
         break;
-#ifdef ENABLE_FLYING_START
+#if ( ENABLE == ENABLE_FLYING_START )
         case mcState_FlyingStart:
         {
            tStd_ReturnType_e completionStatus;
@@ -304,59 +284,21 @@ void mcMocI_M1ControlTasksRun( void  )
         case mcState_Startup:
         {
            if( 1u ==  mcSupI_OpenLoopStartupRun( 0u ) )
-           {              
-               /* Calculate difference between close loop and open loop angle */
-               pState->openToCloseLoopDelAngle = mcMocI_SpaceVectorAngle_gaf32[0u] - mcRpoI_ElectricalRotorPosition_gaf32[0u];
-               if( CONSTANT_Pi <  pState->openToCloseLoopDelAngle )
-               {
-                    pState->openToCloseLoopDelAngle -= CONSTANT_2Pi;
-               }
-               else if( -CONSTANT_Pi >  pState->openToCloseLoopDelAngle )
-               {
-                    pState->openToCloseLoopDelAngle += CONSTANT_2Pi;
-               }
-               else 
-               {
-                   /* Do nothing */
-               }
-                            
-                /* Update current controller states */
-               mcRegI_IdCurrentControlIntegralSet(0u, mcMocI_DQVoltage_gas[0u].direct );
-               mcRegI_IqCurrentControlIntegralSet(0u, mcMocI_DQVoltage_gas[0u].quadrature );
-               
-               /* Update speed controller parameters */
-               mcSpeI_SpeedControlIntegralSet( 0u, mcMocI_FeedbackDQCurrent_gas[0u].quadrature );
-               mcSpeI_ReferenceElectricalSpeed_gaf32[0u] = mcRpoI_ElectricalRotorSpeed_gaf32[0u];
-               
-               /* Change control state */
-               mcMocI_MotorRunningState_gae[0u] = mcState_StartupToFoc;
+           {   
+                /* Update speed controller parameters */
+                mcSpeI_SpeedControlIntegralSet( 0u, mcSpeI_ReferenceIqCurrent_gaf32[0u] );
+                mcSpeI_ReferenceElectricalSpeed_gaf32[0u] = mcRpoI_ElectricalRotorSpeed_gaf32[0u];
+
+                /* Reset the d-axis controller integral */
+                mcRegI_IdCurrentControlIntegralSet(0, 0.0f);
+
+                /* Change control state */
+                mcMocI_MotorRunningState_gae[0u] = mcState_Foc;
            }
    
         }
         break;
-        
-        case mcState_StartupToFoc:
-        {
-            mcMocI_SpaceVectorAngle_gaf32[0u] = mcRpoI_ElectricalRotorPosition_gaf32[0u] + pState->openToCloseLoopDelAngle;
-            mcLib_WrapAngleTo2Pi(&mcMocI_SpaceVectorAngle_gaf32[0u] );
-            
-            if(  pState->openToCloseLoopDelAngle >  CONFIG_TransitionDeltaAngle )
-            {
-                 pState->openToCloseLoopDelAngle -= CONFIG_AngleDecrementRate;
-            }
-            else if(  pState->openToCloseLoopDelAngle < -CONFIG_TransitionDeltaAngle )
-            {
-                 pState->openToCloseLoopDelAngle += CONFIG_AngleDecrementRate;
-            }
-            else 
-            {
-               mcMocI_MotorRunningState_gae[0u] = mcState_Foc;
-            }
-            
-            /* Speed regulation  */
-            mcSpeI_SpeedRegulationRun( 0u );
-        }
-        break;
+ 
         case mcState_Foc:
         {
             /* Switched to closed by slowly decreasing the offset which is present in the estimated angle during open loop */
@@ -365,13 +307,10 @@ void mcMocI_M1ControlTasksRun( void  )
             /* d- axis reference current calculation */
             mcSpeI_ReferenceIdCurrent_gaf32[0u] = 0.0f;
           
-          #ifdef ENABLE_FLUX_WEAKENING
-            mcFlxI_RotorPositionCalculationRun( 0u );
+          #if ( ENABLE == ENABLE_FLUX_WEAKENING )
+            mcFlxI_FluxRegulationRun( 0u );
           #endif
             
-          #if ( POSITION_LOOP == CONTROL_LOOP )
-            mcPosI_PositionRegulationRun( 0u );
-          #endif
             /* Speed regulation  */
             mcSpeI_SpeedRegulationRun( 0u );
         }
@@ -390,15 +329,8 @@ void mcMocI_M1ControlTasksRun( void  )
 
     /* PWM modulation */
     mcPwmI_PulseWidthModulationRun( 0u );
+  }
     
-    /* Read voltage and potentiometer signal ( Group 02 ) */
-    mcHalI_Group02SignalRead( 0u );
-    
-    /* Re-assign and enable hardware trigger for Group 01 signal */
-    mcHalI_Group01SignalHardwareTrigger( 0u );
-      
-    /* Voltage measurement */
-    mcVolI_VoltageCalculationRun( 0u );
 }
 
 /*! \brief Motor M2 control application ISR tasks
@@ -446,19 +378,15 @@ void mcMocI_M1ControlReset( void )
     /* Reset PWM modulator */
     mcPwmI_PulseWidthModulationReset( 0u );
     
-#ifdef ENABLE_FLUX_WEAKENING
-    mcFlxI_RotorPositionCalculationReset( 0u );
+#if ( ENABLE == ENABLE_FLUX_WEAKENING )
+    mcFlxI_FluxRegulationReset( 0u );
 #endif
             
-#ifdef ENABLE_FLYING_START
+#if ( ENABLE == ENABLE_FLYING_START )
      mcFlyI_FlyingStartReset( 0u );
 #endif
     
-#if( POSITION_LOOP == CONTROL_LOOP )
-     /* Reset position  control module */
-     mcPosI_PositionRegulationReset( 0u );
-#endif
-    
+   
     /* Reset pulse width modulation function */
     mcPwmI_PulseWidthModulationReset( 0u );
 }

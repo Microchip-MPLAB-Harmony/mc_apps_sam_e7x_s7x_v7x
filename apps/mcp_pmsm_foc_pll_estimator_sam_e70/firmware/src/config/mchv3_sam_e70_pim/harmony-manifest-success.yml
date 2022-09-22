@@ -4,18 +4,18 @@
 
 
 project: mcp_pmsm_foc_pll_estimator_sam_e70
-creation_date: 2022-09-09T14:16:42.142+05:30[Asia/Calcutta]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
+creation_date: 2022-09-23T10:29:32.396+05:30[Asia/Calcutta]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
 operating_system: Windows 10
-mhc_mode: IDE            # [IDE|Standalone|Headless]
+mhc_mode: Standalone            # [IDE|Standalone|Headless]
 mhc_version: v3.8.4
-mplabx_version: v6.00        # if MPLAB X plugin only
-plugin_version: v3.6.4        # if MPLAB X plugin only
-compiler: XC32 (4.00)
+mplabx_version: NA        # if MPLAB X plugin only
+plugin_version: NA        # if MPLAB X plugin only
+compiler: xc32
 
 modules:
-    - {name: "csp", version: "unknown"}
-    - {name: "dev_packs", version: "v3.13.0"}
-    - {name: "x2c", version: "v1.2.0"}
-    - {name: "motor_control", version: "unknown"}
-    - {name: "bsp", version: "unknown"}
+    - {name: "csp", version: "v3.13.1"}
+    - {name: "dev_packs", version: "v3.13.1"}
+    - {name: "x2c", version: "v1.3.0"}
+    - {name: "motor_control", version: "v3.9.0"}
+    - {name: "bsp", version: "v3.14.0"}
 
