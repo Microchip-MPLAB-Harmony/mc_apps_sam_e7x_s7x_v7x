@@ -73,7 +73,7 @@
 /**
  *  Maximum close loop speed 
  */
-#if(FIELD_WEAKENING == ENABLE)
+#if(ENABLE_FLUX_WEAKENING == ENABLE)
 #define CONFIG_MaximumCloseLoopSpeed     (float)(MAXIMUM_SPEED_IN_RPM) 
 #else
 #define CONFIG_MaximumCloseLoopSpeed     (float)(RATED_SPEED_IN_RPM) 

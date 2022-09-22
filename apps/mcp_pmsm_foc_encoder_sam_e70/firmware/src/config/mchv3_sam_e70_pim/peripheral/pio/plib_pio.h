@@ -75,10 +75,6 @@
 #define VPOT_Get()               ((PIOB_REGS->PIO_PDSR >> 0) & 0x1)
 #define VPOT_PIN                  PIO_PIN_PB0
 
-/*** Macros for IDC pin ***/
-#define IDC_Get()               ((PIOA_REGS->PIO_PDSR >> 20) & 0x1)
-#define IDC_PIN                  PIO_PIN_PA20
-
 /*** Macros for VDC pin ***/
 #define VDC_Get()               ((PIOA_REGS->PIO_PDSR >> 18) & 0x1)
 #define VDC_PIN                  PIO_PIN_PA18
