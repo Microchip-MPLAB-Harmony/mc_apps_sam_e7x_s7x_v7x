@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE11" /><meta name="copyright" content="(C) Copyright 2022" />
+<meta name="DC.rights.owner" content="(C) Copyright 2022" />
+<meta name="DC.type" content="topic" />
+<meta name="DC.title" content="PMSM FOC using Sliding Mode Observer" />
+<meta name="DC.relation" scheme="URI" content="GUID-B5E1FDD3-60B1-4565-B4B3-3A37F87C147F.html" />
+<meta name="DC.format" content="XHTML" />
+<meta name="DC.identifier" content="pmsm-foc-using-sliding-mode-observer" />
+<link rel="stylesheet" type="text/css" href="stylesheets/atmel.css" />
+<title>PMSM FOC using Sliding Mode Observer</title>
+<meta name="Microsoft.Help.Id" content="GUID-A4FA5B29-A18C-4B66-B6FE-172C03A7301B-pmsm-foc-using-sliding-mode-observer" />
+<meta name="Microsoft.Help.TocParent" content="GUID-A4FA5B29-A18C-4B66-B6FE-172C03A7301B" />
+<meta name="Microsoft.Help.TocOrder" content="0" />
+<meta name="Microsoft.Help.Locale" content="en-US" />
+<meta name="Microsoft.Help.TopicLocale" content="en-US" />
+<meta name="Microsoft.Help.DisplayVersion" content="MPLAB® Harmony 3 Motor Control Applications for SAM E7x/V7x/S7x family Please select a publication type A 10/2022" />
+<script language="javascript">
+       
+       if (window.parent.location.protocol != 'file:') {
+				document.addEventListener('click', function(e) {
+				    if (e.target) {
+               if (e.target.nodeName == "A" ) {
+                    if (!e.target.target) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                              
+                      var origUrl = window.parent.location.href.substr(0, window.parent.location.href.indexOf("?"));
+                      if (origUrl.length === 0) {
+                          origUrl = window.parent.location.href;
+                      }
+                      var href= e.target.getAttribute("href");
+                      var parts = href.split("#");
+          
+                      var url = "";
+                      if (parts.length == 2 ) {
+                        if (!parts[0].length) {
+                            url = window.parent.location.search.replace('?','')
+                        } else {
+                            url = parts[0].replace('.html','');
+                        }
+                      } else {
+                        url = parts[0].replace('.html','');
+                      }
+
+                      if (parts.length == 2) {
+                          url += "#" + parts[1];
+                      }
+    
+                      window.parent.location.href = origUrl + "?" + url;
+
+                      return false;
+                    }
+               }
+            }
+				});
+			}
+
+		</script><script language="javascript">
+         
+         function copyContent(content, button) {
+         
+            var textArea = document.createElement("textarea");
+            
+            // Place in the top-left corner of screen regardless of scroll position.
+            textArea.style.position = 'fixed';
+            textArea.style.top = 0;
+            textArea.style.left = 0;
+            
+            // Ensure it has a small width and height. Setting to 1px / 1em
+            // doesn't work as this gives a negative w/h on some browsers.
+            textArea.style.width = '2em';
+            textArea.style.height = '2em';
+            
+            // We don't need padding, reducing the size if it does flash render.
+            textArea.style.padding = 0;
+            
+            // Clean up any borders.
+            textArea.style.border = 'none';
+            textArea.style.outline = 'none';
+            textArea.style.boxShadow = 'none';
+            
+            // Avoid flash of the white box if rendered for any reason.
+            textArea.style.background = 'transparent';
+            
+            textArea.value = content;
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+               var successful = document.execCommand('copy');
+               var msg = successful ? 'successful' : 'unsuccessful';
+               if (!button.classList.contains("copied")){
+                  button.textContent = "Copied";
+                  button.classList.add("copied");
+                  setTimeout(function(){
+                     button.textContent = "Copy";
+                     button.classList.remove("copied");
+                  },1000);
+               }
+            } catch (err) {
+               console.log('Oops, unable to copy');
+            }
+            
+            document.body.removeChild(textArea);
+         }
+         
+         function cpy(id, button) {
+            var element = document.getElementById(id);
+            var content = element.getAttribute("content");
+            
+            copyContent(content, button);
+         }
+         
+         document.addEventListener("DOMContentLoaded", function(event) {
+            document.querySelectorAll(".codeblock").forEach(function(elem) {
+               elem.style.position = "relative";
+               var copy = document.createElement("button");
+               copy.textContent = "Copy";
+               copy.setAttribute("class", "copy-code");
+               
+               var content = elem.textContent;
+               
+               copy.addEventListener("click", function(){
+                  copyContent(content, copy);
+               });
+               
+               elem.addEventListener("mouseenter", function(evt){
+                  elem.prepend(copy);
+               });
+            });
+            
+            document.querySelectorAll(".codeblock").forEach(function(elem) {
+               elem.addEventListener("mouseleave", function(evt){
+                  document.querySelector(".copy-code").remove();
+               });
+            });
+         });
+         
+      </script><script language="javascript">
+          
+          // Add the MathML namespace to html
+          var html = document.getElementsByTagName("html")[0],
+          head = document.getElementsByTagName("head")[0];
+          
+          var mathJax = document.createElement("script");
+          mathJax.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML";
+          head.appendChild(mathJax);
+          
+          html.setAttribute("xmlns:m","http://www.w3.org/1998/Math/MathML");
+          
+          function inIframe() { try { return window.self !== window.top; } catch (e) { return true; } }
+          
+          if (!inIframe()) { 
+          
+          var Default = "index.html?GUID-8A33EBCA-4DAF-4A2C-8002-22E22377F72A"; 
+          
+          var displaylocation = "value" + window.location.href;
+          
+          var GUIDS = displaylocation.split('GUID');          
+          
+          if (displaylocation.indexOf('#GUID') != -1) {            
+          var First = GUIDS[1].split('.html');  
+          if (GUIDS[3]){First = GUIDS[2].split('.html');}
+          if (GUIDS[4]){First = GUIDS[3].split('.html');}
+          if (GUIDS[5]){First = GUIDS[4].split('.html');}
+          
+          var Second = GUIDS[2].split('#');   
+          if (GUIDS[3]){Second = GUIDS[3].split('#');}
+          if (GUIDS[4]){Second = GUIDS[4].split('#');}
+          if (GUIDS[5]){Second = GUIDS[5].split('#');}
+          
+          Default = "index.html?" + "GUID" + First[0] + "GUID" + Second[0];     
+          }                    
+          window.top.location = Default;
+          }       
+          
+        </script><link rel="stylesheet" type="text/css" href="syntax-highlight.css" /><style xml:space="">
+        
+          button.copy-code{
+            display:none;
+            padding:0.7em 1.4em;
+            margin:0 0.3em 0.3em 0;
+            border-radius:0.15em;
+            box-sizing: border-box;
+            text-decoration:none;
+            font-family:'Roboto',sans-serif;
+            text-transform:uppercase;
+            font-weight:400;
+            color:#FFFFFF;
+            background-color:#9c9c9c;
+            box-shadow:inset 0 -0.6em 0 -0.35em rgba(0,0,0,0.17);
+            text-align:center;
+            position:relative;
+            border: 0;
+            float: right;
+            border-radius: .5em;
+            cursor: pointer;
+          }
+          button.copy-code:active{
+            top:0.1em;
+          }
+          
+          pre:hover button.copy-code{
+            display: inline-block !important;
+          }
+          button.copy-code.copied {
+            cursor: default !important;
+          }
+          
+          
+          @media all and (max-width:30em){
+            button.copy-code{
+              display:block;
+              margin:0.4em auto;
+            }
+          }
+        
+        
+      </style><link rel="stylesheet" type="text/css" href="syntax-highlight.css" /></head>
+<body id="pmsm-foc-using-sliding-mode-observer">
+<h1 class="title topictitle1" id="ariaid-title1">PMSM FOC using Sliding Mode Observer</h1><div class="body"><p class="p">This example application shows how to control the Permanent Magnet Synchronous Motor (PMSM) with Sliding Mode Observer based Field Oriented Control (FOC) on a SAME70 Micro-controller.</p>
+<p class="p"><strong class="ph b">Description</strong></p>
+<p class="p">Permanent Magnet Synchronous Motor (PMSM) is controlled using Field Oriented Control (FOC). Rotor position and speed is determined using Sliding Mode Observer (SMO) technique. Motor start/stop operation is controlled by the switch and motor speed can be changed by the on-board potentiometer. Waveforms and variables can be monitored runtime using X2CScope.</p>
+<p class="p">Key features enabled in this project are:</p>
+<ul class="ul"><li class="li"><p class="p">Dual shunt current measurement</p>
+</li>
+<li class="li"><p class="p">Speed control loop</p>
+</li>
+</ul>
+<p class="p"><strong class="ph b">MHC Project Configurations</strong></p>
+<br /><img class="image" src="GUID-D9FAE1CF-147F-4630-A883-B0240F84444C-low.jpg" alt="MHC Project Graph" /><br /><ul class="ul"><li class="li"><p class="p"><strong class="ph b">AFEC Peripheral</strong>:</p>
+</li>
+</ul>
+<p class="p">The AFEC (ADC) is used to measure analog quantities. Four channels are used to measure the Phase Current A, the Phase Current B, the DC Bus Voltage and the Potentiometer. Conversion is triggered at the PWM (zero match + offset of the switch delay)</p>
+<ul class="ul"><li class="li"><p class="p"><strong class="ph b">PWM Peripheral</strong>:</p>
+</li>
+</ul>
+<p class="p">This peripheral is used to generated three phase synchronous PWM waveforms. Fault functionality is also enabled to switch off the output waveforms asynchronously</p>
+<ul class="ul"><li class="li"><p class="p"><strong class="ph b">UART Peripheral</strong>:</p>
+</li>
+</ul>
+<p class="p">The UART is used for X2CScope communication to observe graphs and variable values in run time</p>
+<p class="p"><strong class="ph b">Control Algorithm</strong></p>
+<p class="p">This section briefly explains the FOC control algorithm, software design and implementation.</p>
+<p class="p">Field Oriented Control is the technique used to achieve the decoupled control of torque and flux. This is done by transforming the stator current quantities (phase currents) from stationary reference frame to torque and flux producing currents components in rotating reference frame using mathematical transformations. The Field Oriented Control is done as follows:</p>
+<ol class="ol"><li class="li"><span class="indent-level-default">1.</span><p class="p">Measure the motor phase currents.</p>
+</li>
+<li class="li"><span class="indent-level-default">2.</span><p class="p">Transform them into the two phase system (a, b) using the Clarke transformation.</p>
+</li>
+<li class="li"><span class="indent-level-default">3.</span><p class="p">Calculate the rotor position angle.</p>
+</li>
+<li class="li"><span class="indent-level-default">4.</span><p class="p">Transform stator currents into the d,q-coordinate system using the Park transformation.</p>
+</li>
+<li class="li"><span class="indent-level-default">5.</span><p class="p">The stator current torque (iq) and flux (id) producing components are controlled separately by the controllers.</p>
+</li>
+<li class="li"><span class="indent-level-default">6.</span><p class="p">The output stator voltage space vector is transformed back from the d,q-coordinate system into the two phase system fixed with the stator by the Inverse Park transformation.</p>
+</li>
+<li class="li"><span class="indent-level-default">7.</span><p class="p">Using the space vector modulation, the three-phase output voltage is generated.</p>
+</li>
+</ol>
+<p class="p"><strong class="ph b">Sliding Mode Observer (SMO)</strong> :</p>
+<p class="p">Sliding Mode Observer is used to estimate the rotor position and thus speed. The electrical rotor position and speed is calculated using the Sliding Mode Observer. The main disadvantage of SMO Observer is its inability to estimate the rotor angle at lower rotor speeds because of very low value of back EMF. Therefore, the FOC algorithm also integrates the ramp-up profile for motor start. The reference speed is incremented linearly using a open loop phase voltage control until the required minimum reference speed for the SMO observer is reached.</p>
+<p class="p">The Sliding Mode Observer ( SMO ) is based on the principle of sliding mode control. It generates a sliding motion on the error between the plant output and the output of the observer such it produces a set of states that are precisely drives the estimated output to the actual output of the plant.</p>
+<p class="p">The sliding mode observer consists of a model based current observer followed by a back EMF Observer. The observed back EMF is filtered and then used to extract the position information from it. The following figure shows a typical Sliding Mode Observer:</p>
+<br /><img class="image" src="GUID-5085A6BF-232A-48BE-8CA1-B9217A933619-low.jpg" alt="smo_block_diagram" /><br /><p class="p">The current and back EMF observer is modeled in discrete time by following equations:</p>
+<p class="p">Current Observer:</p>
+<br /><img class="image" src="GUID-B6206A9D-51B6-467E-8895-2E96567BB4C1-low.jpg" alt="current_observer" /><br /><p class="p">Back EMF Observer:</p>
+<br /><img class="image" src="GUID-7C49B935-1C9F-4826-91BF-470C6DB30D5C-low.jpg" alt="back_emf_observer" /><br /><br /><img class="image" src="GUID-427DF3D5-31D6-4864-87FB-B4CD91FF66EC-low.jpg" alt="smo_parameters" /><br /><p class="p">The following block diagram shows the software realization of the FOC algorithm.</p>
+<br /><img class="image" src="GUID-BB0D9CBE-6145-4DD6-A3F0-DA5803E6B483-low.jpg" alt="block_diagram" /><br /><p class="p"><strong class="ph b">Software Design</strong></p>
+<p class="p">The following figure shows the various state machines of the the motor control software.</p>
+<br /><img class="image" src="GUID-FC2EBA15-4A2E-40F3-91E8-F2DE42C49947-low.jpg" alt="state_diagram" /><br /><p class="p">In the software, the PMSM speed control task is realized by a state machine as shown in the previous figure. The following sections briefly describes the various states in the PMSM speed control task:</p>
+<ol class="ol"><li class="li"><span class="indent-level-default">1.</span><p class="p"><strong class="ph b">Initialize</strong>:</p>
+</li>
+</ol>
+<p class="p">In this state, following tasks are performed:
+Initialization and configuration of NVIC, AFEC, PWM motor control peripherals for generation of periodic ADC triggers and ADC conversion interrupt
+Current Offset measurement and calibration
+Initialize PI controller parameters for speed and current control loops</p>
+<ol class="ol"><li class="li"><span class="indent-level-default">1.</span><p class="p"><strong class="ph b">Start</strong>:</p>
+</li>
+</ol>
+<p class="p">In this state, the motor control state variables are reset and periodic ADC conversion interrupt is enabled. Control waits for the switch press.</p>
+<ol class="ol"><li class="li"><span class="indent-level-default">1.</span><p class="p"><strong class="ph b">Run</strong>:</p>
+</li>
+</ol>
+<p class="p">In this state, the motor starts spinning. The following flow chart and the timing diagram shows the tasks performed in run state:</p>
+<br /><img class="image" src="GUID-3996FF82-ABD7-43CC-BB93-3A77C1D7228E-low.jpg" alt="flow chart" /><br /><br /><img class="image" src="GUID-BD3E8E07-1C6C-43FE-9ADC-6A7DC5668D5F-low.jpg" alt="timing diagram" /><br /><p class="p">In run state, two threads are executed- Main task thread and ADC Interrupt task thread. The current control and speed control is carried out in the ADC interrupt task thread. The main task thread monitors the external switches and maintains the state machine. Therefore, the ADC interrupt cycle indicates the current and speed control frequency.</p>
+<p class="p">As pointed out earlier, the SMO is unable to estimate the rotor position information at the start-up phase when the speed is very low. This necessitates the motor control algorithm to integrate an open-loop control mechanism to linearly ramp the motor speed to the required minimum speed before switching over to closed loop control. Therefore, the motor control state can further be classified into three sub-states - Field Alignment, Open-loop Control and Close-loop Control.</p>
+<p class="p"><strong class="ph b">Field Alignment</strong>:
+In this mode, a limited value of DC current is applied to the U phase of PMSM motor in order to align the rotor magnetic field with the U-phase of the motor. The time for which DC current has to be applied to achieve the field alignment depends on the time constant of the PMSM motor drive.</p>
+<p class="p"><strong class="ph b">Open Loop Control</strong>:
+In this mode, the speed of the PMSM motor is gradually ramped up using an open loop control. The speed is ramped up linearly to a minimum value required for the sensor-less SMO observer to estimate the speed of the PMSM motor with required accuracy.</p>
+<p class="p"><strong class="ph b">Close Loop Control</strong>:
+In this mode, the speed can be regulated using closed loop SMO based sensor-less FOC algorithm.</p>
+<ol class="ol"><li class="li"><span class="indent-level-default">1.</span><p class="p"><strong class="ph b">Stop</strong>:
+In this state, the PWM channels are disabled thereby stopping the motor. The periodic ADC trigger and conversion interrupt is disabled.</p>
+</li>
+</ol>
+<p class="p"><strong class="ph b">Software Configurations</strong></p>
+<ol class="ol"><li class="li"><span class="indent-level-default">1.</span><p class="p">The PWM controller frequency ( in Hz ) can be configured by setting the following macro in userparams.h file.
+<strong class="ph b">This frequency should be same as the frequency configured in the PWM peripheral in the MHC.</strong></p>
+</li>
+</ol>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><col style="width:" /><col style="width:" /><thead class="thead" style="text-align:left;"><tr class="row"><th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e199"><span>Macro</span></th>
+<th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e201"><span>Description</span></th>
+</tr>
+</thead>
+<tbody class="tbody"><tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e199 "><span>PWM_FREQUENCY</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e201 "><span>Current controller and PWM frequency in Hz</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" colspan="2" style="vertical-align:middle;" headers="d4231e199 d4231e201 "><span> </span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol class="ol"><li class="li"><span class="indent-level-default">1.</span><p class="p">Setting motor specific -parameter:
+Set the motor following motor parameters in userparams.h file.</p>
+</li>
+</ol>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><col style="width:" /><col style="width:" /><col style="width:" /><thead class="thead" style="text-align:left;"><tr class="row"><th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e222"><span>Macro</span></th>
+<th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e224"><span>Description</span></th>
+<th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e226"><span>Unit</span></th>
+</tr>
+</thead>
+<tbody class="tbody"><tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e222 "><span>MOTOR_PER_PHASE_RESISTANCE</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e224 "><span>Motor per phase resistance</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e226 "><span>ohm</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e222 "><span>MOTOR_PER_PHASE_INDUCTANCE</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e224 "><span>Motor per phase inductance</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e226 "><span>H</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e222 "><span>MOTOR_BACK_EMF_CONSTANT_Vpeak_Line_Line_KRPM_MECH</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e224 "><span>Back EMF constant</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e226 "><span>Vpk(L-L)/KRPM</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e222 "><span>NOPOLESPAIRS</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e224 "><span>Number of pole pairs</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e226 "><span> </span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e222 "><span>NOMINAL_SPEED_RPM</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e224 "><span>Rated mechanical speed of the motor</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e226 "><span>RPM</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" colspan="3" style="vertical-align:middle;" headers="d4231e222 d4231e224 d4231e226 "><span> </span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol class="ol"><li class="li"><span class="indent-level-default">1.</span><p class="p">Setting PI Controller parameters:
+Depending on the type of motor used, and the corresponding application PI controller parameters should to be updated in userparams.h file.</p>
+</li>
+</ol>
+<p class="p">Parameters for speed Control loop:</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><col style="width:" /><col style="width:" /><thead class="thead" style="text-align:left;"><tr class="row"><th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e279"><span>Macro</span></th>
+<th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e281"><span>Description</span></th>
+</tr>
+</thead>
+<tbody class="tbody"><tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e279 "><span>SPEEDCNTR_PTERM</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e281 "><span>Proportional gain of speed control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e279 "><span>SPEEDCNTR_ITERM</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e281 "><span>Integral gain of speed control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e279 "><span>SPEEDCNTR_CTERM</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e281 "><span>Anti-windup term of speed control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e279 "><span>SPEEDCNTR_OUTMAX</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e281 "><span>Maximum controller output of speed control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" colspan="2" style="vertical-align:middle;" headers="d4231e279 d4231e281 "><span> </span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="p">Parameters for Id current loop:</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><col style="width:" /><col style="width:" /><thead class="thead" style="text-align:left;"><tr class="row"><th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e314"><span>Macro</span></th>
+<th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e316"><span>Description</span></th>
+</tr>
+</thead>
+<tbody class="tbody"><tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e314 "><span>D_CURRCNTR_PTERM</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e316 "><span>Proportional gain of Id current control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e314 "><span>D_CURRCNTR_ITERM</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e316 "><span>Integral gain of Id current control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e314 "><span>D_CURRCNTR_CTERM</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e316 "><span>Anti-windup term of Id current control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e314 "><span>D_CURRCNTR_OUTMAX</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e316 "><span>Maximum controller output of Id current control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" colspan="2" style="vertical-align:middle;" headers="d4231e314 d4231e316 "><span> </span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="p">Parameters for Iq current loop:</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><col style="width:" /><col style="width:" /><thead class="thead" style="text-align:left;"><tr class="row"><th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e349"><span>Macro</span></th>
+<th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e351"><span>Description</span></th>
+</tr>
+</thead>
+<tbody class="tbody"><tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e349 "><span>Q_CURRCNTR_PTERM</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e351 "><span>Proportional gain of Iq current control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e349 "><span>Q_CURRCNTR_ITERM</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e351 "><span>Integral gain of Iq current control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e349 "><span>Q_CURRCNTR_CTERM</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e351 "><span>Anti-windup term of Iq current control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e349 "><span>Q_CURRCNTR_OUTMAX</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e351 "><span>Maximum controller output of Iq current control loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" colspan="2" style="vertical-align:middle;" headers="d4231e349 d4231e351 "><span> </span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol class="ol"><li class="li"><span class="indent-level-default">1.</span><p class="p">Debugging Features:
+Open loop functioning is useful for debugging when using new motor. This feature can be enabled by setting the following  macros in userparams.h file.</p>
+</li>
+</ol>
+<p class="p">Parameters for Iq current loop:</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><col style="width:" /><col style="width:" /><thead class="thead" style="text-align:left;"><tr class="row"><th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e388"><span>Macro</span></th>
+<th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e390"><span>Description</span></th>
+</tr>
+</thead>
+<tbody class="tbody"><tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e388 "><span>OPEN_LOOP_FUNCTIONING</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e390 "><span>Open loop enable switch (0 - Disable, 1 - Enable )</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e388 "><span>Q_CURRENT_REF_OPENLOOP</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e390 "><span>Startup current in open loop</span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" colspan="2" style="vertical-align:middle;" headers="d4231e388 d4231e390 "><span> </span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="p"><strong class="ph b">Development Kits</strong></p>
+<p class="p"><strong class="ph b">MCLV2 with ATSAME70 PIM</strong>
+Downloading and building the application</p>
+<p class="p">To clone or download this application from Github, go to the <a class="xref" href="https://github.com/Microchip-MPLAB-Harmony/mc_apps_sam_e7x_s7x_v7x" target="_blank">main page of this repository</a> and then click <strong class="ph b">Clone</strong> button to clone this repository or download as zip file.
+This content can also be downloaded using content manager by following these <a class="xref" href="https://microchip-mplab-harmony.github.io/contentmanager/" target="_blank">instructions</a>.</p>
+<p class="p">Path of the application within the repository is <strong class="ph b">apps/pmsm_foc_smo_sam_e70</strong> .</p>
+<p class="p">To build the application, refer to the following table and open the project using its IDE.</p>
+
+<div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" class="table" frame="border" border="1" rules="all"><col style="width:" /><col style="width:" /><col style="width:" /><thead class="thead" style="text-align:left;"><tr class="row"><th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e440"><span>Project Name</span></th>
+<th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e442"><span>Description</span></th>
+<th class="entry cellrowborder" style="vertical-align:middle;" id="d4231e444"><span>Hardware Setup Guide</span></th>
+</tr>
+</thead>
+<tbody class="tbody"><tr class="row"><td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e440 "><span>mclv2_sam_e70_pim.X</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e442 "><span>MPLABX project for MCLV2 board with ATSAME70 PIM</span></td>
+<td class="entry cellrowborder" style="vertical-align:middle;" headers="d4231e444 "><span><a class="xref" href="GUID-08B08E4E-BC65-4CAF-9730-FB068BEDE8B8.html">Hardware Setup and Running The Application on MCLV2 with ATSAME70 PIM</a></span></td>
+</tr>
+<tr class="row"><td class="entry cellrowborder" colspan="2" style="vertical-align:middle;" headers="d4231e440 d4231e442 "><span> </span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="related-links">
+<div class="familylinks">
+<div class="parentlink"><strong>Parent topic:</strong> <a class="link" href="GUID-B5E1FDD3-60B1-4565-B4B3-3A37F87C147F.html">Motor Control Applications</a></div>
+</div>
+</div></body>
+</html>
