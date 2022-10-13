@@ -8,6 +8,40 @@ nav_order: 99
 
 # Microchip MPLAB® Harmony 3 Release Notes
 
+## Microchip MPLAB® Harmony 3 Motor Control Application Examples for SAM E7x/S7x/V7x family v3.3.0
+
+
+### Applications
+
+| Development Board | Number of Applications | 
+| --- | --- | 
+|[dsPICDEM™ MCLV-2 Low Voltage Development Board](https://www.microchip.com/DevelopmentTools/ProductDetails/DM330021-2) | 5 |
+| [dsPICDEM™ MCHV-3 High Voltage Development Board](https://www.microchip.com/developmenttools/ProductDetails/dm330023-3) | 5 |
+
+### New Features
+* Added PLL based sensorless FOC for MCHV3 in Harmony QSpin
+* Added Encoder based sensored FOC for MCHV3 in Harmony QSpin
+
+### Known Issues
+
+* same as v3.1.0
+
+### Required MPLAB Harmony v3 Modules
+* bsp v3.14.0
+* motor_control v3.9.0
+* x2c v1.3.0
+* mcc H3 Library v1.1.5
+
+### Development Tools
+
+* [MPLAB X IDE v6.00](https://www.microchip.com/mplab/mplab-x-ide)
+* [MPLAB XC32 C/C++ Compiler v4.10](https://www.microchip.com/mplab/compilers)
+* MPLAB X IDE plug-ins:
+  * MPLAB Code Configurator (MCC) v5.1.17
+  * X2CScope v1.3.3.
+
+  ## Hardware
+* For MCHV3 board programming and debugging, use [Isolated PKOB4 Debugger Card](https://www.microchip.com/en-us/development-tool/dv43t08a)
 
 ## Microchip MPLAB® Harmony 3 Motor Control Application Examples for SAM E7x/S7x/V7x family v3.2.0
 
