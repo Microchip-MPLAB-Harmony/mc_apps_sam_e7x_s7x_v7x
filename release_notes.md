@@ -41,7 +41,7 @@ nav_order: 99
   * X2CScope v1.3.3.
 
   ## Hardware
-* For MCHV3 board programming and debugging, use [Isolated PKOB4 Debugger Card](https://www.microchip.com/en-us/development-tool/dv43t08a)
+* For MCHV3 board programming and debugging, use [High Voltage Motor Control Isolated Debugger Card](https://www.microchip.com/en-us/development-tool/dv43t08a)
 
 ## Microchip MPLAB® Harmony 3 Motor Control Application Examples for SAM E7x/S7x/V7x family v3.2.0
 

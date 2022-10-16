@@ -33,9 +33,9 @@ notes and licensing information.
 |||
 
 
-## Configurable Motor Control Examples (MCC with Motor Control Plant)
+## Configurable Motor Control Examples (MCC with Harmony QSpin Motor Control)
 
-The following applications are provided to demonstrate the Motor Control Plant to generate the motor control firmware.
+The following applications are provided to demonstrate the Harmony QSpin to generate the motor control firmware.
 
 | Name | Description|Control Board|Inverter Board|
 |:-----|:-----------|:------------|:-------------|

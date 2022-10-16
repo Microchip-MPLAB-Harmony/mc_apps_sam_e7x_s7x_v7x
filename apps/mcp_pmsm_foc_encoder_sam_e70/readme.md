@@ -47,7 +47,7 @@ Key features enabled in this project are:
     The UART is used for X2CScope communication to observe graphs and variable values in run time 
 
 ## Project Details
-For details refer [Motor Control Plant](https://microchip-mplab-harmony.github.io/motor_control/algorithms/pmsm_foc/mc_plant_docs/introduction.md)
+For details refer [Harmony QSpin](https://microchip-mplab-harmony.github.io/motor_control/index.html)
 
 ## Development Kits
 
@@ -64,4 +64,19 @@ To build the application, refer to the following table and open the project usin
 | Project Name      | Description                                    | Hardware Setup Guide |
 | ----------------- | ---------------------------------------------- | --------------------- |
 | mclv2_sam_e70_pim.X | MPLABX project for MCLV2 board with ATSAME70 PIM | [Hardware Setup and Running The Application on MCLV2 with ATSAME70 PIM](../docs/mclv2_atsame70_pim_encoder.md)|
+|||
+
+### MCHV3 with ATSAME70 PIM
+#### Downloading and building the application
+
+To clone or download this application from Github, go to the [main page of this repository](https://github.com/Microchip-MPLAB-Harmony/mc_apps_sam_e7x_s7x_v7x) and then click **Clone** button to clone this repository or download as zip file.
+This content can also be downloaded using content manager by following these [instructions](https://microchip-mplab-harmony.github.io/contentmanager/).
+
+Path of the application within the repository is **apps/mcp_pmsm_foc_encoder_sam_e70** .
+
+To build the application, refer to the following table and open the project using its IDE.
+
+| Project Name      | Description                                    | Hardware Setup Guide |
+| ----------------- | ---------------------------------------------- | --------------------- |
+| mchv3_sam_e70_pim.X | MPLABX project for MCHV3 board with ATSAME70 PIM | [Hardware Setup and Running The Application on MCHV3 with ATSAME70 PIM](../docs/mchv3_atsame70_pim_encoder.md)|
 |||
