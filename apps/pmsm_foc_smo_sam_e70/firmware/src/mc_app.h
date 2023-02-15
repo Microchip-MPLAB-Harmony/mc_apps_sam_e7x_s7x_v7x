@@ -43,8 +43,8 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
  *******************************************************************************/
 //DOM-IGNORE-END
 
-#ifndef _MC_APP_H
-#define _MC_APP_H
+#ifndef MC_APP_H
+#define MC_APP_H
 
 // *****************************************************************************
 // *****************************************************************************
@@ -135,7 +135,7 @@ typedef struct
     float   Cos;
 } tSincosParm;
 
-union  SYSTEM_STATUS_UNION 
+typedef struct
 {
     struct
     {
@@ -150,8 +150,8 @@ union  SYSTEM_STATUS_UNION
         unsigned    :8;
     }bit;
     
-	unsigned short Word;
-}MC_APP_MC_CONTROL ;        						// general flags
+//	unsigned short Word;
+}tMC_APP_MC_CONTROL;        						// general flags
 
 typedef struct 
 {
@@ -174,8 +174,7 @@ typedef struct
    	float	qInvKFi;	    					// InvKfi constant value ( InvKfi = Omega/BEMF )
 } tMotorEstimParm;
 
-//extern  	tPIParm     										PIParmQ;        /* parms for PI controlers */
-//extern  	tPIParm     										PIParmD;        /* parms for PI controlers */
+
 //extern 		tParkParm											ParkParm;
 //extern 		tSincosParm											SincosParm;
 //extern 		tSVGenParm 											SVGenParm;    
@@ -183,7 +182,7 @@ typedef struct
 //extern 		tCtrlParm 											CtrlParm;
 
 //typedef 	signed int 											int32_t;
-#define 	TOTAL_SINE_TABLE_ANGLE      						(2*M_PI)
+#define 	TOTAL_SINE_TABLE_ANGLE      						(2.0f*(float)M_PI)
 #define 	TABLE_SIZE      									256
 #define 	ANGLE_STEP      									(float)((float)TOTAL_SINE_TABLE_ANGLE/(float)TABLE_SIZE)
 #define     ONE_OVER_ANGLE_STEP                                 (float)((float)TABLE_SIZE / TOTAL_SINE_TABLE_ANGLE)
@@ -275,6 +274,7 @@ typedef struct
 } MC_APP_DATA;
 
 
+extern tMC_APP_MC_CONTROL MC_APP_MC_CONTROL;
 // *****************************************************************************
 // *****************************************************************************
 // Section: Application Callback Routines
@@ -320,7 +320,7 @@ typedef struct
     This routine must be called from the SYS_Initialize function.
 */
 
-void MC_APP_Initialize ( void );
+//void MC_APP_Initialize ( void );
 
 
 /*******************************************************************************
@@ -356,19 +356,15 @@ void MC_APP_Initialize ( void );
 void MC_APP_MC_Tasks( void );
 
 /* MC Core Routines */
-void MC_APP_MC_InvPark(void);
-void MC_APP_MC_CalcRefVec(void);
-void MC_APP_MC_Clarke(void);
-void MC_APP_MC_Park(void);
-void MC_APP_MC_CalcSVGen( void );
-void MC_APP_MC_CalcTimes( void );
+void MC_APP_MC_InitMotorParameters(void);
+void MC_APP_MC_CalcTimes(void);
 void MC_APP_MC_InitControlParameters(void);
 void MC_APP_MC_InitPI( tPIParm *pParm);
 void MC_APP_MC_CalcPI( tPIParm *pParm);
 void MC_APP_MC_SinCos(void);
 void MC_APP_MC_CalculateParkAngle(void);
 void MC_APP_MC_DoControl( void );
-
+void MC_APP_MC_ControlLoopISR(uint32_t status, uintptr_t context);
 
 
 

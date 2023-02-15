@@ -103,7 +103,7 @@ inline static float floatAbs(float x)
 /* Chebyshev approximation of sin(x), x is in [-pi/2, pi/2]:
  * 0.999978675*x - 0.1664971*x^3 + 0.00799224*x^5
 */
-inline float sinChebyshevF(float x)
+static inline float sinChebyshevF(float x)
 {
     float y;
     float tmp1;
@@ -131,7 +131,7 @@ inline float sinChebyshevF(float x)
 }
 
 
-inline float cosChebyshevF(float x)
+static inline float cosChebyshevF(float x)
 {
     float y;
     float tmp1;
@@ -155,10 +155,10 @@ inline float cosChebyshevF(float x)
 
 inline static void resetSMO(tagSMO *SMOdataP)
 {
-    SMOdataP->IalphaHat = 0.0;
-    SMOdataP->IbetaHat = 0.0;
-    SMOdataP->EalphaHat = 0.0;
-    SMOdataP->EbetaHat = 0.0;
+    SMOdataP->IalphaHat = 0.0f;
+    SMOdataP->IbetaHat = 0.0f;
+    SMOdataP->EalphaHat = 0.0f;
+    SMOdataP->EbetaHat = 0.0f;
 }
 
 
@@ -212,11 +212,11 @@ inline static void currentObserver(float I, float U, float Ehat, float * Ihat, f
     *Ihat = *Ihat + tmp2 + Bintegral;
 }
 #else  /* ZOH discretization */
-inline static void currentObserver(float I, float U, float Ehat, float * Ihat, float * B)
+inline static void currentObserver(float Current, float U, float Ehat, float * Ihat, float * B)
 {
     float tmp1;
     
-    tmp1 = I - *Ihat;
+    tmp1 = Current - *Ihat;
     
     if(estimatorPara.boundaryI < tmp1)
     {  /* Itilde is above boundary layer. */
@@ -260,7 +260,7 @@ inline static void BEMFobsCoeffCal(float We)
     tmp1 = We * estimatorPara.ts;   
     a1BEMFobs = cosChebyshevF(tmp1);
     a2BEMFobs = sinChebyshevF(tmp1);
-    tmp1 = 1.0 - a1BEMFobs;
+    tmp1 = 1.0f - a1BEMFobs;
     tmp2 = estimatorPara.lambda / We;
     b1BEMFobs = ((tmp2 * a2BEMFobs) + tmp1) * estimatorPara.ls;
     b2BEMFobs = (a2BEMFobs - (tmp2 * tmp1)) * estimatorPara.ls;    
@@ -326,8 +326,8 @@ inline static void WcCal(float Wc)
 {
     float tmp1;
     tmp1 = Wc * estimatorPara.ts;
-    coefX = tmp1 / (2+tmp1);
-    coefY = (2-tmp1) / (2+tmp1);
+    coefX = tmp1 / (2.0f+tmp1);
+    coefY = (2.0f-tmp1) / (2.0f+tmp1);
 }
 
 inline static void loadFilter1(void)
@@ -374,14 +374,14 @@ inline static void BemfFilter(void)
 
 inline static void resetBemfFil(void)
 {
-    dynFilterAlpha1.xLatch = 0.0;
-    dynFilterAlpha1.y = 0.0;
-    dynFilterAlpha2.xLatch = 0.0;
-    dynFilterAlpha2.y = 0.0;
-    dynFilterBeta1.xLatch = 0.0;
-    dynFilterBeta1.y = 0.0;
-    dynFilterBeta2.xLatch = 0.0;
-    dynFilterBeta2.y = 0.0;
+    dynFilterAlpha1.xLatch = 0.0f;
+    dynFilterAlpha1.y = 0.0f;
+    dynFilterAlpha2.xLatch = 0.0f;
+    dynFilterAlpha2.y = 0.0f;
+    dynFilterBeta1.xLatch = 0.0f;
+    dynFilterBeta1.y = 0.0f;
+    dynFilterBeta2.xLatch = 0.0f;
+    dynFilterBeta2.y = 0.0f;
 }
 
 
@@ -472,7 +472,7 @@ inline static void positionCal(tagPosition * positionDataP, float alpha, float b
     
     /* Return value of atan2f locates in [-pi, pi]. */
 #if BEMF_FIL_ENABLE
-    if(0.0 > tmp1)
+    if(0.0f > tmp1)
     {
         positionDataP->TH = tmp1 + RL_2PI;
     } 
@@ -523,7 +523,7 @@ inline static void positionCal(tagPosition * positionDataP, float alpha, float b
     
     /* THO cal. */
     tmp1 = positionDataP->THI + positionDataP->dTH;
-    if(0.0 > tmp1)
+    if(0.0f > tmp1)
     {
         positionDataP->THO = tmp1 + RL_2PI;
     }
@@ -551,7 +551,7 @@ inline static void speedCal(tagPosition * positionDataP, tagSpeed * speedDataP)
     tmp2 = speedDataP->cntFIFO;
     speedDataP->FIFOdTH[tmp2] = tmp1;
     
-    if(estimatorPara.cnt1ms > tmp2)
+    if(estimatorPara.cnt1ms > (float)tmp2)
     {
         (speedDataP->cntFIFO)++;
     } 
@@ -580,9 +580,9 @@ static void resetSpeedCal(tagSpeed * speedDataP)
     
     speedDataP->cntFIFO = 0u;
     
-    for(tmp=0u; estimatorPara.cnt1ms >= tmp; tmp++)
+    for(tmp=0u; estimatorPara.cnt1ms >= (float)tmp; tmp++)
     {
-        speedDataP->FIFOdTH[tmp] = 0.0;
+        speedDataP->FIFOdTH[tmp] = 0.0f;
     }
 }
 
@@ -606,17 +606,17 @@ inline static void paraCal(tagInputPara * inputParaP, tagEstimatorPara * estPara
     estParaP->m = inputParaP->m;
     estParaP->lambda = inputParaP->lambda;
     estParaP->ls = inputParaP->ls;
-    estParaP->speedRefCnt = (uint16_t)(inputParaP->pwmFreq * inputParaP->speedRefTime);
-    estParaP->cnt1ms = (uint16_t)(inputParaP->pwmFreq * 0.001);
+    estParaP->speedRefCnt = (inputParaP->pwmFreq * inputParaP->speedRefTime);
+    estParaP->cnt1ms = (inputParaP->pwmFreq * 0.001f);
     estParaP->mdbi = (float)(inputParaP->m / inputParaP->boundaryI);
-    estParaP->ts = (float)(1.0 / inputParaP->pwmFreq);
+    estParaP->ts = (float)(1.0f / inputParaP->pwmFreq);
     estParaP->wcTs = (float)(inputParaP->wcSpeedFil * estParaP->ts);
-    estParaP->oneMinusWcTs = (float)(1.0 - estParaP->wcTs);
-    tmp1 = (float)(1.0 / inputParaP->P);  /* 1 / #_of_pole_pairs */
-    estParaP->eleRadPsToMecRPM = (float)(tmp1 * 60.0 / RL_2PI);
+    estParaP->oneMinusWcTs = (float)(1.0f - estParaP->wcTs);
+    tmp1 = (float)(1.0f / inputParaP->P);  /* 1 / #_of_pole_pairs */
+    estParaP->eleRadPsToMecRPM = (float)(tmp1 * 60.0f / RL_2PI);
     tmp1 = inputParaP->expRsLsTs;
     estParaP->aIObs = tmp1;
-    estParaP->b1IObs = (tmp1 - 1.0) / inputParaP->rs;
+    estParaP->b1IObs = (tmp1 - 1.0f) / inputParaP->rs;
     estParaP->b2IObs = -estParaP->b1IObs;
     estParaP->b3IObs = inputParaP->ls * estParaP->b2IObs;   
 }
@@ -632,7 +632,7 @@ void resetEstimator(tagObserverInput * observerInputP)
     estimatorState.cnt1 = 0u;    
 }
 
-inline void motionEstimator(tagObserverInput * observerInputP)
+void motionEstimator(tagObserverInput * observerInputP)
 {
     float tmp;
     
@@ -678,7 +678,7 @@ inline void motionEstimator(tagObserverInput * observerInputP)
             motionCal(observerInputP);
             /**/
             estimatorState.cnt1++;
-            if(estimatorPara.speedRefCnt <= estimatorState.cnt1)
+            if(estimatorPara.speedRefCnt <= (float)estimatorState.cnt1)
             {
                 estimatorState.cnt1 = 0u;
                 estimatorState.state = 3u;
@@ -700,6 +700,7 @@ inline void motionEstimator(tagObserverInput * observerInputP)
             motionCal(observerInputP);
             break;
         default:
+            /* Undefined state: Should never come here */
             break;
     }
 }

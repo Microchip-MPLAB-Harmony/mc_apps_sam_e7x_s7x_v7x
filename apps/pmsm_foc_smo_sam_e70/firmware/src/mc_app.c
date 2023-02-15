@@ -80,7 +80,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
     Application strings and buffers are be defined outside this structure.
 */
 
-MC_APP_DATA mc_appData = 
+static MC_APP_DATA mc_appData = 
 {
     .direction = 1,
 };
@@ -88,580 +88,582 @@ MC_APP_DATA mc_appData =
 /* MC Core Variables */
 #define 	SQRT3_BY2     			(float)0.866025403788
 #define 	ONE_BY_SQRT3     		(float)0.5773502691
+tMC_APP_MC_CONTROL                      MC_APP_MC_CONTROL;
+static tPIParm     						PIParmQ;        						/* Parameters for Q axis Currrent PI Controller */
+static tPIParm     						PIParmD;        						/* Parameters for D axis Currrent PI Controller */
+static tPIParm     						PIParmQref;     						/* Parameters for Speed PI Controller */
+static tParkParm							ParkParm;   
+static tSincosParm							SincosParm;
+static tSVGenParm 							SVGenParm;
+static tCtrlParm 						    CtrlParm;
 
-tPIParm     						PIParmQ;        						/* Parameters for Q axis Currrent PI Controller */
-tPIParm     						PIParmD;        						/* Parameters for D axis Currrent PI Controller */
-tPIParm     						PIParmQref;     						/* Parameters for Speed PI Controller */
-tParkParm							ParkParm;   
-tSincosParm							SincosParm;
-tSVGenParm 							SVGenParm;
-tCtrlParm 						    CtrlParm;
+static float 								T1, T2, Ta, Tb, Tc;
+static float 								dPWM1, dPWM2, dPWM3;
+static float 								Startup_Ramp_Angle_Rads_Per_Sec = 0.0f; 	/* ramp angle variable for initial ramp */
+static unsigned int 						Startup_Lock_Count = 0; 				/* lock variable for initial ramp */ 
+static unsigned int                        Speed_Maintain_Cnt1 = 0;
 
-float 								T1, T2, Ta, Tb, Tc;
-float 								dPWM1, dPWM2, dPWM3;
-float 								Startup_Ramp_Angle_Rads_Per_Sec = 0; 	/* ramp angle variable for initial ramp */
-unsigned int 						Startup_Lock_Count = 0; 				/* lock variable for initial ramp */ 
-unsigned int                        Speed_Maintain_Cnt1 = 0u;
+static short        						potReading;
+static short                               phaseCurrentA;
+static short                               phaseCurrentB;
 
-short        						potReading;
-short                               phaseCurrentA;
-short                               phaseCurrentB;
-
-short 								POLARITY;
-float								DoControl_Temp1, DoControl_Temp2;
-float                               VelRefRaw;
-float                               deviationTH;
-float                               decayRateTH;
-float                               closeLoopTHI;
-float                               closeLoopTHO;
-float                               finalTHI;
-float                               finalTHO;
-float                               lastValpha;
-float                               lastVbeta;
+static float								DoControl_Temp1, DoControl_Temp2;
+static float                               VelRefRaw;
+static float                               deviationTH;
+static float                               decayRateTH;
+static float                               closeLoopTHI;
+static float                               closeLoopTHO;
+static float                               finalTHI;
+static float                               finalTHO;
+static float                               lastValpha;
+static float                               lastVbeta;
 
 
-tagStateCtrl closeLoopTHstate;
+static tagStateCtrl closeLoopTHstate;
 /* Instruction to BEMF observer:
  * 0: BEMF observer keeps the natural state flow;
  * 1: reset BEMF observer;
  * 2: start BEMF observer. */
-uint16_t flagStartObs = 0u;
+static uint16_t flagStartObs = 0u;
 
 /* Motion estimator: global variable definitions */
 tagPosition positionData;
 tagSpeed speedData;
-tagInputPara para;
+static tagInputPara inputpara;
 tagObserverInput observerInput;
-
+static uintptr_t dummyforMisra;
 //Cumulative value is initalized to (estimated offset value * 2^MOVING_AVG_WINDOW_SIZE) which helps in expedited tracking of offset value without
 //waiting for all the 2^MOVING_AVG_WINDOW_SIZE samples.
 
-unsigned int cumulative_sum_phaseA = (CURRENT_OFFSET_INIT << MOVING_AVG_WINDOW_SIZE); 
-unsigned int cumulative_sum_phaseB = (CURRENT_OFFSET_INIT << MOVING_AVG_WINDOW_SIZE);
-int moving_average_phaseA = 0;
-int moving_average_phaseB = 0;
+static unsigned int cumulative_sum_phaseA = (CURRENT_OFFSET_INIT << MOVING_AVG_WINDOW_SIZE); 
+static unsigned int cumulative_sum_phaseB = (CURRENT_OFFSET_INIT << MOVING_AVG_WINDOW_SIZE);
+static int32_t moving_average_phaseA = 0;
+static int32_t moving_average_phaseB = 0;
 
-#define 							DECIMATE_NOMINAL_SPEED      ((NOMINAL_SPEED_RPM *(M_PI/30))*NOPOLESPAIRS/10)                                            
+#define 							DECIMATE_NOMINAL_SPEED      ((NOMINAL_SPEED_RPM *((float)M_PI/30.0f))*NOPOLESPAIRS/10.0f)                                            
 
-const float sineTable[TABLE_SIZE] = 
+static const float sineTable[TABLE_SIZE] = 
+// <editor-fold defaultstate="collapsed" desc="Sine Table">
 {
-0,
-0.024541,
-0.049068,
-0.073565,
-0.098017,
-0.122411,
-0.14673,
-0.170962,
-0.19509,
-0.219101,
-0.24298,
-0.266713,
-0.290285,
-0.313682,
-0.33689,
-0.359895,
-0.382683,
-0.405241,
-0.427555,
-0.449611,
-0.471397,
-0.492898,
-0.514103,
-0.534998,
-0.55557,
-0.575808,
-0.595699,
-0.615232,
-0.634393,
-0.653173,
-0.671559,
-0.689541,
-0.707107,
-0.724247,
-0.740951,
-0.757209,
-0.77301,
-0.788346,
-0.803208,
-0.817585,
-0.83147,
-0.844854,
-0.857729,
-0.870087,
-0.881921,
-0.893224,
-0.903989,
-0.91421,
-0.92388,
-0.932993,
-0.941544,
-0.949528,
-0.95694,
-0.963776,
-0.970031,
-0.975702,
-0.980785,
-0.985278,
-0.989177,
-0.99248,
-0.995185,
-0.99729,
-0.998795,
-0.999699,
-1,
-0.999699,
-0.998795,
-0.99729,
-0.995185,
-0.99248,
-0.989177,
-0.985278,
-0.980785,
-0.975702,
-0.970031,
-0.963776,
-0.95694,
-0.949528,
-0.941544,
-0.932993,
-0.92388,
-0.91421,
-0.903989,
-0.893224,
-0.881921,
-0.870087,
-0.857729,
-0.844854,
-0.83147,
-0.817585,
-0.803208,
-0.788346,
-0.77301,
-0.757209,
-0.740951,
-0.724247,
-0.707107,
-0.689541,
-0.671559,
-0.653173,
-0.634393,
-0.615232,
-0.595699,
-0.575808,
-0.55557,
-0.534998,
-0.514103,
-0.492898,
-0.471397,
-0.449611,
-0.427555,
-0.405241,
-0.382683,
-0.359895,
-0.33689,
-0.313682,
-0.290285,
-0.266713,
-0.24298,
-0.219101,
-0.19509,
-0.170962,
-0.14673,
-0.122411,
-0.098017,
-0.073565,
-0.049068,
-0.024541,
-0,
--0.024541,
--0.049068,
--0.073565,
--0.098017,
--0.122411,
--0.14673,
--0.170962,
--0.19509,
--0.219101,
--0.24298,
--0.266713,
--0.290285,
--0.313682,
--0.33689,
--0.359895,
--0.382683,
--0.405241,
--0.427555,
--0.449611,
--0.471397,
--0.492898,
--0.514103,
--0.534998,
--0.55557,
--0.575808,
--0.595699,
--0.615232,
--0.634393,
--0.653173,
--0.671559,
--0.689541,
--0.707107,
--0.724247,
--0.740951,
--0.757209,
--0.77301,
--0.788346,
--0.803208,
--0.817585,
--0.83147,
--0.844854,
--0.857729,
--0.870087,
--0.881921,
--0.893224,
--0.903989,
--0.91421,
--0.92388,
--0.932993,
--0.941544,
--0.949528,
--0.95694,
--0.963776,
--0.970031,
--0.975702,
--0.980785,
--0.985278,
--0.989177,
--0.99248,
--0.995185,
--0.99729,
--0.998795,
--0.999699,
--1,
--0.999699,
--0.998795,
--0.99729,
--0.995185,
--0.99248,
--0.989177,
--0.985278,
--0.980785,
--0.975702,
--0.970031,
--0.963776,
--0.95694,
--0.949528,
--0.941544,
--0.932993,
--0.92388,
--0.91421,
--0.903989,
--0.893224,
--0.881921,
--0.870087,
--0.857729,
--0.844854,
--0.83147,
--0.817585,
--0.803208,
--0.788346,
--0.77301,
--0.757209,
--0.740951,
--0.724247,
--0.707107,
--0.689541,
--0.671559,
--0.653173,
--0.634393,
--0.615232,
--0.595699,
--0.575808,
--0.55557,
--0.534998,
--0.514103,
--0.492898,
--0.471397,
--0.449611,
--0.427555,
--0.405241,
--0.382683,
--0.359895,
--0.33689,
--0.313682,
--0.290285,
--0.266713,
--0.24298,
--0.219101,
--0.19509,
--0.170962,
--0.14673,
--0.122411,
--0.098017,
--0.073565,
--0.049068,
--0.024541
+0.0f,
+0.024541f,
+0.049068f,
+0.073565f,
+0.098017f,
+0.122411f,
+0.14673f,
+0.170962f,
+0.19509f,
+0.219101f,
+0.24298f,
+0.266713f,
+0.290285f,
+0.313682f,
+0.33689f,
+0.359895f,
+0.382683f,
+0.405241f,
+0.427555f,
+0.449611f,
+0.471397f,
+0.492898f,
+0.514103f,
+0.534998f,
+0.55557f,
+0.575808f,
+0.595699f,
+0.615232f,
+0.634393f,
+0.653173f,
+0.671559f,
+0.689541f,
+0.707107f,
+0.724247f,
+0.740951f,
+0.757209f,
+0.77301f,
+0.788346f,
+0.803208f,
+0.817585f,
+0.83147f,
+0.844854f,
+0.857729f,
+0.870087f,
+0.881921f,
+0.893224f,
+0.903989f,
+0.91421f,
+0.92388f,
+0.932993f,
+0.941544f,
+0.949528f,
+0.95694f,
+0.963776f,
+0.970031f,
+0.975702f,
+0.980785f,
+0.985278f,
+0.989177f,
+0.99248f,
+0.995185f,
+0.99729f,
+0.998795f,
+0.999699f,
+1.0f,
+0.999699f,
+0.998795f,
+0.99729f,
+0.995185f,
+0.99248f,
+0.989177f,
+0.985278f,
+0.980785f,
+0.975702f,
+0.970031f,
+0.963776f,
+0.95694f,
+0.949528f,
+0.941544f,
+0.932993f,
+0.92388f,
+0.91421f,
+0.903989f,
+0.893224f,
+0.881921f,
+0.870087f,
+0.857729f,
+0.844854f,
+0.83147f,
+0.817585f,
+0.803208f,
+0.788346f,
+0.77301f,
+0.757209f,
+0.740951f,
+0.724247f,
+0.707107f,
+0.689541f,
+0.671559f,
+0.653173f,
+0.634393f,
+0.615232f,
+0.595699f,
+0.575808f,
+0.55557f,
+0.534998f,
+0.514103f,
+0.492898f,
+0.471397f,
+0.449611f,
+0.427555f,
+0.405241f,
+0.382683f,
+0.359895f,
+0.33689f,
+0.313682f,
+0.290285f,
+0.266713f,
+0.24298f,
+0.219101f,
+0.19509f,
+0.170962f,
+0.14673f,
+0.122411f,
+0.098017f,
+0.073565f,
+0.049068f,
+0.024541f,
+0.0f,
+-0.024541f,
+-0.049068f,
+-0.073565f,
+-0.098017f,
+-0.122411f,
+-0.14673f,
+-0.170962f,
+-0.19509f,
+-0.219101f,
+-0.24298f,
+-0.266713f,
+-0.290285f,
+-0.313682f,
+-0.33689f,
+-0.359895f,
+-0.382683f,
+-0.405241f,
+-0.427555f,
+-0.449611f,
+-0.471397f,
+-0.492898f,
+-0.514103f,
+-0.534998f,
+-0.55557f,
+-0.575808f,
+-0.595699f,
+-0.615232f,
+-0.634393f,
+-0.653173f,
+-0.671559f,
+-0.689541f,
+-0.707107f,
+-0.724247f,
+-0.740951f,
+-0.757209f,
+-0.77301f,
+-0.788346f,
+-0.803208f,
+-0.817585f,
+-0.83147f,
+-0.844854f,
+-0.857729f,
+-0.870087f,
+-0.881921f,
+-0.893224f,
+-0.903989f,
+-0.91421f,
+-0.92388f,
+-0.932993f,
+-0.941544f,
+-0.949528f,
+-0.95694f,
+-0.963776f,
+-0.970031f,
+-0.975702f,
+-0.980785f,
+-0.985278f,
+-0.989177f,
+-0.99248f,
+-0.995185f,
+-0.99729f,
+-0.998795f,
+-0.999699f,
+-1.0f,
+-0.999699f,
+-0.998795f,
+-0.99729f,
+-0.995185f,
+-0.99248f,
+-0.989177f,
+-0.985278f,
+-0.980785f,
+-0.975702f,
+-0.970031f,
+-0.963776f,
+-0.95694f,
+-0.949528f,
+-0.941544f,
+-0.932993f,
+-0.92388f,
+-0.91421f,
+-0.903989f,
+-0.893224f,
+-0.881921f,
+-0.870087f,
+-0.857729f,
+-0.844854f,
+-0.83147f,
+-0.817585f,
+-0.803208f,
+-0.788346f,
+-0.77301f,
+-0.757209f,
+-0.740951f,
+-0.724247f,
+-0.707107f,
+-0.689541f,
+-0.671559f,
+-0.653173f,
+-0.634393f,
+-0.615232f,
+-0.595699f,
+-0.575808f,
+-0.55557f,
+-0.534998f,
+-0.514103f,
+-0.492898f,
+-0.471397f,
+-0.449611f,
+-0.427555f,
+-0.405241f,
+-0.382683f,
+-0.359895f,
+-0.33689f,
+-0.313682f,
+-0.290285f,
+-0.266713f,
+-0.24298f,
+-0.219101f,
+-0.19509f,
+-0.170962f,
+-0.14673f,
+-0.122411f,
+-0.098017f,
+-0.073565f,
+-0.049068f,
+-0.024541f
 };
-
-const float cosineTable[TABLE_SIZE] = 
+// </editor-fold>
+static const float cosineTable[TABLE_SIZE] = 
+// <editor-fold defaultstate="collapsed" desc="Cosine Table">
 {
-1,
-0.999699,
-0.998795,
-0.99729,
-0.995185,
-0.99248,
-0.989177,
-0.985278,
-0.980785,
-0.975702,
-0.970031,
-0.963776,
-0.95694,
-0.949528,
-0.941544,
-0.932993,
-0.92388,
-0.91421,
-0.903989,
-0.893224,
-0.881921,
-0.870087,
-0.857729,
-0.844854,
-0.83147,
-0.817585,
-0.803208,
-0.788346,
-0.77301,
-0.757209,
-0.740951,
-0.724247,
-0.707107,
-0.689541,
-0.671559,
-0.653173,
-0.634393,
-0.615232,
-0.595699,
-0.575808,
-0.55557,
-0.534998,
-0.514103,
-0.492898,
-0.471397,
-0.449611,
-0.427555,
-0.405241,
-0.382683,
-0.359895,
-0.33689,
-0.313682,
-0.290285,
-0.266713,
-0.24298,
-0.219101,
-0.19509,
-0.170962,
-0.14673,
-0.122411,
-0.098017,
-0.073565,
-0.049068,
-0.024541,
-0,
--0.024541,
--0.049068,
--0.073565,
--0.098017,
--0.122411,
--0.14673,
--0.170962,
--0.19509,
--0.219101,
--0.24298,
--0.266713,
--0.290285,
--0.313682,
--0.33689,
--0.359895,
--0.382683,
--0.405241,
--0.427555,
--0.449611,
--0.471397,
--0.492898,
--0.514103,
--0.534998,
--0.55557,
--0.575808,
--0.595699,
--0.615232,
--0.634393,
--0.653173,
--0.671559,
--0.689541,
--0.707107,
--0.724247,
--0.740951,
--0.757209,
--0.77301,
--0.788346,
--0.803208,
--0.817585,
--0.83147,
--0.844854,
--0.857729,
--0.870087,
--0.881921,
--0.893224,
--0.903989,
--0.91421,
--0.92388,
--0.932993,
--0.941544,
--0.949528,
--0.95694,
--0.963776,
--0.970031,
--0.975702,
--0.980785,
--0.985278,
--0.989177,
--0.99248,
--0.995185,
--0.99729,
--0.998795,
--0.999699,
--1,
--0.999699,
--0.998795,
--0.99729,
--0.995185,
--0.99248,
--0.989177,
--0.985278,
--0.980785,
--0.975702,
--0.970031,
--0.963776,
--0.95694,
--0.949528,
--0.941544,
--0.932993,
--0.92388,
--0.91421,
--0.903989,
--0.893224,
--0.881921,
--0.870087,
--0.857729,
--0.844854,
--0.83147,
--0.817585,
--0.803208,
--0.788346,
--0.77301,
--0.757209,
--0.740951,
--0.724247,
--0.707107,
--0.689541,
--0.671559,
--0.653173,
--0.634393,
--0.615232,
--0.595699,
--0.575808,
--0.55557,
--0.534998,
--0.514103,
--0.492898,
--0.471397,
--0.449611,
--0.427555,
--0.405241,
--0.382683,
--0.359895,
--0.33689,
--0.313682,
--0.290285,
--0.266713,
--0.24298,
--0.219101,
--0.19509,
--0.170962,
--0.14673,
--0.122411,
--0.098017,
--0.073565,
--0.049068,
--0.024541,
-0,
-0.024541,
-0.049068,
-0.073565,
-0.098017,
-0.122411,
-0.14673,
-0.170962,
-0.19509,
-0.219101,
-0.24298,
-0.266713,
-0.290285,
-0.313682,
-0.33689,
-0.359895,
-0.382683,
-0.405241,
-0.427555,
-0.449611,
-0.471397,
-0.492898,
-0.514103,
-0.534998,
-0.55557,
-0.575808,
-0.595699,
-0.615232,
-0.634393,
-0.653173,
-0.671559,
-0.689541,
-0.707107,
-0.724247,
-0.740951,
-0.757209,
-0.77301,
-0.788346,
-0.803208,
-0.817585,
-0.83147,
-0.844854,
-0.857729,
-0.870087,
-0.881921,
-0.893224,
-0.903989,
-0.91421,
-0.92388,
-0.932993,
-0.941544,
-0.949528,
-0.95694,
-0.963776,
-0.970031,
-0.975702,
-0.980785,
-0.985278,
-0.989177,
-0.99248,
-0.995185,
-0.99729,
-0.998795,
-0.999699
+1.0f,
+0.999699f,
+0.998795f,
+0.99729f,
+0.995185f,
+0.99248f,
+0.989177f,
+0.985278f,
+0.980785f,
+0.975702f,
+0.970031f,
+0.963776f,
+0.95694f,
+0.949528f,
+0.941544f,
+0.932993f,
+0.92388f,
+0.91421f,
+0.903989f,
+0.893224f,
+0.881921f,
+0.870087f,
+0.857729f,
+0.844854f,
+0.83147f,
+0.817585f,
+0.803208f,
+0.788346f,
+0.77301f,
+0.757209f,
+0.740951f,
+0.724247f,
+0.707107f,
+0.689541f,
+0.671559f,
+0.653173f,
+0.634393f,
+0.615232f,
+0.595699f,
+0.575808f,
+0.55557f,
+0.534998f,
+0.514103f,
+0.492898f,
+0.471397f,
+0.449611f,
+0.427555f,
+0.405241f,
+0.382683f,
+0.359895f,
+0.33689f,
+0.313682f,
+0.290285f,
+0.266713f,
+0.24298f,
+0.219101f,
+0.19509f,
+0.170962f,
+0.14673f,
+0.122411f,
+0.098017f,
+0.073565f,
+0.049068f,
+0.024541f,
+0.0f,
+-0.024541f,
+-0.049068f,
+-0.073565f,
+-0.098017f,
+-0.122411f,
+-0.14673f,
+-0.170962f,
+-0.19509f,
+-0.219101f,
+-0.24298f,
+-0.266713f,
+-0.290285f,
+-0.313682f,
+-0.33689f,
+-0.359895f,
+-0.382683f,
+-0.405241f,
+-0.427555f,
+-0.449611f,
+-0.471397f,
+-0.492898f,
+-0.514103f,
+-0.534998f,
+-0.55557f,
+-0.575808f,
+-0.595699f,
+-0.615232f,
+-0.634393f,
+-0.653173f,
+-0.671559f,
+-0.689541f,
+-0.707107f,
+-0.724247f,
+-0.740951f,
+-0.757209f,
+-0.77301f,
+-0.788346f,
+-0.803208f,
+-0.817585f,
+-0.83147f,
+-0.844854f,
+-0.857729f,
+-0.870087f,
+-0.881921f,
+-0.893224f,
+-0.903989f,
+-0.91421f,
+-0.92388f,
+-0.932993f,
+-0.941544f,
+-0.949528f,
+-0.95694f,
+-0.963776f,
+-0.970031f,
+-0.975702f,
+-0.980785f,
+-0.985278f,
+-0.989177f,
+-0.99248f,
+-0.995185f,
+-0.99729f,
+-0.998795f,
+-0.999699f,
+-1.0f,
+-0.999699f,
+-0.998795f,
+-0.99729f,
+-0.995185f,
+-0.99248f,
+-0.989177f,
+-0.985278f,
+-0.980785f,
+-0.975702f,
+-0.970031f,
+-0.963776f,
+-0.95694f,
+-0.949528f,
+-0.941544f,
+-0.932993f,
+-0.92388f,
+-0.91421f,
+-0.903989f,
+-0.893224f,
+-0.881921f,
+-0.870087f,
+-0.857729f,
+-0.844854f,
+-0.83147f,
+-0.817585f,
+-0.803208f,
+-0.788346f,
+-0.77301f,
+-0.757209f,
+-0.740951f,
+-0.724247f,
+-0.707107f,
+-0.689541f,
+-0.671559f,
+-0.653173f,
+-0.634393f,
+-0.615232f,
+-0.595699f,
+-0.575808f,
+-0.55557f,
+-0.534998f,
+-0.514103f,
+-0.492898f,
+-0.471397f,
+-0.449611f,
+-0.427555f,
+-0.405241f,
+-0.382683f,
+-0.359895f,
+-0.33689f,
+-0.313682f,
+-0.290285f,
+-0.266713f,
+-0.24298f,
+-0.219101f,
+-0.19509f,
+-0.170962f,
+-0.14673f,
+-0.122411f,
+-0.098017f,
+-0.073565f,
+-0.049068f,
+-0.024541f,
+0.0f,
+0.024541f,
+0.049068f,
+0.073565f,
+0.098017f,
+0.122411f,
+0.14673f,
+0.170962f,
+0.19509f,
+0.219101f,
+0.24298f,
+0.266713f,
+0.290285f,
+0.313682f,
+0.33689f,
+0.359895f,
+0.382683f,
+0.405241f,
+0.427555f,
+0.449611f,
+0.471397f,
+0.492898f,
+0.514103f,
+0.534998f,
+0.55557f,
+0.575808f,
+0.595699f,
+0.615232f,
+0.634393f,
+0.653173f,
+0.671559f,
+0.689541f,
+0.707107f,
+0.724247f,
+0.740951f,
+0.757209f,
+0.77301f,
+0.788346f,
+0.803208f,
+0.817585f,
+0.83147f,
+0.844854f,
+0.857729f,
+0.870087f,
+0.881921f,
+0.893224f,
+0.903989f,
+0.91421f,
+0.92388f,
+0.932993f,
+0.941544f,
+0.949528f,
+0.95694f,
+0.963776f,
+0.970031f,
+0.975702f,
+0.980785f,
+0.985278f,
+0.989177f,
+0.99248f,
+0.995185f,
+0.99729f,
+0.998795f,
+0.999699f
 };
+// </editor-fold>
 
 
 // *****************************************************************************
@@ -679,7 +681,7 @@ const float cosineTable[TABLE_SIZE] =
 // *****************************************************************************
 // *****************************************************************************
 
-inline void MC_APP_MC_ParkParaCal(float angle)
+static inline void MC_APP_MC_ParkParaCal(float angle)
 {
     SincosParm.Angle = angle;
     ParkParm.Angle = angle;
@@ -688,20 +690,20 @@ inline void MC_APP_MC_ParkParaCal(float angle)
     ParkParm.Cos = SincosParm.Cos;    
 }
 
-inline void MC_APP_MC_UpdateFeedbackSignals(void)
+static inline void MC_APP_MC_UpdateFeedbackSignals(void)
 {
     
-    phaseCurrentA = AFEC0_ChannelResultGet(PH_U_CURRENT_ADC_CH); // Phase Current A
-    phaseCurrentB = AFEC0_ChannelResultGet(PH_V_CURRENT_ADC_CH);// Phase Current B 
-    potReading = AFEC0_ChannelResultGet(POT_ADC_CH);   // Speed Potentiometer  
-    ParkParm.DCBusVoltage = (float)(AFEC0_ChannelResultGet(DC_BUS_VOLTAGE_ADC_CH) * VOLTAGE_ADC_TO_PHY_RATIO); // Reads and translates to actual bus voltage
+    phaseCurrentA = (int16_t)AFEC0_ChannelResultGet((AFEC_CHANNEL_NUM)PH_U_CURRENT_ADC_CH); // Phase Current A
+    phaseCurrentB = (int16_t)AFEC0_ChannelResultGet((AFEC_CHANNEL_NUM)PH_V_CURRENT_ADC_CH);// Phase Current B 
+    potReading = (int16_t)AFEC0_ChannelResultGet((AFEC_CHANNEL_NUM)POT_ADC_CH);   // Speed Potentiometer  
+    ParkParm.DCBusVoltage = (float)((uint32_t)AFEC0_ChannelResultGet((AFEC_CHANNEL_NUM)DC_BUS_VOLTAGE_ADC_CH)) * VOLTAGE_ADC_TO_PHY_RATIO; // Reads and translates to actual bus voltage
     ParkParm.MaxPhaseVoltage = (float)(ParkParm.DCBusVoltage*ONE_BY_SQRT3); 
 	
     /* Moving Average Filter is implemented to calculate the current offset. Window size of the moving average filter = 2^MOVING_AVG_WINDOW_SIZE
     cumulative_sum_phaseX(n) = cumulative_sum_phaseX(n-1) + phaseCurrentX(n) - moving_average_phaseX(n-1)
     moving_average_phaseX(n) =  cumulative_sum_phaseX(n)/(2^MOVING_AVG_WINDOW_SIZE) */	
-    cumulative_sum_phaseA  = cumulative_sum_phaseA + phaseCurrentA - moving_average_phaseA;
-    moving_average_phaseA  = cumulative_sum_phaseA >> MOVING_AVG_WINDOW_SIZE;
+    cumulative_sum_phaseA  =  (uint32_t)((int32_t)((int32_t)cumulative_sum_phaseA + phaseCurrentA - moving_average_phaseA));
+    moving_average_phaseA  = (int32_t)((uint32_t)(cumulative_sum_phaseA >> MOVING_AVG_WINDOW_SIZE));
     
     /*Bounding the offset value */
     if(moving_average_phaseA > CURRENT_OFFSET_MAX)
@@ -714,10 +716,11 @@ inline void MC_APP_MC_UpdateFeedbackSignals(void)
     } 
     else 
     {
+         /* Dummy branch for MISRAC compliance*/
     }
 		
-    cumulative_sum_phaseB  = cumulative_sum_phaseB + phaseCurrentB - moving_average_phaseB;
-    moving_average_phaseB  = cumulative_sum_phaseB >> MOVING_AVG_WINDOW_SIZE;
+    cumulative_sum_phaseB  = (uint32_t)((int32_t)((int32_t)cumulative_sum_phaseB + phaseCurrentB - moving_average_phaseB));
+    moving_average_phaseB  = (int32_t)((uint32_t)(cumulative_sum_phaseB >> MOVING_AVG_WINDOW_SIZE));
 	
 	/*Bounding the offset value */
     if(moving_average_phaseB > CURRENT_OFFSET_MAX)
@@ -726,24 +729,26 @@ inline void MC_APP_MC_UpdateFeedbackSignals(void)
     } else if(moving_average_phaseB < CURRENT_OFFSET_MIN)
     {
         moving_average_phaseB = CURRENT_OFFSET_MIN;
-    } else {}
+    } else {
+         /* Dummy branch for MISRAC compliance*/
+    }
 	
-    phaseCurrentA = (phaseCurrentA - moving_average_phaseA); // Removing the offset
-    phaseCurrentB = (phaseCurrentB - moving_average_phaseB);
+    phaseCurrentA = (phaseCurrentA - (int16_t)moving_average_phaseA); // Removing the offset
+    phaseCurrentB = (phaseCurrentB - (int16_t)moving_average_phaseB);
 
     ParkParm.Ia = (float)phaseCurrentA * ADC_CURRENT_SCALE; 
     ParkParm.Ib = (float)phaseCurrentB * ADC_CURRENT_SCALE;    
 
 }
 
-void MC_APP_MC_UpdatePWMdutyCycle(void)
+static void MC_APP_MC_UpdatePWMdutyCycle(void)
 {   
     PWM0_ChannelDutySet(PWM_CHANNEL_0, (uint16_t) dPWM1);  
     PWM0_ChannelDutySet(PWM_CHANNEL_1, (uint16_t) dPWM2);  
     PWM0_ChannelDutySet(PWM_CHANNEL_2, (uint16_t) dPWM3);    
 }
 
-inline void MC_APP_MC_LoadMotionEstimator(tagObserverInput * observerInputP)
+static inline void MC_APP_MC_LoadMotionEstimator(tagObserverInput * observerInputP)
 {
     observerInputP->Ialpha = ParkParm.Ialpha;
     observerInputP->Ibeta = ParkParm.Ibeta;
@@ -755,19 +760,19 @@ inline void MC_APP_MC_LoadMotionEstimator(tagObserverInput * observerInputP)
     lastVbeta = ParkParm.Vbeta;
 }
 
-inline void MC_APP_MC_Clarke(void)
+static inline void MC_APP_MC_Clarke(void)
 {
     ParkParm.Ialpha = ParkParm.Ia;
-    ParkParm.Ibeta = (ParkParm.Ia * ONE_BY_SQRT3) + (ParkParm.Ib * 2 * ONE_BY_SQRT3);
+    ParkParm.Ibeta = (ParkParm.Ia * ONE_BY_SQRT3) + (ParkParm.Ib * 2.0f * ONE_BY_SQRT3);
 }
 
-inline void MC_APP_MC_Park(void)
+static inline void MC_APP_MC_Park(void)
 {
     ParkParm.Id =  ParkParm.Ialpha*ParkParm.Cos + ParkParm.Ibeta*ParkParm.Sin;
     ParkParm.Iq = -ParkParm.Ialpha*ParkParm.Sin + ParkParm.Ibeta*ParkParm.Cos;
 }
 
-inline void MC_APP_MC_InvPark(void)
+static inline void MC_APP_MC_InvPark(void)
 {
     ParkParm.Valpha =  ParkParm.Vd*ParkParm.Cos - ParkParm.Vq*ParkParm.Sin;
     ParkParm.Vbeta  =  ParkParm.Vd*ParkParm.Sin + ParkParm.Vq*ParkParm.Cos;  
@@ -787,12 +792,12 @@ void MC_APP_MC_SinCos(void)
     int16_t y0_IndexNext;
     float x0, y0, y1, temp;
     
-    y0_Index = (int16_t)(SincosParm.Angle * ONE_OVER_ANGLE_STEP);
+    y0_Index = (int16_t)((float)(SincosParm.Angle * ONE_OVER_ANGLE_STEP));
     y0_IndexNext = y0_Index + 1;
     
     if((TABLE_SIZE - 1) <= y0_Index)
     { 
-        y0_Index = TABLE_SIZE - 1u;  
+        y0_Index = TABLE_SIZE - 1;  
         y0_IndexNext = 0;    
     } 
     else if(0 > y0_Index)
@@ -800,8 +805,11 @@ void MC_APP_MC_SinCos(void)
         y0_Index = 0;
         y0_IndexNext = 1;
     } 
+    else{
+         /* Dummy branch for MISRAC compliance*/
+    }
 
-    x0 = (y0_Index * ANGLE_STEP);        
+    x0 = ((float)y0_Index * ANGLE_STEP);        
 	temp = ((SincosParm.Angle - x0) * ONE_OVER_ANGLE_STEP);
    
 	// Find Sine 
@@ -821,25 +829,24 @@ void MC_APP_MC_SinCos(void)
 // Section: MC FOC Control Routine
 // *****************************************************************************
 // *****************************************************************************
-
-inline void MC_APP_MC_DoControl( void )
+void MC_APP_MC_DoControl( void )
 {  	  
-    if( MC_APP_MC_CONTROL.bit.OpenLoop )
+    if( MC_APP_MC_CONTROL.bit.OpenLoop==1U )
     {
         // OPENLOOP:  force rotating angle,Vd,Vq
-        if( MC_APP_MC_CONTROL.bit.ChangeMode )
+        if( MC_APP_MC_CONTROL.bit.ChangeMode ==1U)
         {
             // just changed to openloop
-            MC_APP_MC_CONTROL.bit.ChangeMode = 0;
+            MC_APP_MC_CONTROL.bit.ChangeMode = 0U;
             // synchronize angles
 
             // VqRef & VdRef not used
-            CtrlParm.IqRef = 0;
-            CtrlParm.IdRef = 0;
+            CtrlParm.IqRef = 0.0f;
+            CtrlParm.IdRef = 0.0f;
 
             // reinit vars for initial speed ramp
-            Startup_Lock_Count = 0;
-            Startup_Ramp_Angle_Rads_Per_Sec = 0;
+            Startup_Lock_Count = 0u;
+            Startup_Ramp_Angle_Rads_Per_Sec = 0.0f;
         }
         
         // q current reference is equal to the vel reference
@@ -847,7 +854,7 @@ inline void MC_APP_MC_DoControl( void )
         // for maximum startup torque, set the q current to maximum acceptable
         // value represents the maximum peak value
 
-        CtrlParm.IqRef    = Q_CURRENT_REF_OPENLOOP * mc_appData.direction;
+        CtrlParm.IqRef    = Q_CURRENT_REF_OPENLOOP * (float)mc_appData.direction;
      	
         // PI control for Q
         PIParmQ.qInMeas = ParkParm.Iq;
@@ -863,14 +870,14 @@ inline void MC_APP_MC_DoControl( void )
     } 
     else  // Closed Loop Vector Control
     { 
-        if( MC_APP_MC_CONTROL.bit.ChangeMode )
+        if( MC_APP_MC_CONTROL.bit.ChangeMode==1u )
         {
             // just changed from openloop
-            MC_APP_MC_CONTROL.bit.ChangeMode = 0;
+            MC_APP_MC_CONTROL.bit.ChangeMode = 0u;
             PIParmQref.qdSum = CtrlParm.IqRef;
             CtrlParm.VelRef = END_SPEED_RADS_PER_SEC_ELEC;
-            PIParmD.qInRef = 0.0;
-            CtrlParm.IdRef = 0.0;
+            PIParmD.qInRef = 0.0f;
+            CtrlParm.IdRef = 0.0f;
         }             
       
         VelRefRaw = (float)((float)potReading * POT_ADC_COUNT_FW_SPEED_RATIO);
@@ -887,11 +894,11 @@ inline void MC_APP_MC_DoControl( void )
 
         // Execute the velocity control loop
         PIParmQref.qInMeas = speedData.WeHat;
-        PIParmQref.qInRef  = CtrlParm.VelRef * mc_appData.direction;
+        PIParmQref.qInRef  = CtrlParm.VelRef * (float)mc_appData.direction;
         MC_APP_MC_CalcPI(&PIParmQref);
         CtrlParm.IqRef = PIParmQref.qOut;
 
-        CtrlParm.IdRef = 0;
+        CtrlParm.IdRef = 0.0f;
 		
         // PI control for D
         PIParmD.qInMeas = ParkParm.Id;          // This is in Amps
@@ -904,8 +911,12 @@ inline void MC_APP_MC_DoControl( void )
         // vq=sqrt (vs^2 - vd^2)
         // limit vq maximum to the one resulting from the calculation above
         DoControl_Temp2 = PIParmD.qOut * PIParmD.qOut;
-        DoControl_Temp1 = 0.98 - DoControl_Temp2;
-        PIParmQ.qOutMax = sqrt(DoControl_Temp1);        
+        DoControl_Temp1 = 0.98f - DoControl_Temp2;
+        if(DoControl_Temp1>=0.0f){
+        PIParmQ.qOutMax = (float)sqrt(DoControl_Temp1); 
+        }else{
+            PIParmQ.qOutMax = (float)sqrt(-DoControl_Temp1);
+        }
 		
         //Limit Q axis current
         if(CtrlParm.IqRef>CtrlParm.IqRefmax)
@@ -921,7 +932,7 @@ inline void MC_APP_MC_DoControl( void )
     }  /* end of Closed Loop Vector Control */
 }
 
-inline float MC_APP_MC_WrapFrom0To2Pi(float raw){
+static inline float MC_APP_MC_WrapFrom0To2Pi(float raw){
     float tmp;
     
     if(0.0 > raw)
@@ -940,7 +951,7 @@ inline float MC_APP_MC_WrapFrom0To2Pi(float raw){
     return tmp;
 }
 
-inline void MC_APP_MC_CloseLoopTHcal(void){
+static inline void MC_APP_MC_CloseLoopTHcal(void){
     float tmp1;
     
     tmp1 = ParkParm.Angle;
@@ -977,13 +988,14 @@ inline void MC_APP_MC_CloseLoopTHcal(void){
             closeLoopTHO =  positionData.THO;
             break;
         default:
+            /* Undefined state: Should never come here */
             break;
     }
 }
 
-inline void MC_APP_MC_CalculateParkAngle(void)
+void MC_APP_MC_CalculateParkAngle(void)
 {
-	if(MC_APP_MC_CONTROL.bit.OpenLoop)
+	if(MC_APP_MC_CONTROL.bit.OpenLoop==1u)
     {   // If open loop  
         if (mc_appData.direction == -1)
         {
@@ -1002,18 +1014,18 @@ inline void MC_APP_MC_CalculateParkAngle(void)
             }
         }
         		// begin with the lock sequence, for field alignment. The rotor is locked at angle = 0 for LOCK_COUNT_FOR_LOCK_TIME ~ 2 seconds
-		if (Startup_Lock_Count < LOCK_COUNT_FOR_LOCK_TIME)
+		if (Startup_Lock_Count < ((unsigned int)((float)LOCK_COUNT_FOR_LOCK_TIME)))
         {
             Startup_Lock_Count++;  
-            Startup_Ramp_Angle_Rads_Per_Sec = 0;
-            ParkParm.Angle = 0;
+            Startup_Ramp_Angle_Rads_Per_Sec = 0.0f;
+            ParkParm.Angle = 0.0f;
             CtrlParm.VelRef = Startup_Ramp_Angle_Rads_Per_Sec/PWM_TS;
         } 
         else if (Startup_Ramp_Angle_Rads_Per_Sec < END_SPEED_RADS_PER_SEC_ELEC_IN_LOOPTIME)
         {  // then ramp up till the end speed
 			Startup_Ramp_Angle_Rads_Per_Sec += OPENLOOP_RAMPSPEED_INCREASERATE;
         } 
-        else if(Speed_Maintain_Cnt1 < RL_CNT_1S)
+        else if(Speed_Maintain_Cnt1 < (uint32_t)RL_CNT_1S)
         {  /* Maintain the open-loop end-speed for certain time. */
             Speed_Maintain_Cnt1++;
             CtrlParm.VelRef = END_SPEED_RADS_PER_SEC_ELEC;
@@ -1025,11 +1037,11 @@ inline void MC_APP_MC_CalculateParkAngle(void)
                 float tmp1;
                 /* Latch the angular deviation between open-loop angle and estimated angle. */
                 tmp1 = ParkParm.Angle - positionData.TH;
-                if(-M_PI > tmp1)
+                if((float)-M_PI > tmp1)
                 {
                     deviationTH = tmp1 + RL_2PI;
                 } 
-                else if(M_PI < tmp1)
+                else if((float)M_PI < tmp1)
                 {
                     deviationTH = tmp1 - RL_2PI;
                 } 
@@ -1040,8 +1052,8 @@ inline void MC_APP_MC_CalculateParkAngle(void)
                 decayRateTH = deviationTH * RL_1D_2SCNT;
                 closeLoopTHstate.state = 1u;
                 closeLoopTHstate.cnt1 = 0u;
-                MC_APP_MC_CONTROL.bit.ChangeMode = 1;
-                MC_APP_MC_CONTROL.bit.OpenLoop = 0;
+                MC_APP_MC_CONTROL.bit.ChangeMode = 1u;
+                MC_APP_MC_CONTROL.bit.OpenLoop = 0u;
             #endif
 		}  
         
@@ -1079,7 +1091,7 @@ void MC_APP_MC_InitControlParameters(void)
     PIParmQ.qKp = Q_CURRCNTR_PTERM;    
     PIParmQ.qKi = Q_CURRCNTR_ITERM;
     PIParmQ.qKc = Q_CURRCNTR_CTERM;
-    PIParmQ.qdSum = 0;
+    PIParmQ.qdSum = 0.0f;
     PIParmQ.qOutMax = Q_CURRCNTR_OUTMAX;
     PIParmQ.qOutMin = -PIParmQ.qOutMax;
 
@@ -1099,8 +1111,8 @@ void MC_APP_MC_InitControlParameters(void)
 
 void MC_APP_MC_InitPI( tPIParm *pParm)
 {
-    pParm->qdSum = 0;
-    pParm->qOut = 0;
+    pParm->qdSum = 0.0f;
+    pParm->qOut = 0.0f;
 }
 
 void MC_APP_MC_CalcPI( tPIParm *pParm)
@@ -1137,19 +1149,19 @@ void MC_APP_MC_CalcPI( tPIParm *pParm)
 // Section: MC Space Vector Modulation Routines
 // *****************************************************************************
 // *****************************************************************************
-inline void MC_APP_MC_CalcRefVec(void) 
+static inline void MC_APP_MC_CalcRefVec(void) 
 {
     SVGenParm.Vr1 = ParkParm.Vbeta;
-    SVGenParm.Vr2 = (-ParkParm.Vbeta/2 + SQRT3_BY2 * ParkParm.Valpha);
-    SVGenParm.Vr3 = (-ParkParm.Vbeta/2 - SQRT3_BY2 * ParkParm.Valpha);       
+    SVGenParm.Vr2 = (-ParkParm.Vbeta/2.0f + SQRT3_BY2 * ParkParm.Valpha);
+    SVGenParm.Vr3 = (-ParkParm.Vbeta/2.0f - SQRT3_BY2 * ParkParm.Valpha);       
 } 
 
-inline void MC_APP_MC_CalcSVGen( void )
+static inline void MC_APP_MC_CalcSVGen( void )
 {
-    if( SVGenParm.Vr1 >= 0 )
+    if( SVGenParm.Vr1 >= 0.0f )
     {       
 		// (xx1)
-        if( SVGenParm.Vr2 >= 0 )
+        if( SVGenParm.Vr2 >= 0.0f )
         {
             // (x11)
             // Must be Sector 3 since Sector 7 not allowed
@@ -1164,7 +1176,7 @@ inline void MC_APP_MC_CalcSVGen( void )
         else
         {            
             // (x01)
-            if( SVGenParm.Vr3 >= 0 )
+            if( SVGenParm.Vr3 >= 0.0f )
             {
                 // Sector 5: (1,0,1)  120-180 degrees
                 T1 = SVGenParm.Vr1;
@@ -1189,10 +1201,10 @@ inline void MC_APP_MC_CalcSVGen( void )
     else
     {
         // (xx0)
-        if( SVGenParm.Vr2 >= 0 )
+        if( SVGenParm.Vr2 >= 0.0f )
         {
 			// (x10)
-            if( SVGenParm.Vr3 >= 0 )
+            if( SVGenParm.Vr3 >= 0.0f )
             {
                 // Sector 6: (1,1,0)  240-300 degrees
                 T1 = SVGenParm.Vr3;
@@ -1229,11 +1241,11 @@ inline void MC_APP_MC_CalcSVGen( void )
     }
 }
 
-inline void MC_APP_MC_CalcTimes(void)
+void MC_APP_MC_CalcTimes(void)
 {
     T1 = SVGenParm.PWMPeriod * T1;
     T2 = SVGenParm.PWMPeriod * T2;
-    Tc = (SVGenParm.PWMPeriod-T1-T2)/2;
+    Tc = (SVGenParm.PWMPeriod-T1-T2)/2.0f;
     Tb = Tc + T2;
     Ta = Tb + T1;    
 }  
@@ -1244,20 +1256,20 @@ inline void MC_APP_MC_CalcTimes(void)
 // *****************************************************************************
 // *****************************************************************************
 
-inline void MC_APP_MC_InitMotionEstimator(tagObserverInput * observerInputP)
+static inline void MC_APP_MC_InitMotionEstimator(tagObserverInput * observerInputP)
 { 
-    para.boundaryI = RL_BOUNDARY_I;
-    para.m = RL_M;
-    para.lambda = RL_LAMBDA;
-    para.wcSpeedFil = RL_WC_SPEED_FIL;
-    para.pwmFreq = RL_PWM_FREQUENCY;
-    para.rs = RL_RS;
-    para.ls = RL_LS;
-    para.P = RL_P;
-    para.speedRefTime = RL_SPEEDREF_TIME;
-    para.expRsLsTs = RL_EXP_MINUS_RSLST;
+    inputpara.boundaryI = RL_BOUNDARY_I;
+    inputpara.m = RL_M;
+    inputpara.lambda = RL_LAMBDA;
+    inputpara.wcSpeedFil = RL_WC_SPEED_FIL;
+    inputpara.pwmFreq = RL_PWM_FREQUENCY;
+    inputpara.rs = RL_RS;
+    inputpara.ls = RL_LS;
+    inputpara.P = RL_P;
+    inputpara.speedRefTime = RL_SPEEDREF_TIME;
+    inputpara.expRsLsTs = RL_EXP_MINUS_RSLST;
     
-    observerInputP->para = &para;
+    observerInputP->para = &inputpara;
     observerInputP->positionDataP = &positionData;
     observerInputP->speedDataP = &speedData;
 }
@@ -1265,39 +1277,39 @@ inline void MC_APP_MC_InitMotionEstimator(tagObserverInput * observerInputP)
 void MC_APP_MC_InitMotorParameters(void)
 {
     
-    MC_APP_MC_CONTROL.bit.OpenLoop = 1;
-    MC_APP_MC_CONTROL.bit.ChangeMode = 1;
-    Startup_Ramp_Angle_Rads_Per_Sec = 0;
-    Startup_Lock_Count = 0;
+    MC_APP_MC_CONTROL.bit.OpenLoop = 1u;
+    MC_APP_MC_CONTROL.bit.ChangeMode = 1u;
+    Startup_Ramp_Angle_Rads_Per_Sec = 0.0f;
+    Startup_Lock_Count = 0u;
     Speed_Maintain_Cnt1 = 0;
     flagStartObs = 0;
-    ParkParm.Angle = 0;
-    SincosParm.Angle = 0;
+    ParkParm.Angle = 0.0f;
+    SincosParm.Angle = 0.0f;
     closeLoopTHstate.state = 0u;
     closeLoopTHstate.cnt1 = 0u;
-    finalTHI = 0;
-    finalTHO = 0;
-    closeLoopTHI = 0;
-    closeLoopTHO = 0;
-    CtrlParm.VelRef = 0;
-    CtrlParm.IdRef = 0;
-    CtrlParm.IqRef = 0;
+    finalTHI = 0.0f;
+    finalTHO = 0.0f;
+    closeLoopTHI = 0.0f;
+    closeLoopTHO = 0.0f;
+    CtrlParm.VelRef = 0.0f;
+    CtrlParm.IdRef = 0.0f;
+    CtrlParm.IqRef = 0.0f;
 
-    positionData.TH = 0;
-    positionData.THI = 0;
-    positionData.THO = 0;
-    positionData.dTH = 0;
-    positionData.zTH = 0;
+    positionData.TH = 0.0f;
+    positionData.THI = 0.0f;
+    positionData.THO = 0.0f;
+    positionData.dTH = 0.0f;
+    positionData.zTH = 0.0f;
 
-    speedData.SUMdTH = 0;
-    speedData.WeHat = 0;
-    speedData.WeRaw = 0;
-    speedData.WmHat = 0;
-    speedData.cntFIFO = 0;
+    speedData.SUMdTH = 0.0f;
+    speedData.WeHat = 0.0f;
+    speedData.WeRaw = 0.0f;
+    speedData.WmHat = 0.0f;
+    speedData.cntFIFO = 0u;
     
-    ParkParm.Ialpha = 0;
-    ParkParm.Ibeta = 0;
-    ParkParm.MaxPhaseVoltage = 0;
+    ParkParm.Ialpha =0.0f;
+    ParkParm.Ibeta = 0.0f;
+    ParkParm.MaxPhaseVoltage =0.0f;
 }
 
 // *****************************************************************************
@@ -1340,20 +1352,20 @@ void MC_APP_MC_ControlLoopISR(uint32_t status, uintptr_t context)
 /******************************************************************************/
 static void MC_APP_MC_SwitchDebounce(MC_APP_MC_STATES state)
 {
-    if (!START_STOP_BUTTON_Get())
+    if (START_STOP_BUTTON_Get()!=1U)
     {
         mc_appData.switchCount++;
-        if (mc_appData.switchCount >= 0xFF)
+        if (mc_appData.switchCount >= 0xFFu)
         {
-           mc_appData.switchCount = 0;
+           mc_appData.switchCount = 0u;
            mc_appData.switchState = MC_APP_SWITCH_PRESSED;
         }
     }
     if (mc_appData.switchState == MC_APP_SWITCH_PRESSED)
     {
-        if (START_STOP_BUTTON_Get())
+        if (START_STOP_BUTTON_Get()==1U)
         {
-            mc_appData.switchCount = 0;
+            mc_appData.switchCount = 0u;
             mc_appData.switchState = MC_APP_SWITCH_RELEASED;
             mc_appData.mcState = state;
 
@@ -1371,27 +1383,27 @@ static void MC_APP_MC_SwitchDebounce(MC_APP_MC_STATES state)
 /******************************************************************************/
 static void MC_APP_MC_MotorDirectionToggle( void )
 {
-   static uint16_t switchCount = 0xFF;
+   static uint16_t switchCount = 0xFFu;
    static MC_APP_SWITCH_STATE switchState = MC_APP_SWITCH_RELEASED;
 
    /* Check if the push button for motor direction toggling is pressed */
     if (switchState == MC_APP_SWITCH_RELEASED)
     {
-        if (!DIRECTION_TOGGLE_BUTTON_Get())
+        if (DIRECTION_TOGGLE_BUTTON_Get()!=1U)
         {
             switchCount++;
-            if (switchCount >= 0xFF)
+            if (switchCount >= 0xFFu)
             {
-               switchCount = 0;
+               switchCount = 0u;
                switchState = MC_APP_SWITCH_PRESSED;
             }
         }
     }
    if (switchState == MC_APP_SWITCH_PRESSED)
    {
-       if (DIRECTION_TOGGLE_BUTTON_Get())
+       if (DIRECTION_TOGGLE_BUTTON_Get()==1U)
        {
-           switchCount = 0;
+           switchCount = 0u;
            switchState = MC_APP_SWITCH_RELEASED;
 
            /* Set LED to indicate the direction reversal */
@@ -1421,24 +1433,24 @@ void MC_APP_MC_Tasks (void )
         }
 		
         case MC_APP_MC_STATE_START:
-            MC_APP_MC_CONTROL.bit.OpenLoop = 1;
-            MC_APP_MC_CONTROL.bit.ChangeMode = 1;
+            MC_APP_MC_CONTROL.bit.OpenLoop = 1u;
+            MC_APP_MC_CONTROL.bit.ChangeMode = 1u;
             MC_APP_MC_InitControlParameters();
             MC_APP_MC_InitMotionEstimator(&observerInput);
             resetEstimator(&observerInput);
             MC_APP_MC_InitMotorParameters();
-            SincosParm.Angle = 0;
-            ParkParm.Angle = 0.0;
-            SVGenParm.PWMPeriod = PWM0_ChannelPeriodGet(PWM_CHANNEL_0);
+            SincosParm.Angle = 0.0f;
+            ParkParm.Angle = 0.0f;;
+            SVGenParm.PWMPeriod = (float)((uint32_t)PWM0_ChannelPeriodGet(PWM_CHANNEL_0));
 
             /* ADC end of conversion interrupt generation for FOC control */
             NVIC_DisableIRQ(AFEC0_IRQn);
             NVIC_ClearPendingIRQ(AFEC0_IRQn);
             NVIC_SetPriority(AFEC0_IRQn, 0);
-            AFEC0_CallbackRegister(MC_APP_MC_ControlLoopISR, (uintptr_t)NULL);
+            AFEC0_CallbackRegister(MC_APP_MC_ControlLoopISR, (uintptr_t)dummyforMisra);
             NVIC_EnableIRQ(AFEC0_IRQn);
             AFEC0_ChannelsInterruptEnable(AFEC_INTERRUPT_EOC_7_MASK);
-            ((pio_registers_t*)PIO_PORT_D)->PIO_PDR = ~0xF8FFFFFF; // Enable PWML output. 
+            ((pio_registers_t*)PIO_PORT_D)->PIO_PDR = ~0xF8FFFFFFu; // Enable PWML output. 
 
             /* Clear fault before start */
             PWM0_FaultStatusClear(PWM_FAULT_ID_2);
@@ -1446,6 +1458,7 @@ void MC_APP_MC_Tasks (void )
             PWM0_REGS->PWM_OS = 0x0;                
             PWM0_ChannelsStart(PWM_CHANNEL_0_MASK);
             mc_appData.mcState = MC_APP_MC_STATE_RUNNING;
+            break;
                
         case MC_APP_MC_STATE_RUNNING:
             MC_APP_MC_SwitchDebounce(MC_APP_MC_STATE_STOP);
@@ -1456,7 +1469,7 @@ void MC_APP_MC_Tasks (void )
             NVIC_DisableIRQ(AFEC0_IRQn);
             PWM0_REGS->PWM_OS = 0xF000F;
             /* Disables PWM channels. */
-            PWM0_ChannelsStop(PWM_CHANNEL_0_MASK | PWM_CHANNEL_1_MASK | PWM_CHANNEL_2_MASK);
+            PWM0_ChannelsStop((PWM_CHANNEL_MASK)((uint8_t)PWM_CHANNEL_0_MASK | (uint8_t)PWM_CHANNEL_1_MASK | (uint8_t)PWM_CHANNEL_2_MASK));
             /* ADC end of conversion interrupt generation disabled */
             AFEC0_ChannelsInterruptDisable(AFEC_INTERRUPT_EOC_7_MASK);
             
@@ -1468,6 +1481,7 @@ void MC_APP_MC_Tasks (void )
         /* The default state should never be executed. */
         default:
         {
+            /* Undefined state: Should never come here */
             break;
         }
     }

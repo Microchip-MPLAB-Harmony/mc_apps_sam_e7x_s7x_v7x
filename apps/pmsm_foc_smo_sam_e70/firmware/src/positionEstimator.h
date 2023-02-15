@@ -1,5 +1,5 @@
-#ifndef _POSITION_ESTIMATOR_H
-#define _POSITION_ESTIMATOR_H
+#ifndef POSITION_ESTIMATOR_H
+#define POSITION_ESTIMATOR_H
 
 #include <stdint.h>
 #include <stdbool.h>

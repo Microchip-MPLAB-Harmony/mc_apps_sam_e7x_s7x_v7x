@@ -70,7 +70,6 @@
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rswdt.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rtc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rtt.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/sdramc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/smc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/spi.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/ssc.h</itemPath>
@@ -117,7 +116,6 @@
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rswdt.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rtc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rtt.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/sdramc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/smc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/spi0.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/spi1.h</itemPath>
@@ -230,6 +228,7 @@
         <itemPath>../src/X2CScopeCommunication.c</itemPath>
       </logicalFolder>
       <itemPath>../src/main.c</itemPath>
+      <itemPath>../src/config/mclv2_sam_e70_pim/pin_configurations.csv</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

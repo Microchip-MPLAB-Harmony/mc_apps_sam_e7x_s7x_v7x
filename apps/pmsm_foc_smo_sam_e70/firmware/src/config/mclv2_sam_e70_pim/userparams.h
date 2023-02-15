@@ -39,8 +39,8 @@
 *******************************************************************************/
 // DOM-IGNORE-END
 
-#ifndef _USER_HEADER
-#define _USER_HEADER
+#ifndef USER_HEADER
+#define USER_HEADER
 
 /***********************************************************************************************/
 /*                    include files                                                            */
@@ -73,9 +73,9 @@
 #define     MOTOR_PER_PHASE_RESISTANCE                          ((float)0.285)			// Resistance in Ohms
 #define     MOTOR_PER_PHASE_INDUCTANCE                          ((float)0.00032)		// Inductance in Henrys
 #define     MOTOR_INERTIA                                       (float)(0.00251 * 0.007)  /* ((float)0.00251*0.007) */
-#define     MOTOR_PER_PHASE_INDUCTANCE_DIV_2_PI                 ((float)(MOTOR_PER_PHASE_INDUCTANCE/(2*M_PI)))	
+#define     MOTOR_PER_PHASE_INDUCTANCE_DIV_2_PI                 ((float)(MOTOR_PER_PHASE_INDUCTANCE/(2.0f*(float)M_PI)))	
 #define     MOTOR_BACK_EMF_CONSTANT_Vpeak_Line_Line_KRPM_MECH   (float)(7.24)				// Back EMF Constant in Vpeak/KRPM
-#define     NOPOLESPAIRS                                        5
+#define     NOPOLESPAIRS                                       (float)5.0f
 #define     NOMINAL_SPEED_RPM                                   (float)2804 // Value in RPM
 #endif 
 
@@ -84,7 +84,7 @@
 /*****************************************************************************/
 
 /* Motor Start-up configuration parameters */
-#define LOCK_TIME_IN_SEC                (2)   /* Startup - Rotor alignment time */
+#define LOCK_TIME_IN_SEC                (2U)   /* Startup - Rotor alignment time */
 #define END_SPEED_RPM                   (500) /* Startup - Control loop switches to close loop at this speed */
 #define RAMP_TIME_IN_SEC                (5)   /* Startup - Time to reach OPEN_LOOP_END_SPEED_RPM in seconds */
 #define Q_CURRENT_REF_OPENLOOP          ((float)0.4) /* Startup - Motor start to ramp up in current control mode */
@@ -116,28 +116,28 @@
 
 /* PI controllers tuning values - */
 //******** D Control Loop Coefficients *******
-#define     D_CURRCNTR_PTERM                                    0.02
-#define     D_CURRCNTR_ITERM                                    (0.00005)
-#define     D_CURRCNTR_CTERM                                    0.5
-#define     D_CURRCNTR_OUTMAX                                    0.999
+#define     D_CURRCNTR_PTERM                                    0.02f
+#define     D_CURRCNTR_ITERM                                    (0.00005f)
+#define     D_CURRCNTR_CTERM                                    0.5f
+#define     D_CURRCNTR_OUTMAX                                    0.999f
 
 //******** Q Control Loop Coefficients *******
-#define     Q_CURRCNTR_PTERM                                    0.02
-#define     Q_CURRCNTR_ITERM                                    (0.00005)
-#define     Q_CURRCNTR_CTERM                                    0.5
-#define     Q_CURRCNTR_OUTMAX                                   0.999
+#define     Q_CURRCNTR_PTERM                                    0.02f
+#define     Q_CURRCNTR_ITERM                                    (0.00005f)
+#define     Q_CURRCNTR_CTERM                                    0.5f
+#define     Q_CURRCNTR_OUTMAX                                   0.999f
 
 //*** Velocity Control Loop Coefficients *****
-#define     SPEEDCNTR_PTERM                                      (0.005)
-#define     SPEEDCNTR_ITERM                                      (0.0000006) 
-#define     SPEEDCNTR_CTERM                                      0.5
+#define     SPEEDCNTR_PTERM                                      (0.005f)
+#define     SPEEDCNTR_ITERM                                      (0.0000006f) 
+#define     SPEEDCNTR_CTERM                                      0.5f
 #define     SPEEDCNTR_OUTMAX                                     MAX_MOTOR_CURRENT
 
 #endif
 
 /* First order low pass Filter constants used inside the project             */
 #define     KFILTER_ESDQ                                        (float)((float)400/(float)32767)
-#define     KFILTER_VELESTIM                                    (float)((float)(1*374)/(float)32767)
+#define     KFILTER_VELESTIM                                    (float)((float)(1.0f*374.0f)/(float)32767)
 #define     INITOFFSET_TRANS_OPEN_CLSD                          (float)((float)0x2000/(float)32767)
 
 /***********************************************************************************************/
@@ -166,7 +166,7 @@
 /***********************************************************************************************/
 /** PWM frequency in Hz */
 #define PWM_FREQ                                       (20000U)
-#define SYS_CLK_FREQ                                    150000000
+#define SYS_CLK_FREQ                                    150000000U
 /**********************************************************************************************/
 
 /***********************************************************************************************/
@@ -177,12 +177,12 @@
 /* Configuration Parameters Calculations*/
 /*******************************************************************************/
 #define One_MHz                       (1000000U)
-#define     SINGLE_ELEC_ROT_RADS_PER_SEC                        (float)(2*M_PI)
+#define     SINGLE_ELEC_ROT_RADS_PER_SEC                        (float)(2.0f*(float)M_PI)
 
-#define     PBCLK_PWM                                           (SYS_CLK_FREQ/1)
-#define     PWM_TS                                                 (float)(1.0/PWM_FREQ)
+#define     PBCLK_PWM                                           (SYS_CLK_FREQ/1U)
+#define     PWM_TS                                                 (float)(1.0f/(float)PWM_FREQ)
 #define     PWM_RELOAD_EDGE                                     ((PBCLK_PWM/PWM_FREQ))
-#define     PWM_RELOAD_CENTER                                   (((PBCLK_PWM/PWM_FREQ)/2))
+#define     PWM_RELOAD_CENTER                                   (((PBCLK_PWM/PWM_FREQ)/2U))
 
 
 /***********************************************************************************************/
@@ -190,7 +190,7 @@
 /***********************************************************************************************/
 #define     MAX_MOTOR_CURRENT_SQUARED                           (float)((float)MAX_MOTOR_CURRENT*(float)MAX_MOTOR_CURRENT)
 #define     ADC_CURRENT_SCALE                                   (float)(MAX_BOARD_CURRENT/(float)2048)
-#define     MAX_PHASE_VOLTAGE                                   (float)(DC_BUS_VOLTAGE/1.732)
+#define     MAX_PHASE_VOLTAGE                                   (float)(DC_BUS_VOLTAGE/1.732f)
 #define     VREF_DAC_VALUE                                      ((int)2048u)
 #define     DCBUS_SENSE_RATIO                                   (float)(DCBUS_SENSE_BOTTOM_RESISTOR/(DCBUS_SENSE_BOTTOM_RESISTOR + DCBUS_SENSE_TOP_RESISTOR))
 #define     VOLTAGE_ADC_TO_PHY_RATIO                            (float)(MAX_ADC_INPUT_VOLTAGE/(MAX_ADC_COUNT * DCBUS_SENSE_RATIO))
@@ -198,47 +198,47 @@
 #define     MAX_DUTY                                            (PWM_RELOAD_CENTER)
 #define     LOOPTIME_SEC                                        (float)0.00005           // PWM Period - 50 uSec, 20Khz PWM
 
-#define     LOCK_COUNT_FOR_LOCK_TIME                            (unsigned int)((float)LOCK_TIME_IN_SEC/(float)LOOPTIME_SEC)
+#define     LOCK_COUNT_FOR_LOCK_TIME                            (float)((float)LOCK_TIME_IN_SEC/(float)LOOPTIME_SEC)
 #define     RL_CNT_1S                                           0xfff //(unsigned int)(1.0 * PWM_FREQ)
-#define     END_SPEED_RPS                                       ((float)END_SPEED_RPM/60)
+#define     END_SPEED_RPS                                       ((float)END_SPEED_RPM/60.0f)
 #define     END_SPEED_RADS_PER_SEC_MECH                         (float)(END_SPEED_RPS * SINGLE_ELEC_ROT_RADS_PER_SEC)
 #define     END_SPEED_RADS_PER_SEC_ELEC                         (float)(END_SPEED_RADS_PER_SEC_MECH * NOPOLESPAIRS)
 #define     END_SPEED_RADS_PER_SEC_ELEC_IN_LOOPTIME             (float)(END_SPEED_RADS_PER_SEC_ELEC * LOOPTIME_SEC)
-#define     OPENLOOP_RAMPSPEED_INCREASERATE                     (float)(END_SPEED_RADS_PER_SEC_ELEC_IN_LOOPTIME/(RAMP_TIME_IN_SEC/LOOPTIME_SEC))
+#define     OPENLOOP_RAMPSPEED_INCREASERATE                     (float)(END_SPEED_RADS_PER_SEC_ELEC_IN_LOOPTIME/((float)RAMP_TIME_IN_SEC/LOOPTIME_SEC))
 
 
-#define     NOMINAL_SPEED_RAD_PER_SEC_ELEC                      (float)(((NOMINAL_SPEED_RPM/60)*2*M_PI)*NOPOLESPAIRS) // Value in RPM
+#define     NOMINAL_SPEED_RDPS_ELEC                      (float)(((NOMINAL_SPEED_RPM/60.0f)*2.0f*(float)M_PI)*NOPOLESPAIRS) // Value in RPM
 
-#define     MOTOR_BACK_EMF_CONSTANT_Vpeak_PHASE_RPM_MECH        (float)((MOTOR_BACK_EMF_CONSTANT_Vpeak_Line_Line_KRPM_MECH/1.732)/1000)
-#define     MOTOR_BACK_EMF_CONSTANT_Vpeak_PHASE_RPS_MECH        (float)(MOTOR_BACK_EMF_CONSTANT_Vpeak_PHASE_RPM_MECH * 60)
-#define     MOTOR_BACK_EMF_CONSTANT_Vpeak_PHASE_RAD_PER_SEC_MECH (float)(MOTOR_BACK_EMF_CONSTANT_Vpeak_PHASE_RPS_MECH/(2*M_PI))
-#define     MOTOR_BACK_EMF_CONSTANT_Vpeak_PHASE_RAD_PER_SEC_ELEC (float)(MOTOR_BACK_EMF_CONSTANT_Vpeak_PHASE_RAD_PER_SEC_MECH/NOPOLESPAIRS)
-#define     INVKFi_BELOW_BASE_SPEED                               (float)(1/MOTOR_BACK_EMF_CONSTANT_Vpeak_PHASE_RAD_PER_SEC_ELEC)
-#define     MOTOR_TORQUE_CONSTANT                               (float)(1.5*NOPOLESPAIRS*MOTOR_BACK_EMF_CONSTANT_Vpeak_PHASE_RAD_PER_SEC_ELEC)
+#define     BEMF_CNST_Vpk_PH_RPM_MECH        (float)((MOTOR_BACK_EMF_CONSTANT_Vpeak_Line_Line_KRPM_MECH/1.732f)/1000.0f)
+#define     BEMF_CNST_Vpk_PH_RPS_MECH        (float)(BEMF_CNST_Vpk_PH_RPM_MECH * 60.0f)
+#define     BEMF_CNST_Vpk_PH_RDPS_MECH (float)(BEMF_CNST_Vpk_PH_RPS_MECH/(2.0f*(float)M_PI))
+#define     BEMF_CNST_Vpk_PH_RDPS_ELEC (float)(BEMF_CNST_Vpk_PH_RDPS_MECH/NOPOLESPAIRS)
+#define     INVKFi_BELOW_BASE_SPEED                               (float)(1.0f/BEMF_CNST_Vpk_PH_RDPS_ELEC)
+#define     MOTOR_TORQUE_CONSTANT                               (float)(1.5f*NOPOLESPAIRS*BEMF_CNST_Vpk_PH_RDPS_ELEC)
 
 /*Moving Average Filter based Current Offset Calculator Parameters */
-#define 	MOVING_AVG_WINDOW_SIZE                              18   // moving average window sample size is 2^18
+#define 	MOVING_AVG_WINDOW_SIZE                              18U   // moving average window sample size is 2^18
 #define     CURRENT_OFFSET_MAX                                  2200 // current offset max limit
 #define     CURRENT_OFFSET_MIN                                  1900 // current offset min limit
 #define     CURRENT_OFFSET_INIT                                 2048 // // as the OPAMPs are biased at VDD/2, the estimate offset value is 2048 i.e. half of 4095 which is full scale value of a 12 bit ADC. 
 
-#define     SPEED_COMMAND_RAMP_UP_TIME                          (float)25.0 // seconds
+#define     SPEED_COMMAND_RAMP_UP_TIME                          (float)25.0f // seconds
 
-#define     POT_ADC_COUNT_FW_SPEED_RATIO                        (float)(NOMINAL_SPEED_RAD_PER_SEC_ELEC/MAX_ADC_COUNT)
+#define     POT_ADC_COUNT_FW_SPEED_RATIO                        (float)(NOMINAL_SPEED_RDPS_ELEC/MAX_ADC_COUNT)
 
 
 #define RL_WC_VELREF_FIL ((float)1.0)  /* cross frequency of velocity reference filter */
 #define RL_WCTS_VELREF (float)(RL_WC_VELREF_FIL * PWM_TS)  /* Wc*Ts */
-#define RL_1MINUS_WCTS_VELREF (float)(1.0-RL_WCTS_VELREF)  /* 1 - Wc*Ts */
+#define RL_1MINUS_WCTS_VELREF (float)(1.0f-RL_WCTS_VELREF)  /* 1 - Wc*Ts */
 #define RL_WC_CURREF_FIL ((float)1000.0)  /* cross frequency of torque reference filter */
 #define RL_WCTS_CURREF (float)(RL_WC_CURREF_FIL * PWM_TS)  /* Wc*Ts */
 #define RL_1MINUS_WCTS_CURREF (float)(1.0-RL_WCTS_CURREF)  /* 1 - Wc*Ts */
-#define RL_1SCNT (float)(1.0 * PWM_FREQ)
-#define RL_1D_1SCNT (float)(1.0 / RL_1SCNT)
-#define RL_2SCNT (float)(2.0 * PWM_FREQ)
-#define RL_1D_2SCNT (float)(1.0 / RL_2SCNT)
-#define RL_4SCNT (float)(4.0 * PWM_FREQ)
-#define RL_1D_4SCNT (float)(1.0 / RL_4SCNT)
+#define RL_1SCNT (float)(1.0f * (float)PWM_FREQ)
+#define RL_1D_1SCNT (float)(1.0f / RL_1SCNT)
+#define RL_2SCNT (float)(2.0f * (float)PWM_FREQ)
+#define RL_1D_2SCNT (float)(1.0f / RL_2SCNT)
+#define RL_4SCNT (float)(4.0f * (float)PWM_FREQ)
+#define RL_1D_4SCNT (float)(1.0f / RL_4SCNT)
 
 
 /********************************************************************************
@@ -257,7 +257,7 @@
  * After this period, estimated speed will be used by BEMF observer. */
 #define RL_SPEEDREF_TIME (float)0.2  /* unit: second */
 /* Constant Macro */
-#define RL_2PI (float)(2.0*M_PI) 
+//#define RL_2PI (float)(2.0f*(float)M_PI) 
 /* ZOH discretization of SMO: intermediate macro */
 #define RL_RSLST ((double)RL_RS / RL_LS / RL_PWM_FREQUENCY)
 #define RL_EXP_MINUS_RSLST (float)(exp(-RL_RSLST))
@@ -276,10 +276,10 @@
 #define OPEN_LOOP_END_SPEED_RPS       ((float)OPEN_LOOP_END_SPEED_RPM/60)
 
 /* Rated speed of the motor in RPM */
-#define RATED_SPEED_RAD_PER_SEC_ELEC                     (float)(RATED_SPEED_RPM *(2*(float)M_PI/60) * NUM_POLE_PAIRS)
+#define RATED_SPEED_RDPS_ELEC                     (float)(RATED_SPEED_RPM *(2*(float)M_PI/60) * NUM_POLE_PAIRS)
 #define CLOSE_LOOP_RAMP_RATE                              (600) /* RPM per sec */
-#define RAMP_RAD_PER_SEC_ELEC                             (float)(CLOSE_LOOP_RAMP_RATE * NUM_POLE_PAIRS * PI/30.0)
-#define SPEED_RAMP_INC_SLOW_LOOP                          (float)(RAMP_RAD_PER_SEC_ELEC*SLOW_LOOP_TIME_SEC)
+#define RAMP_RDPS_ELEC                             (float)(CLOSE_LOOP_RAMP_RATE * NUM_POLE_PAIRS * PI/30.0)
+#define SPEED_RAMP_INC_SLOW_LOOP                          (float)(RAMP_RDPS_ELEC*SLOW_LOOP_TIME_SEC)
 
 /* Open loop end speed conversions */
 #define SINGLE_ELEC_ROT_RADS_PER_SEC                      ((float)((float)(2.0) * (float)M_PI))
@@ -290,13 +290,13 @@
 
 /* BEMF constant */
 #define MOTOR_BEMF_CONST_V_PEAK_PHASE_PER_RPM_MECH       (float)((MOTOR_BEMF_CONST_V_PEAK_LL_KRPM_MECH/SQRT3)/1000.0)
-#define MOTOR_BEMF_CONST_V_PEAK_PHASE_RAD_PER_SEC_MECH   (float)(MOTOR_BEMF_CONST_V_PEAK_PHASE_PER_RPM_MECH / (float)(2.0 * M_PI/60.0))
-#define MOTOR_BEMF_CONST_V_PEAK_PHASE_RAD_PER_SEC_ELEC   (float)(MOTOR_BEMF_CONST_V_PEAK_PHASE_RAD_PER_SEC_MECH / NUM_POLE_PAIRS)
+#define MOTOR_BEMF_CONST_V_PEAK_PHASE_RDPS_MECH   (float)(MOTOR_BEMF_CONST_V_PEAK_PHASE_PER_RPM_MECH / (float)(2.0 * M_PI/60.0))
+#define MOTOR_BEMF_CONST_V_PEAK_PHASE_RDPS_ELEC   (float)(MOTOR_BEMF_CONST_V_PEAK_PHASE_RDPS_MECH / NUM_POLE_PAIRS)
 
-#define MAX_SPEED_RAD_PER_SEC_ELEC          (float)(((RATED_SPEED_RPM/60)*2*(float)M_PI)*NUM_POLE_PAIRS)
+#define MAX_SPEED_RDPS_ELEC          (float)(((RATED_SPEED_RPM/60)*2*(float)M_PI)*NUM_POLE_PAIRS)
 
 #define MAX_STATOR_VOLT_SQUARE              (float)(0.98 * 0.98)
-#define POT_ADC_COUNT_FW_SPEED_RATIO        (float)(MAX_SPEED_RAD_PER_SEC_ELEC/MAX_ADC_COUNT)
+#define POT_ADC_COUNT_FW_SPEED_RATIO        (float)(MAX_SPEED_RDPS_ELEC/MAX_ADC_COUNT)
 
 #endif
 
