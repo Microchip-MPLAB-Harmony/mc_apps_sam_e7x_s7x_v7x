@@ -54,23 +54,24 @@
 #define PFC_CURRENT_OFFSET_SAMPLES   100U
 #define PFC_CURRENT_OFFSET_MIN       1900U
 #define PFC_CURRENT_OFFSET_MAX       2100U
-
+static uintptr_t dummyforMisra;
+static float PFC_IacOffset_df32;
 #if(PFC_ENABLE == 1U)
 /******************************************************************************/
 /* Structure declaration  */
 /******************************************************************************/
-PFCAPP_CONTROL_PARAM      gPfcControlParam;
-PFCAPP_AC_VOLTAGE         gAcVoltageParam;
-PFCAPP_DC_BUS_VOLTAGE     gDcVoltageParam;
-PFCAPP_AC_CURRENT         gAcCurrentParam;
-PFCAPP_AVG_FILTER_STATE   gVacAvgFilter;
-PFCAPP_AVG_FILTER_STATE   gIacAvgFilter;
+static PFCAPP_CONTROL_PARAM      gPfcControlParam;
+static PFCAPP_AC_VOLTAGE         gAcVoltageParam;
+static PFCAPP_DC_BUS_VOLTAGE     gDcVoltageParam;
+static PFCAPP_AC_CURRENT         gAcCurrentParam;
+static PFCAPP_AVG_FILTER_STATE   gVacAvgFilter;
+static PFCAPP_AVG_FILTER_STATE   gIacAvgFilter;
 
 /******************************************************************************/
 /* Extern                                                                     */
 /******************************************************************************/
-extern MCLIB_PI  gPIParmIpfc;            /* PFC Current PI controllers */
-extern MCLIB_PI  gPIParmVpfc;            /* PFC Voltage PI controllers */
+ MCLIB_PI  gPIParmIpfc;            /* PFC Current PI controllers */
+ MCLIB_PI  gPIParmVpfc;            /* PFC Voltage PI controllers */
 
 /******************************************************************************/
 /*                  FUNCTION DEFINATION                                       */
@@ -93,17 +94,17 @@ void PFCAPP_init(void)
     gPIParmIpfc.ki = PFC_CURRCNTR_ITERM;
     gPIParmIpfc.kc = PFC_CURRCNTR_CTERM;
     gPIParmIpfc.outMax = PFC_CURRCNTR_OUTMAX;
-    gPIParmIpfc.outMin = 0;
-    gPIParmIpfc.dSum = 0;
-    gPIParmIpfc.out = 0;
+    gPIParmIpfc.outMin = 0.0f;
+    gPIParmIpfc.dSum = 0.0f;
+    gPIParmIpfc.out = 0.0f;
 
     gPIParmVpfc.kp = PFC_VOLTAGE_PTERM;
     gPIParmVpfc.ki = PFC_VOLTAGE_ITERM;
     gPIParmVpfc.kc = PFC_VOLTAGE_CTERM;
     gPIParmVpfc.outMax = PFC_VOLTAGE_OUTMAX;
-    gPIParmVpfc.outMin = 0;
-    gPIParmVpfc.dSum = 0;
-    gPIParmVpfc.out = 0;
+    gPIParmVpfc.outMin = 0.0f;
+    gPIParmVpfc.dSum = 0.0f;
+    gPIParmVpfc.out = 0.0f;
 
     gVacAvgFilter.B0 = B0_AVG_FILT;
     gVacAvgFilter.B1 = B1_AVG_FILT;
@@ -125,7 +126,7 @@ void PFCAPP_init(void)
 /* Function return: None                                                      */
 /* Description: Offset calibration                                            */
 /******************************************************************************/
- float PFC_IacOffset_df32;
+
 
 static void PFCAPP_offsetCalibration(void)
 {
@@ -147,18 +148,18 @@ static void PFCAPP_offsetCalibration(void)
         /* Delay to stabilize voltage levels on board and adc conversion to complete */
         do
         {
-            asm("NOP");
-            asm("NOP");
-            asm("NOP");
-            asm("NOP");
-            asm("NOP");
+            NOP();
+            NOP();
+            NOP();
+            NOP();
+            NOP();
             delayCounter--;
         } while (delayCounter > 0);
 
         /* re-load delay counter for next adc sample */
         delayCounter = 0xFFFF;
 
-        IACOffsetBuffer  += (uint32_t)AFEC1_ChannelResultGet(PFC_CURRENT_ADC_CH );
+        IACOffsetBuffer  += (uint32_t)AFEC1_ChannelResultGet((AFEC_CHANNEL_NUM)PFC_CURRENT_ADC_CH );
     }
     PFC_IacOffset_df32 = (float)((float)IACOffsetBuffer/(float)PFC_CURRENT_OFFSET_SAMPLES);
 
@@ -170,6 +171,9 @@ static void PFCAPP_offsetCalibration(void)
     else if(PFC_IacOffset_df32 <  (float)PFC_CURRENT_OFFSET_MIN)
     {
         PFC_IacOffset_df32 = (float)PFC_CURRENT_OFFSET_MIN;
+    }else
+    {
+        /* Dummy branch for MISRAC compliance*/
     }
 
     /* Enable adc end of conversion interrupt generation to execute FOC loop */
@@ -189,7 +193,7 @@ static void PFCAPP_offsetCalibration(void)
  /******************************************************************************/
 
 
-inline void PFCAPP_AvgFilter(PFCAPP_AVG_FILTER_STATE *pParam)
+static inline void PFCAPP_AvgFilter(PFCAPP_AVG_FILTER_STATE *pParam)
 {
     pParam->y_n  =(pParam->A1*pParam->y_n_1) ;
     pParam->y_n +=(pParam->A2*pParam->y_n_2);
@@ -220,10 +224,10 @@ __STATIC_INLINE void PFCAPP_faultsCheck(void)
         if(gDcVoltageParam.measured >= PFC_DC_BUS_OVER_VOLTAGE)
         {
             gPfcControlParam.overvoltage_faultCount++;
-            if(gPfcControlParam.overvoltage_faultCount  > 200)
+            if(gPfcControlParam.overvoltage_faultCount  > 200U)
             {
-                gPfcControlParam.faultBit = 1;
-                gPfcControlParam.overvoltage_faultCount=0;
+                gPfcControlParam.faultBit = 1U;
+                gPfcControlParam.overvoltage_faultCount=0U;
             }
 
         }
@@ -231,29 +235,29 @@ __STATIC_INLINE void PFCAPP_faultsCheck(void)
         else if((gAcVoltageParam.avgOutput >= PFC_AC_OVER_VOLTAGE) || (gAcVoltageParam.avgOutput <= PFC_AC_UNDER_VOLTAGE))
         {
             gPfcControlParam.ac_voltage_faultCount++;
-            if(gPfcControlParam.ac_voltage_faultCount  > 200)
+            if(gPfcControlParam.ac_voltage_faultCount  > 200U)
             {
-                gPfcControlParam.faultBit = 1;
-                gPfcControlParam.ac_voltage_faultCount=0;
+                gPfcControlParam.faultBit = 1U;
+                gPfcControlParam.ac_voltage_faultCount=0U;
             }
         }
         /* AC input over current fault */
         else if(gAcCurrentParam.avgOutput >= PFC_OVER_CURRENT_AVG)
         {
             gPfcControlParam.overcurrent_faultCount++;
-            if(gPfcControlParam.overcurrent_faultCount  > 200)
+            if(gPfcControlParam.overcurrent_faultCount  > 200U)
             {
-                gPfcControlParam.faultBit = 1;
-                gPfcControlParam.overcurrent_faultCount=0;
+                gPfcControlParam.faultBit = 1U;
+                gPfcControlParam.overcurrent_faultCount=0U;
             }
         }
         else
         {
-            gPfcControlParam.overvoltage_faultCount=0;
-            gPfcControlParam.overcurrent_faultCount=0;
-            gPfcControlParam.ac_voltage_faultCount=0;
+            gPfcControlParam.overvoltage_faultCount=0U;
+            gPfcControlParam.overcurrent_faultCount=0U;
+            gPfcControlParam.ac_voltage_faultCount=0U;
         }
-        if(gPfcControlParam.faultBit == 1)
+        if(gPfcControlParam.faultBit == 1U)
         {
             PFCAPP_Disable();
         }
@@ -297,7 +301,7 @@ __STATIC_INLINE void PFCAPP_dcmCompensation(void)
      /* DCM Mode Compensation = DutyCycle * VDC/(VDC-VAC) */
 
      temp = (float)(gDcVoltageParam.measured - gAcVoltageParam.measured);
-     if(temp > 0)
+     if(temp > 0.0f)
      {
         /* Dividing Vdc */
         temp = (float)(gDcVoltageParam.measured/temp);
@@ -306,9 +310,9 @@ __STATIC_INLINE void PFCAPP_dcmCompensation(void)
         gPfcControlParam.sampleCorrection = (gPIParmIpfc.out * temp) ;
 
         /* Set the correction factor to 1 if the PWM duty is outside range */
-        if((gPfcControlParam.sampleCorrection <= 0) || (gPfcControlParam.sampleCorrection >= 1))
+        if((gPfcControlParam.sampleCorrection <= 0.0f) || (gPfcControlParam.sampleCorrection >= 1.0f))
         {
-            gPfcControlParam.sampleCorrection = 1;
+            gPfcControlParam.sampleCorrection = 1.0f;
         }
       }
 }
@@ -330,7 +334,7 @@ void PFCAPP_PowerFactCorrISR(uint32_t status, uintptr_t context)
     float v_acBusVoltage_df32;
 
     /* Read the DC voltage from ADC channel */
-    v_dcBusVoltage_df32 = AFEC1_ChannelResultGet( PFC_DC_BUS_VOLTAGE_ADC_CH );
+    v_dcBusVoltage_df32 = (float)((uint32_t)AFEC1_ChannelResultGet((AFEC_CHANNEL_NUM) PFC_DC_BUS_VOLTAGE_ADC_CH ));
     gDcVoltageParam.measured = (float)(v_dcBusVoltage_df32) * VOLTAGE_ADC_TO_PHY_RATIO;
 
     /* Filter DC Bus voltage remove 100Hz/ 120Hz Ripple */
@@ -338,18 +342,18 @@ void PFCAPP_PowerFactCorrISR(uint32_t status, uintptr_t context)
                                     * ( gDcVoltageParam.measured - gDcVoltageParam.filtered );
 
     /* Measure current for power factor correction */
-    i_currentMeasured_df32 = AFEC1_ChannelResultGet( PFC_CURRENT_ADC_CH ) ;
+    i_currentMeasured_df32 = (float)((uint32_t)AFEC1_ChannelResultGet( (AFEC_CHANNEL_NUM)PFC_CURRENT_ADC_CH )) ;
 
     gAcCurrentParam.measured = (float)((i_currentMeasured_df32 - PFC_IacOffset_df32) * PFC_ADC_CURR_SCALE);
 
-    if ( gAcCurrentParam.measured <= 0)
+    if ( gAcCurrentParam.measured <= 0.0f)
     {
         gAcCurrentParam.measured =(float)PFC_ADC_CURR_SCALE;
     }
 
     /* Get AC voltage from ADC channel */
-    v_acBusVoltage_df32 = AFEC1_ChannelResultGet( PFC_VOLTAGE_ADC_CH);
-    gAcVoltageParam.measured = (float)((v_acBusVoltage_df32 - AC_VOLTAGE_OFFSET) * PFC_AC_VOLTAGE_ADC_TO_PHY_RATIO);
+    v_acBusVoltage_df32 = (float)((uint32_t)AFEC1_ChannelResultGet( (AFEC_CHANNEL_NUM)PFC_VOLTAGE_ADC_CH));
+    gAcVoltageParam.measured = (float)((v_acBusVoltage_df32 - (float)AC_VOLTAGE_OFFSET) * PFC_AC_VOLTAGE_ADC_TO_PHY_RATIO);
 
     if (gAcVoltageParam.measured >= PFC_AC_MAX_VOLTAGE_PEAK)
     {
@@ -369,7 +373,7 @@ void PFCAPP_PowerFactCorrISR(uint32_t status, uintptr_t context)
 
     if((( gPfcControlParam.firstPass == ENABLE && gAcVoltageParam.avgOutput >= VAC_AVG_88V )
         || ( gPfcControlParam.firstPass == DISABLE && gDcVoltageParam.measured >= PFC_AC_MIN_VOLTAGE_PEAK ))
-        &&   gPfcControlParam.faultBit == 0 )
+        &&   gPfcControlParam.faultBit == 0U )
     {
         if (gPfcControlParam.firstPass == ENABLE)
         {
@@ -385,10 +389,10 @@ void PFCAPP_PowerFactCorrISR(uint32_t status, uintptr_t context)
                 /* Check if Voltagereftemp is less than given reference voltage  and ramp it slowly */
                 if (gPIParmVpfc.inRef  <= PFC_DC_BUS_VOLTAGE_REF)
                 {
-                    if(gPfcControlParam.rampRate == 0)
+                    if(gPfcControlParam.rampRate == 0U)
                     {
                         gPIParmVpfc.inMeas = gDcVoltageParam.filtered;
-                        gPIParmVpfc.inRef  = gPIParmVpfc.inRef  + PFC_SOFT_START_STEP_SIZE;
+                        gPIParmVpfc.inRef  = gPIParmVpfc.inRef  + (float)PFC_SOFT_START_STEP_SIZE;
                         gPfcControlParam.rampRate = PFC_SOFT_START_RAMP_PRESCALER;
                     }
                 }
@@ -408,9 +412,9 @@ void PFCAPP_PowerFactCorrISR(uint32_t status, uintptr_t context)
         /* Voltage PI control */
         PFCAPP_voltageControl();
 
-        if(gAcVoltageParam.avgSquare < 5861) // 5861 = avg(85VACrms)^2
+        if(gAcVoltageParam.avgSquare < 5861.0f) // 5861 = avg(85VACrms)^2
         {
-             gAcVoltageParam.avgSquare = 5861;
+             gAcVoltageParam.avgSquare = 5861.0f;
         }
         i_currentRef_df32 = (float) gPIParmVpfc.out * gAcVoltageParam.measured;
         gPIParmIpfc.inRef  =  (float) ((i_currentRef_df32 * gPfcControlParam.kmul)/gAcVoltageParam.avgSquare);
@@ -421,10 +425,14 @@ void PFCAPP_PowerFactCorrISR(uint32_t status, uintptr_t context)
             /* If true, saturate it to Over Current Peak Value */
             gPIParmIpfc.inRef  = PFC_OVER_CURRENT_PEAK;
         }
-        else if (gPIParmIpfc.inRef  <= 0)
+        else if (gPIParmIpfc.inRef  <= 0.0f)
         {
-            gPIParmIpfc.inRef  = 0;
+            gPIParmIpfc.inRef  = 0.0f;
+        }else
+        {
+            /* Dummy branch for MISRAC compliance*/
         }
+
 
         /* Calling sample correction  function to shape the current waveform under light loadsand near zero crossings */
         PFCAPP_dcmCompensation();
@@ -447,17 +455,21 @@ void PFCAPP_PowerFactCorrISR(uint32_t status, uintptr_t context)
         MCLIB_PIControl( &gPIParmIpfc );
 
         /* Current loop PI output and Multiplying it with PWM period */
-        gPfcControlParam.duty  = (int16_t)(gPIParmIpfc.out * PFC_PERIOD_TIMER_TICKS);
+        gPfcControlParam.duty  = (uint16_t)((float)(gPIParmIpfc.out * (float)PFC_PERIOD_TIMER_TICKS));
 
         /* Limit the PWM duty cycle */
-        if (gPfcControlParam.duty  >= MAX_PFC_DC)
+        if (gPfcControlParam.duty  >= (uint16_t)MAX_PFC_DC)
         {
             gPfcControlParam.duty = PWM1_ChannelPeriodGet(PWM_CHANNEL_0);
         }
         else if (gPfcControlParam.duty  <= MIN_PFC_DC)
         {
             gPfcControlParam.duty  = MIN_PFC_DC;
+        }else
+        {
+            /* Dummy branch for MISRAC compliance*/
         }
+
         /*Loading calculated value of PFC duty to PDC register*/
         PWM1_ChannelDutySet(PWM_CHANNEL_0, gPfcControlParam.duty);
 
@@ -484,7 +496,7 @@ void PFCAPP_Enable(void)
     NVIC_DisableIRQ(AFEC1_IRQn);
     NVIC_ClearPendingIRQ(AFEC1_IRQn);
     NVIC_SetPriority(AFEC1_IRQn, 1);
-    AFEC1_CallbackRegister( PFCAPP_PowerFactCorrISR, (uintptr_t)NULL);
+    AFEC1_CallbackRegister( PFCAPP_PowerFactCorrISR, (uintptr_t)dummyforMisra);
     NVIC_EnableIRQ(AFEC1_IRQn);
     AFEC1_ChannelsInterruptEnable(AFEC_INTERRUPT_EOC_6_MASK);
 
@@ -527,7 +539,7 @@ void PFCAPP_Tasks(void)
    switch(gPfcControlParam.state)
    {
         case PFCAPP_STATE_INIT:
-            ((pio_registers_t*)PIO_PORT_D)->PIO_PER = ~0xFFFFFFFE; // Disable PWML output.
+            ((pio_registers_t*)PIO_PORT_D)->PIO_PER = ~0xFFFFFFFEU; // Disable PWML output.
             NVIC_DisableIRQ(AFEC1_IRQn);
             NVIC_ClearPendingIRQ(AFEC1_IRQn);
             AFEC1_ChannelsInterruptDisable(AFEC_INTERRUPT_EOC_6_MASK);
@@ -537,7 +549,7 @@ void PFCAPP_Tasks(void)
             break;
 
         case PFCAPP_STATE_START:
-            ((pio_registers_t*)PIO_PORT_D)->PIO_PDR = ~0xFFFFFFFE; // Enable PWML output.
+            ((pio_registers_t*)PIO_PORT_D)->PIO_PDR = ~0xFFFFFFFEU; // Enable PWML output.
             PFCAPP_Enable();
             gPfcControlParam.state = PFCAPP_STATE_RUNNING;
             break;
@@ -550,6 +562,9 @@ void PFCAPP_Tasks(void)
             /* Do nothing */
             /* Improvement point: The disable function can be moved here */
             break;
+       default:
+            /* Undefined state: Should never come here */
+           break;
    }
 #endif
 }

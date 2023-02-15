@@ -30,37 +30,12 @@
 /*
  * This file is part of X2C. http://www.mechatronic-simulation.org/
  */
-#include "X2CScopeCommunication.h"
-#include "device.h"
-#include "peripheral/uart/plib_uart0.h"
+#include "definitions.h"
+#include "../inc/X2CScopeCommunication.h"
 
-void sendSerial(uint8_t data)
+
+void X2CScope_Init(void)
 {
-    UART0_Write(&data,1);
-}
-
-uint8_t receiveSerial()
-{
-    uint8_t data;
-    bool status = false;
-    status = UART0_Read(&data, 1);
-    if(status == true)
-    {
-      return data;  
-    }
-    else
-    {
-      return (uint8_t)(0);
-    }
-}
-
-uint8_t isReceiveDataAvailable()
-{
-    return (UART0_ReceiverIsReady());
-
-}
-
-uint8_t isSendReady()
-{
-    return (UART0_TransmitterIsReady());
+    X2CScope_HookUARTFunctions(sendSerial, receiveSerial, isReceiveDataAvailable, isSendReady);
+    X2CScope_Initialise();
 }

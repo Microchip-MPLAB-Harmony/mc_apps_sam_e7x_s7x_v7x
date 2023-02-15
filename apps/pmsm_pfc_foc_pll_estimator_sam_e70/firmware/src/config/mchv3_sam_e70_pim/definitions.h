@@ -50,6 +50,7 @@
 #include <stdbool.h>
 #include "peripheral/afec/plib_afec0.h"
 #include "peripheral/pwm/plib_pwm1.h"
+#include "X2CCode/X2CScope/inc/X2CScope.h"
 #include "peripheral/afec/plib_afec1.h"
 #include "peripheral/uart/plib_uart0.h"
 #include "peripheral/clk/plib_clk.h"

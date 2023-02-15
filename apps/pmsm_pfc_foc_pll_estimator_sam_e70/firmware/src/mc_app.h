@@ -210,7 +210,7 @@ void MCAPP_MotorStart(void);
 void MCAPP_MotorStop(void);
 void MCAPP_MotorPLLEstimInit(void);
 void MCAPP_MotorPIParamInit(void);
-
+void MCAPP_ControlLoopISR(uint32_t status, uintptr_t context);
 
     
 // DOM-IGNORE-BEGIN

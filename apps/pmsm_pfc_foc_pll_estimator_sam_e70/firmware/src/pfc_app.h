@@ -40,8 +40,8 @@
  *******************************************************************************/
  // DOM-IGNORE-END
 
-#ifndef _PFC_APP_H    /* Guard against multiple inclusion */
-#define _PFC_APP_H
+#ifndef PFC_APP_H    /* Guard against multiple inclusion */
+#define PFC_APP_H
 
 
 /* ************************************************************************** */
@@ -89,8 +89,8 @@ extern "C" {
   @Remarks
     Any additional remarks
  */
-#define DISABLE   0
-#define ENABLE    1
+#define DISABLE   0U
+#define ENABLE    1U
 
 
 // *****************************************************************************
@@ -239,7 +239,8 @@ typedef struct
 	uint8_t pfcStart;
 }PFCAPP_CONTROL_PARAM;
 
-
+extern MCLIB_PI  gPIParmIpfc;            /* PFC Current PI controllers */
+extern MCLIB_PI  gPIParmVpfc;            /* PFC Voltage PI controllers */
 // *****************************************************************************
 // *****************************************************************************
 // Section: Interface Functions
@@ -254,9 +255,9 @@ typedef struct
 extern void PFCAPP_init(void);
 extern void PFCAPP_Enable(void);
 extern void PFCAPP_Disable(void);
-extern void PFCAPP_AvgFilter(PFCAPP_AVG_FILTER_STATE *pParam);
+//extern void PFCAPP_AvgFilter(PFCAPP_AVG_FILTER_STATE *pParam);
 extern void PFCAPP_Tasks(void);
-
+void PFCAPP_PowerFactCorrISR(uint32_t status, uintptr_t context);
 
     /* Provide C++ Compatibility */
 #ifdef __cplusplus

@@ -20,13 +20,13 @@
  *
  */
 
-/* file generated from device description version 2021-12-23T09:59:43Z */
+/* file generated from device description version 2022-04-21T07:53:48Z */
 #ifndef _SAME70_PIOE_INSTANCE_
 #define _SAME70_PIOE_INSTANCE_
 
 
 /* ========== Instance Parameter definitions for PIOE peripheral ========== */
-#define PIOE_INSTANCE_ID                         _UL_(17)   
-#define PIOE_CLOCK_ID                            _UL_(17)   
+#define PIOE_INSTANCE_ID                         (17)       
+#define PIOE_CLOCK_ID                            (17)       
 
 #endif /* _SAME70_PIOE_INSTANCE_ */

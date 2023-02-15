@@ -57,7 +57,7 @@ static void UART0_ErrorClear( void )
     /* Flush existing error bytes from the RX FIFO */
     while( UART_SR_RXRDY_Msk == (UART0_REGS->UART_SR & UART_SR_RXRDY_Msk) )
     {
-        dummyData = (UART0_REGS->UART_RHR & UART_RHR_RXCHR_Msk);
+        dummyData = (uint8_t)(UART0_REGS->UART_RHR & UART_RHR_RXCHR_Msk);
     }
 
     /* Ignore the warning */
@@ -73,7 +73,7 @@ void UART0_Initialize( void )
     UART0_REGS->UART_CR = (UART_CR_TXEN_Msk | UART_CR_RXEN_Msk);
 
     /* Configure UART0 mode */
-    UART0_REGS->UART_MR = ((UART_MR_BRSRCCK_PERIPH_CLK) | (UART_MR_PAR_NO) | (0 << UART_MR_FILTER_Pos));
+    UART0_REGS->UART_MR = ((UART_MR_BRSRCCK_PERIPH_CLK) | (UART_MR_PAR_NO) | (0U << UART_MR_FILTER_Pos));
 
     /* Configure UART0 Baud Rate */
     UART0_REGS->UART_BRGR = UART_BRGR_CD(81);
@@ -98,22 +98,23 @@ UART_ERROR UART0_ErrorGet( void )
 bool UART0_SerialSetup( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq )
 {
     bool status = false;
-    uint32_t baud = setup->baudRate;
+    uint32_t baud;
     uint32_t brgVal = 0;
     uint32_t uartMode;
 
     if (setup != NULL)
     {
-        if(srcClkFreq == 0)
+        baud = setup->baudRate;
+        if(srcClkFreq == 0U)
         {
             srcClkFreq = UART0_FrequencyGet();
         }
 
         /* Calculate BRG value */
-        brgVal = srcClkFreq / (16 * baud);
+        brgVal = srcClkFreq / (16U * baud);
 
         /* If the target baud rate is acheivable using this clock */
-        if (brgVal <= 65535)
+        if (brgVal <= 65535U)
         {
             /* Configure UART0 mode */
             uartMode = UART0_REGS->UART_MR;
@@ -142,21 +143,21 @@ bool UART0_Read( void *buffer, const size_t size )
     {
         /* Clear errors before submitting the request.
          * ErrorGet clears errors internally. */
-        UART0_ErrorGet();
+         (void) UART0_ErrorGet();
 
         while( size > processedSize )
         {
             /* Error status */
             errorStatus = (UART0_REGS->UART_SR & (UART_SR_OVRE_Msk | UART_SR_FRAME_Msk | UART_SR_PARE_Msk));
 
-            if(errorStatus != 0)
+            if(errorStatus != 0U)
             {
                 break;
             }
 
             if(UART_SR_RXRDY_Msk == (UART0_REGS->UART_SR & UART_SR_RXRDY_Msk))
             {
-                *lBuffer++ = (UART0_REGS->UART_RHR& UART_RHR_RXCHR_Msk);
+                *lBuffer++ = (uint8_t)(UART0_REGS->UART_RHR& UART_RHR_RXCHR_Msk);
                 processedSize++;
             }
         }
@@ -195,12 +196,16 @@ bool UART0_Write( void *buffer, const size_t size )
 
 int UART0_ReadByte(void)
 {
-    return(UART0_REGS->UART_RHR& UART_RHR_RXCHR_Msk);
+	uint32_t readbyte = (UART0_REGS->UART_RHR& UART_RHR_RXCHR_Msk);
+    return (int)readbyte;
 }
 
 void UART0_WriteByte( int data )
 {
-    while ((UART_SR_TXRDY_Msk == (UART0_REGS->UART_SR & UART_SR_TXRDY_Msk)) == 0);
+    while (UART_SR_TXRDY_Msk == (UART0_REGS->UART_SR & UART_SR_TXRDY_Msk))
+	{
+		/* Do Nothing */	
+	}
 
     UART0_REGS->UART_THR = (UART_THR_TXCHR(data) & UART_THR_TXCHR_Msk);
 }
@@ -210,18 +215,6 @@ bool UART0_TransmitterIsReady( void )
     bool status = false;
 
     if(UART_SR_TXRDY_Msk == (UART0_REGS->UART_SR & UART_SR_TXRDY_Msk))
-    {
-        status = true;
-    }
-
-    return status;
-}
-
-bool UART0_TransmitComplete( void )
-{
-    bool status = false;
-
-    if(UART_SR_TXEMPTY_Msk == (UART0_REGS->UART_SR & UART_SR_TXEMPTY_Msk))
     {
         status = true;
     }
@@ -241,3 +234,15 @@ bool UART0_ReceiverIsReady( void )
     return status;
 }
 
+
+bool UART0_TransmitComplete( void )
+{
+    bool status = false;
+
+    if(UART_SR_TXEMPTY_Msk == (UART0_REGS->UART_SR & UART_SR_TXEMPTY_Msk))
+    {
+        status = true;
+    }
+
+    return status;
+}

@@ -39,8 +39,8 @@
 *******************************************************************************/
 // DOM-IGNORE-END
 
-#ifndef _USER_HEADER
-#define _USER_HEADER
+#ifndef USER_HEADER
+#define USER_HEADER
 
 /***********************************************************************************************/
 /*                    include files                                                            */
@@ -50,7 +50,7 @@
 /*                    DEFINATIONS                                                              */
 /***********************************************************************************************/
 #define MOTOR_1_EL5_M0400_1_24                           (1U)    /* AC Servo Motor EL5-M0400-1-24 */
-
+#define NOP() asm("NOP");
 /***********************************************************************************************/
 /* USER CONFIGURABLE PARAMETERS - START                                                        */
 /***********************************************************************************************/
@@ -85,7 +85,7 @@
 
 /* Motor Start-up configuration parameters */
 #define LOCK_TIME_IN_SEC                (2)   /* Startup - Rotor alignment time */
-#define OPEN_LOOP_END_SPEED_RPM         (RATED_SPEED_RPM*0.20) /* Startup - Control loop switches to close loop at this speed */
+#define OPEN_LOOP_END_SPEED_RPM         (RATED_SPEED_RPM*0.20f) /* Startup - Control loop switches to close loop at this speed */
 #define OPEN_LOOP_RAMP_TIME_IN_SEC      (2)   /* Startup - Time to reach OPEN_LOOP_END_SPEED_RPM in seconds */
 #define Q_CURRENT_REF_OPENLOOP          ((float)0.2) /* Startup - Motor start to ramp up in current control mode */
 
@@ -156,7 +156,7 @@
  * x = 16.4 Amps */
 #define MAX_CURRENT                                         ((float)(16.4)) /* Max current as per above calculations */
 #define MAX_ADC_COUNT                                       (float)4095     /* 12-bit ADC */
-#define MAX_ADC_INPUT_VOLTAGE                               (float)3.3      /* volts */
+#define MAX_ADC_INPUT_VOLTAGE                               (float)3.30f      /* volts */
 
 /** Dead time in micro seconds */
 #define DEAD_TIME_uS                                        (1U)                /* Dead time in uS. */
@@ -187,8 +187,8 @@
 #define PFC_DC_BUS_VOLTAGE_REF                              (float)385
 #define PFC_MIN_VOLTREF                                     (float)127  /* 90Vrms = 127Volts max */
 
-#define PFC_AC_MIN_VOLTAGE_RMS                              85
-#define PFC_AC_MAX_VOLTAGE_RMS                              265
+#define PFC_AC_MIN_VOLTAGE_RMS                              85.0f
+#define PFC_AC_MAX_VOLTAGE_RMS                              265.0f
 
 #define PFC_AC_MIN_VOLTAGE_PEAK                            (float)(PFC_AC_MIN_VOLTAGE_RMS * M_SQRT2)
 #define PFC_AC_MAX_VOLTAGE_PEAK                            (float)(PFC_AC_MAX_VOLTAGE_RMS * M_SQRT2)
@@ -221,8 +221,8 @@
 /*******************************************************************************/
 #define One_MHz                       (1000000U)
 
-#define FAST_LOOP_TIME_SEC              (float)(1/(float)PWM_FREQUENCY) /* Always runs in sync with PWM */
-#define SLOW_LOOP_TIME_SEC              (float)(FAST_LOOP_TIME_SEC * 100) /* 100 times slower than Fast Loop */
+#define FAST_LOOP_TIME_SEC              (float)(1.0f/(float)PWM_FREQUENCY) /* Always runs in sync with PWM */
+#define SLOW_LOOP_TIME_SEC              (float)(FAST_LOOP_TIME_SEC * 100.0f) /* 100 times slower than Fast Loop */
 
 
 /***********************************************************************************************/
@@ -233,49 +233,49 @@
 #define VOLTAGE_ADC_TO_PHY_RATIO      (float)(MAX_ADC_INPUT_VOLTAGE/(MAX_ADC_COUNT * DCBUS_SENSE_RATIO))
 #define SLOW_LOOP_TIME_PWM_COUNT      (int32_t)(SLOW_LOOP_TIME_SEC / FAST_LOOP_TIME_SEC) /* 100 times slower than Fast Loop */
 #define LOCK_COUNT_FOR_LOCK_TIME      (uint32_t)((float)LOCK_TIME_IN_SEC/(float)FAST_LOOP_TIME_SEC)
-#define OPEN_LOOP_END_SPEED_RPS       ((float)OPEN_LOOP_END_SPEED_RPM/60)
+#define OPEN_LOOP_END_SPEED_RPS       ((float)OPEN_LOOP_END_SPEED_RPM/60.0f)
 
 /* Rated speed of the motor in RPM */
-#define RATED_SPEED_RAD_PER_SEC_ELEC                     (float)(RATED_SPEED_RPM *(2*(float)M_PI/60) * NUM_POLE_PAIRS)
+#define RATED_SPEED_RAD_PER_SEC_ELEC                     (float)(RATED_SPEED_RPM *(2.0f*(float)M_PI/60.0f) * NUM_POLE_PAIRS)
 #define CLOSE_LOOP_RAMP_RATE                              (600) /* RPM per sec */
-#define RAMP_RAD_PER_SEC_ELEC                             (float)(CLOSE_LOOP_RAMP_RATE * NUM_POLE_PAIRS * PI/30.0)
+#define RAMP_RAD_PER_SEC_ELEC                             (float)((float)CLOSE_LOOP_RAMP_RATE * NUM_POLE_PAIRS * PI/30.0f)
 #define SPEED_RAMP_INC_SLOW_LOOP                          (float)(RAMP_RAD_PER_SEC_ELEC*SLOW_LOOP_TIME_SEC)
 
 /* Open loop end speed conversions */
-#define SINGLE_ELEC_ROT_RADS_PER_SEC                      ((float)((float)(2.0) * (float)M_PI))
+#define SINGLE_ELEC_ROT_RADS_PER_SEC                      ((float)((float)(2.0f) * (float)M_PI))
 #define END_SPEED_RADS_PER_SEC_MECH                       (float)(OPEN_LOOP_END_SPEED_RPS * SINGLE_ELEC_ROT_RADS_PER_SEC)
-#define OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC             (float)(END_SPEED_RADS_PER_SEC_MECH * NUM_POLE_PAIRS)
-#define OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC_IN_LOOPTIME (float)(OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC * FAST_LOOP_TIME_SEC)
-#define OPEN_LOOP_RAMPSPEED_INCREASERATE                  (float)(OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC_IN_LOOPTIME/(OPEN_LOOP_RAMP_TIME_IN_SEC/FAST_LOOP_TIME_SEC))
+#define OPNLP_END_SPEED_RDPS_ELEC             (float)(END_SPEED_RADS_PER_SEC_MECH * NUM_POLE_PAIRS)
+#define OPNLP_END_SPEED_RDPS_ELEC_IN_LOOPTIME (float)(OPNLP_END_SPEED_RDPS_ELEC * FAST_LOOP_TIME_SEC)
+#define OPEN_LOOP_RAMPSPEED_INCREASERATE                  (float)(OPNLP_END_SPEED_RDPS_ELEC_IN_LOOPTIME/((float)OPEN_LOOP_RAMP_TIME_IN_SEC/FAST_LOOP_TIME_SEC))
 
 /* BEMF constant */
-#define MOTOR_BEMF_CONST_V_PEAK_PHASE_PER_RPM_MECH       (float)((MOTOR_BEMF_CONST_V_PEAK_LL_KRPM_MECH/SQRT3)/1000.0)
-#define MOTOR_BEMF_CONST_V_PEAK_PHASE_RAD_PER_SEC_MECH   (float)(MOTOR_BEMF_CONST_V_PEAK_PHASE_PER_RPM_MECH / (float)(2.0 * M_PI/60.0))
-#define MOTOR_BEMF_CONST_V_PEAK_PHASE_RAD_PER_SEC_ELEC   (float)(MOTOR_BEMF_CONST_V_PEAK_PHASE_RAD_PER_SEC_MECH / NUM_POLE_PAIRS)
+#define BEMF_CNST_Vpk_PH_PER_RPM_MECH       (float)((MOTOR_BEMF_CONST_V_PEAK_LL_KRPM_MECH/SQRT3)/1000.0f)
+#define BEMF_CNST_Vpk_PH_RAD_PER_SEC_MECH   (float)(BEMF_CNST_Vpk_PH_PER_RPM_MECH / (float)(2.0f * M_PI/60.0f))
+#define BEMF_CNST_Vpk_PH_RAD_PER_SEC_ELEC   (float)(BEMF_CNST_Vpk_PH_RAD_PER_SEC_MECH / NUM_POLE_PAIRS)
 
 
-#define MAX_SPEED_RAD_PER_SEC_ELEC          (float)(((RATED_SPEED_RPM/60)*2*(float)M_PI)*NUM_POLE_PAIRS)
+#define MAX_SPEED_RAD_PER_SEC_ELEC          (float)(((RATED_SPEED_RPM/60.0f)*2.0f*(float)M_PI)*NUM_POLE_PAIRS)
 
-#define MAX_STATOR_VOLT_SQUARE              (float)(0.98 * 0.98)
+#define MAX_STATOR_VOLT_SQUARE              (float)(0.98f * 0.98f)
 #define POT_ADC_COUNT_FW_SPEED_RATIO        (float)(MAX_SPEED_RAD_PER_SEC_ELEC/MAX_ADC_COUNT)
 
 
 /* PFC related parameters */
 #if(PFC_ENABLE == 1U)
 /* Average value of AC rectified voltage */
-#define AVG(x)                        ((float)(2.0*x*M_SQRT2/M_PI))
+#define AVG(x)                        (float)(2.0f*(x)*M_SQRT2/M_PI)
 #define PFC_ADC_CURR_SCALE            ((float)(PFC_FULLSCALE_CURR/(float)2048))
 #define ACBUS_SENSE_RATIO             (float)(ACBUS_SENSE_BOTTOM_RESISTOR/(ACBUS_SENSE_BOTTOM_RESISTOR + ACBUS_SENSE_TOP_RESISTOR))
-#define PFC_AC_VOLTAGE_ADC_TO_PHY_RATIO  (float)(1.65/(2048 * ACBUS_SENSE_RATIO))
+#define PFC_AC_VOLTAGE_ADC_TO_PHY_RATIO  (float)(1.65f/((float)2048 * ACBUS_SENSE_RATIO))
 #define PFC_OVER_CURRENT_PEAK         (float)(PFC_OVER_CURRENT_RMS*M_SQRT2)
 #define PFC_OVER_CURRENT_AVG          (float)(AVG(PFC_OVER_CURRENT_RMS))
-#define PFC_AC_UNDER_VOLTAGE          (float)(AVG(85.0))  /* Average Value of input voltage- corresponding to 90Vrms */
-#define PFC_AC_OVER_VOLTAGE           (float)(AVG(265.0)) /* Average Value of input voltage- corresponding to 265Vrms */
-#define VAC_AVG_88V                   (float)((AVG(88)))  /* Average Value of input voltage- corresponding to 88Vrms */
-#define VAC_AVG_200V                  (float)((AVG(200))) /* Average Value of input voltage- corresponding to 200Vrms */
+#define PFC_AC_UNDER_VOLTAGE          (float)(AVG(85.0f))  /* Average Value of input voltage- corresponding to 90Vrms */
+#define PFC_AC_OVER_VOLTAGE           (float)(AVG(265.0f)) /* Average Value of input voltage- corresponding to 265Vrms */
+#define VAC_AVG_88V                   (float)(AVG(88.0f))  /* Average Value of input voltage- corresponding to 88Vrms */
+#define VAC_AVG_200V                  (float)(AVG(200.0f)) /* Average Value of input voltage- corresponding to 200Vrms */
 
-#define MIN_PFC_DC                    (uint16_t)( 0 )
-#define MAX_PFC_DC                    (uint16_t)(0.95 * PFC_PERIOD_TIMER_TICKS )
+#define MIN_PFC_DC                    (uint16_t)( 0U )
+#define MAX_PFC_DC                    (float)(0.95f * (float)PFC_PERIOD_TIMER_TICKS )
 
 //Soft start ramp rate and ramp count
 #define PFC_SOFT_START_STEP_SIZE      (1)
@@ -285,7 +285,7 @@
 
 /* Voltage Loop Execution Rate = PFC Current Loop Execution Rate/ PFC_VOLTAGE_LOOP_PRESCALER */
 /* Voltage Loop Execution Rate = 40000 Hz/ 10 = 4KHz */
-#define PFC_VOLTAGE_LOOP_PRESCALER      10
+#define PFC_VOLTAGE_LOOP_PRESCALER      10U
 
 //Current reference Calculation is shown below
 // Current reference = (Voltage PI output)*(Vac Measured)*(1/Vavgsquare)*Kmul

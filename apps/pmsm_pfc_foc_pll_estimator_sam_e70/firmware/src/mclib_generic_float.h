@@ -80,13 +80,13 @@ extern "C" {
 #define TWO_BY_SQRT3    ((float)(1.1547005384))
 
 /* Rated Electric speed(rad/s) = (2 * pi * RATED_SPEED_RPM / 60) * (Pole Pairs) */
-#define DECIMATE_RATED_SPEED      ((RATED_SPEED_RPM *((float)M_PI/30)) * NUM_POLE_PAIRS/10)
+#define DECIMATE_RATED_SPEED      ((RATED_SPEED_RPM *((float)M_PI/30.0f)) * NUM_POLE_PAIRS/10.0f)
 #define SQRT3                     ((float)1.732)
 #define ANGLE_OFFSET_MIN          ((float)(M_PI_2)/(float)(32767))
-    
-#define TOTAL_SINE_TABLE_ANGLE      (2*(float)M_PI)
+#define TABLE_SIZE  256U 
+#define TOTAL_SINE_TABLE_ANGLE      (2.0f*(float)M_PI)
 #define ANGLE_STEP                  (TOTAL_SINE_TABLE_ANGLE/(float)TABLE_SIZE)
-#define TABLE_SIZE  256
+
     
    
 
@@ -225,7 +225,7 @@ void MCLIB_InvParkTransform(MCLIB_V_DQ* input, MCLIB_POSITION* position, MCLIB_V
 void MCLIB_SinCosCalc(MCLIB_POSITION* position );
 void MCLIB_PIControl( MCLIB_PI *pParm);
 void MCLIB_SVPWMGen( MCLIB_V_ALPHA_BETA* vAlphaBeta, MCLIB_SVPWM* svm );
-void MCLIB_PLLEstimator(MCLIB_ESTIMATOR* EstimParam, MCLIB_POSITION* position);
+void MCLIB_PLLEstimator(MCLIB_ESTIMATOR* estimParam, MCLIB_POSITION* position);
 
     
 // DOM-IGNORE-BEGIN

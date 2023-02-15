@@ -136,6 +136,7 @@ void SYS_Initialize ( void* data )
 
 
 
+    X2CScope_Init();
 
     NVIC_Initialize();
 

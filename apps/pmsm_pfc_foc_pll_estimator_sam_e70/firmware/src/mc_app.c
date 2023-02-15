@@ -76,7 +76,7 @@ static void MCAPP_MotorControlParamInit(void);
 __STATIC_INLINE bool MCAPP_SlowLoopTimeIsFinished(void);
 __STATIC_INLINE void MCAPP_SlowControlLoop(void);
 static void MCAPP_SwitchDebounce(MC_APP_STATE state);
-
+static uintptr_t dummyforMisra;
 #if(TORQUE_MODE == 0)
 __STATIC_INLINE void MCAPP_SpeedRamp(void);
 #endif
@@ -84,14 +84,14 @@ __STATIC_INLINE void MCAPP_SpeedRamp(void);
 /******************************************************************************/
 /*                   Global Variables                                         */
 /******************************************************************************/
-MC_APP_DATA gMCAPPData;
-MCAPP_CONTROL_PARAM gCtrlParam;
-MCAPP_FOC_PARAM gfocParam;
-float phaseCurrentUOffset;
-float phaseCurrentVOffset;
-bool adc_calib_done = false;
+static MC_APP_DATA gMCAPPData;
+static MCAPP_CONTROL_PARAM gCtrlParam;
+static MCAPP_FOC_PARAM gfocParam;
+static float phaseCurrentUOffset;
+static float phaseCurrentVOffset;
+static bool adc_calib_done = false;
 
-static float speed_ref_filtered = 0;
+static float speed_ref_filtered = 0.0f;
 
 
 /******************************************************************************/
@@ -112,12 +112,12 @@ __STATIC_INLINE void MCAPP_MotorCurrentControl( void )
             gCtrlParam.changeMode = false;
 
             /* IqRef & idRef not used */
-            gCtrlParam.iqRef = 0;
-            gCtrlParam.idRef = 0;
+            gCtrlParam.iqRef = 0.0f;
+            gCtrlParam.idRef = 0.0f;
 
 			/* re-init vars for initial speed ramp */
 			gCtrlParam.startup_lock_count = 0;
-			gCtrlParam.startup_angle_ramp_rads_per_sec = 0;
+			gCtrlParam.startup_angle_ramp_rads_per_sec = 0.0f;
         }
 
         /* q current reference is equal to the velocity reference
@@ -147,9 +147,9 @@ __STATIC_INLINE void MCAPP_MotorCurrentControl( void )
             gCtrlParam.changeMode = false;
 			/* Load velocity control loop with Iq reference for smooth transition */
 			gPIParmQref.dSum = gCtrlParam.iqRef;
-            gCtrlParam.velRef = OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC;
-            gPIParmD.inRef = 0.0;
-            gCtrlParam.idRef = 0.0;
+            gCtrlParam.velRef = OPNLP_END_SPEED_RDPS_ELEC;
+            gPIParmD.inRef = 0.0f;
+            gCtrlParam.idRef = 0.0f;
 			gCtrlParam.sync_cnt = 0;
 	    }
 
@@ -191,14 +191,14 @@ __STATIC_INLINE void MCAPP_MotorAngleCalc(void)
 		if (gCtrlParam.startup_lock_count < LOCK_COUNT_FOR_LOCK_TIME)
 		{
 			gCtrlParam.startup_lock_count++;
-            gfocParam.angle = (3*M_PI_2); // Since during lock time, the current
+            gfocParam.angle = (3.0f*(float)M_PI_2); // Since during lock time, the current
                                           //is injected on Q axis i.e. leads
                                           //gfocParam.Angle by PI/2, setting angle to 3PI/2 would cause the rotor to align at 0 degrees.
 
         }
 
 	    /* then ramp up till the open loop end speed */
-		else if (gCtrlParam.startup_angle_ramp_rads_per_sec < OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC_IN_LOOPTIME)
+		else if (gCtrlParam.startup_angle_ramp_rads_per_sec < OPNLP_END_SPEED_RDPS_ELEC_IN_LOOPTIME)
 		{
             gCtrlParam.startup_angle_ramp_rads_per_sec += OPEN_LOOP_RAMPSPEED_INCREASERATE;
             gCtrlParam.velRef = gCtrlParam.startup_angle_ramp_rads_per_sec / FAST_LOOP_TIME_SEC;
@@ -206,7 +206,7 @@ __STATIC_INLINE void MCAPP_MotorAngleCalc(void)
 		}
 		else
 		{
-			if(gCtrlParam.open_loop_stab_counter < 0xFFF)
+			if(gCtrlParam.open_loop_stab_counter < 0xFFFU)
 			{
 				gCtrlParam.open_loop_stab_counter++;
 			}
@@ -244,7 +244,7 @@ __STATIC_INLINE void MCAPP_MotorAngleCalc(void)
 		}
 		else
 		{
-		   gMCLIBEstimParam.rhoOffset = 0;
+		   gMCLIBEstimParam.rhoOffset = 0.0f;
 		}
 	}
 
@@ -281,23 +281,23 @@ static void MCAPP_ADCOffsetCalibration(void)
 		/* Delay to stabilize voltage levels on board and adc conversion to complete */
 		do
 		{
-			asm("NOP");
-			asm("NOP");
-			asm("NOP");
-			asm("NOP");
-			asm("NOP");
+			NOP();
+			NOP();
+			NOP();
+			NOP();
+			NOP();
 			delayCounter--;
 		} while (delayCounter > 0);
 
 		/* re-load delay counter for next adc sample */
 		delayCounter = 0xFFFF;
 
-		phaseUOffsetBuffer += AFEC0_ChannelResultGet(PH_U_CURRENT_ADC_CH);
-		phaseVOffsetBuffer += AFEC0_ChannelResultGet(PH_V_CURRENT_ADC_CH);
+		phaseUOffsetBuffer += AFEC0_ChannelResultGet((AFEC_CHANNEL_NUM)PH_U_CURRENT_ADC_CH);
+		phaseVOffsetBuffer += AFEC0_ChannelResultGet((AFEC_CHANNEL_NUM)PH_V_CURRENT_ADC_CH);
 	}
 
-	phaseCurrentUOffset = (float)(phaseUOffsetBuffer/CURRENTS_OFFSET_SAMPLES);
-	phaseCurrentVOffset = (float)(phaseVOffsetBuffer/CURRENTS_OFFSET_SAMPLES);
+	phaseCurrentUOffset = (float)((float)phaseUOffsetBuffer/(float)CURRENTS_OFFSET_SAMPLES);
+	phaseCurrentVOffset = (float)((float)phaseVOffsetBuffer/(float)CURRENTS_OFFSET_SAMPLES);
 
 	/* Limit motor phase A current offset calibration to configured Min/Max levels. */
 	if(phaseCurrentUOffset >  (float)CURRENT_OFFSET_MAX)
@@ -308,6 +308,10 @@ static void MCAPP_ADCOffsetCalibration(void)
 	{
 		phaseCurrentUOffset = (float)CURRENT_OFFSET_MIN;
 	}
+    else
+    {
+        /* No operation dummy for MISRAC */
+    }
 
 	/* Limit motor phase B current offset calibration to configured Min/Max levels. */
 	if(phaseCurrentVOffset >  (float)CURRENT_OFFSET_MAX)
@@ -318,7 +322,10 @@ static void MCAPP_ADCOffsetCalibration(void)
 	{
 		phaseCurrentVOffset = (float)CURRENT_OFFSET_MIN;
 	}
-
+    else
+    {
+        /* No operation dummy for MISRAC */
+    }
 	/* Enable adc end of conversion interrupt generation to execute FOC loop */
 	AFEC0_ChannelsInterruptEnable(AFEC_INTERRUPT_EOC_7_MASK);
 
@@ -340,26 +347,26 @@ void MCAPP_MotorPLLEstimInit(void)
 	gMCLIBEstimParam.lsDt = (float)(MOTOR_PER_PHASE_INDUCTANCE / FAST_LOOP_TIME_SEC);
 	gMCLIBEstimParam.rs = MOTOR_PER_PHASE_RESISTANCE;
 
-    gMCLIBEstimParam.invKFi = (float)(1.0 / MOTOR_BEMF_CONST_V_PEAK_PHASE_RAD_PER_SEC_ELEC);
-   	gMCLIBEstimParam.rhoStateVar = 0;
-	gMCLIBEstimParam.omegaMr = 0;
+    gMCLIBEstimParam.invKFi = (float)(1.0f / BEMF_CNST_Vpk_PH_RAD_PER_SEC_ELEC);
+   	gMCLIBEstimParam.rhoStateVar = 0.0f;
+	gMCLIBEstimParam.omegaMr = 0.0f;
 
     gMCLIBEstimParam.kFilterEsdq = KFILTER_ESDQ;
 	gMCLIBEstimParam.kFilterBEMFAmp = KFILTER_BEMF_AMPLITUDE;
     gMCLIBEstimParam.velEstimFilterK = KFILTER_VELESTIM;
 
     gMCLIBEstimParam.deltaT = FAST_LOOP_TIME_SEC;
-    gMCLIBEstimParam.rhoOffset = (45 * ((float)M_PI/180));
+    gMCLIBEstimParam.rhoOffset = (45.0f * ((float)M_PI/180.0f));
 
-	gMCLIBEstimParam.bemfAmplitudeFilt = 0;
-	gMCLIBEstimParam.velEstim = 0;
-	gMCLIBEstimParam.lastIalpha = 0;
-	gMCLIBEstimParam.lastIbeta = 0;
-	gMCLIBEstimParam.lastVbeta = 0;
-	gMCLIBEstimParam.lastValpha = 0;
-	gMCLIBEstimParam.esdf = 0;
-	gMCLIBEstimParam.esqf = 0;
-	gMCLIBEstimParam.rho = 0;
+	gMCLIBEstimParam.bemfAmplitudeFilt = 0.0f;
+	gMCLIBEstimParam.velEstim = 0.0f;
+	gMCLIBEstimParam.lastIalpha = 0.0f;
+	gMCLIBEstimParam.lastIbeta = 0.0f;
+	gMCLIBEstimParam.lastVbeta = 0.0f;
+	gMCLIBEstimParam.lastValpha = 0.0f;
+	gMCLIBEstimParam.esdf = 0.0f;
+	gMCLIBEstimParam.esqf = 0.0f;
+	gMCLIBEstimParam.rho = 0.0f;
 }
 
 /******************************************************************************/
@@ -378,8 +385,8 @@ void MCAPP_MotorPIParamInit(void)
 	gPIParmD.kc = D_CURRCNTR_CTERM;
 	gPIParmD.outMax = D_CURRCNTR_OUTMAX;
 	gPIParmD.outMin = -gPIParmD.outMax;
-    gPIParmD.dSum = 0;
-    gPIParmD.out = 0;
+    gPIParmD.dSum = 0.0f;
+    gPIParmD.out = 0.0f;
 
 	/**************** PI Q Term ************************************************/
 	gPIParmQ.kp = Q_CURRCNTR_PTERM;
@@ -387,8 +394,8 @@ void MCAPP_MotorPIParamInit(void)
 	gPIParmQ.kc = Q_CURRCNTR_CTERM;
 	gPIParmQ.outMax = Q_CURRCNTR_OUTMAX;
 	gPIParmQ.outMin = -gPIParmQ.outMax;
-    gPIParmQ.dSum = 0;
-    gPIParmQ.out = 0;
+    gPIParmQ.dSum = 0.0f;
+    gPIParmQ.out = 0.0f;
 
 	/**************** PI Velocity Control **************************************/
 	gPIParmQref.kp = SPEEDCNTR_PTERM;
@@ -396,8 +403,8 @@ void MCAPP_MotorPIParamInit(void)
 	gPIParmQref.kc = SPEEDCNTR_CTERM;
 	gPIParmQref.outMax = SPEEDCNTR_OUTMAX;
 	gPIParmQref.outMin = -gPIParmQref.outMax;
-    gPIParmQref.dSum = 0;
-    gPIParmQref.out = 0;
+    gPIParmQref.dSum = 0.0f;
+    gPIParmQref.out = 0.0f;
 }
 
 /******************************************************************************/
@@ -414,14 +421,14 @@ static void MCAPP_MotorControlParamInit(void)
 
 	gCtrlParam.openLoop = true;
 	gCtrlParam.open_loop_stab_counter = 0;
-	gCtrlParam.startup_angle_ramp_rads_per_sec = 0;
+	gCtrlParam.startup_angle_ramp_rads_per_sec = 0.0f;
 	gCtrlParam.changeMode = false;
 	gCtrlParam.startup_lock_count = 0;
-	gMCLIBPosition.angle = 0;
-	gMCLIBSVPWM.period = PWM0_ChannelPeriodGet(PWM_CHANNEL_0);
+	gMCLIBPosition.angle = 0.0f;
+	gMCLIBSVPWM.period = (float)((uint32_t)PWM0_ChannelPeriodGet(PWM_CHANNEL_0));
 	gCtrlParam.motorStatus = MOTOR_STATUS_STOPPED;
-	gMCLIBCurrentDQ.id = 0;
-	gMCLIBCurrentDQ.iq = 0;
+	gMCLIBCurrentDQ.id = 0.0f;
+	gMCLIBCurrentDQ.iq = 0.0f;
 	gCtrlParam.rampIncStep = SPEED_RAMP_INC_SLOW_LOOP;
 }
 
@@ -434,8 +441,8 @@ static void MCAPP_MotorControlParamInit(void)
 /******************************************************************************/
 __STATIC_INLINE bool MCAPP_SlowLoopTimeIsFinished(void)
 {
-	uint8_t retval = false;
-	if(SLOW_LOOP_TIME_PWM_COUNT <= gCtrlParam.sync_cnt)
+	bool retval = false;
+	if((uint32_t)SLOW_LOOP_TIME_PWM_COUNT <= gCtrlParam.sync_cnt)
 	{
 		gCtrlParam.sync_cnt = 0;
 		retval = true;
@@ -479,9 +486,9 @@ __STATIC_INLINE void MCAPP_SpeedRamp(void)
 /******************************************************************************/
 __STATIC_INLINE void MCAPP_PWMDutyUpdate(uint32_t duty_PhU,uint32_t duty_PhV,uint32_t duty_PhW)
 {
-	PWM0_ChannelDutySet(PWM_CHANNEL_0, duty_PhU);
-    PWM0_ChannelDutySet(PWM_CHANNEL_1, duty_PhV);
-    PWM0_ChannelDutySet(PWM_CHANNEL_2, duty_PhW);
+	PWM0_ChannelDutySet(PWM_CHANNEL_0, (uint16_t)duty_PhU);
+    PWM0_ChannelDutySet(PWM_CHANNEL_1, (uint16_t)duty_PhV);
+    PWM0_ChannelDutySet(PWM_CHANNEL_2, (uint16_t)duty_PhW);
 }
 
 
@@ -494,7 +501,7 @@ __STATIC_INLINE void MCAPP_PWMDutyUpdate(uint32_t duty_PhU,uint32_t duty_PhV,uin
  *              the phase current measurements and updates duty.              *
  ******************************************************************************/
 
-void MCAPP_ControlLoopISR(uint32_t status, uintptr_t context)
+ void MCAPP_ControlLoopISR(uint32_t status, uintptr_t context)
 {
 	float phaseCurrentU;
 	float phaseCurrentV;
@@ -506,8 +513,8 @@ void MCAPP_ControlLoopISR(uint32_t status, uintptr_t context)
 	LED_Set();
 
  	/* Motor currents.  */
-    phaseCurrentU = AFEC0_ChannelResultGet(PH_U_CURRENT_ADC_CH);
-    phaseCurrentV = AFEC0_ChannelResultGet(PH_V_CURRENT_ADC_CH);
+    phaseCurrentU = (float)((uint32_t)AFEC0_ChannelResultGet((AFEC_CHANNEL_NUM)PH_U_CURRENT_ADC_CH));
+    phaseCurrentV = (float)((uint32_t)AFEC0_ChannelResultGet((AFEC_CHANNEL_NUM)PH_V_CURRENT_ADC_CH));
 
    /* Remove the offset from measured motor currents */
     phaseCurrentU = phaseCurrentU - phaseCurrentUOffset;
@@ -524,7 +531,7 @@ void MCAPP_ControlLoopISR(uint32_t status, uintptr_t context)
     MCLIB_ParkTransform(&gMCLIBCurrentAlphaBeta, &gMCLIBPosition, &gMCLIBCurrentDQ);
 
 	/* Read DC bus voltage */
-	dcBusVoltage = AFEC0_ChannelResultGet(DC_BUS_VOLTAGE_ADC_CH);
+	dcBusVoltage = (float)((uint32_t)AFEC0_ChannelResultGet((AFEC_CHANNEL_NUM)DC_BUS_VOLTAGE_ADC_CH));
 	gfocParam.dcBusVoltage = (float)(dcBusVoltage) * VOLTAGE_ADC_TO_PHY_RATIO;
     gfocParam.dcBusVoltageBySqrt3 = (float)(gfocParam.dcBusVoltage/SQRT3);
     gMCLIBEstimParam.dcBusVoltageBySqrt3 = gfocParam.dcBusVoltageBySqrt3;
@@ -588,15 +595,15 @@ __STATIC_INLINE void MCAPP_SlowControlLoop(void)
 		float PotReading;
 
 
-		PotReading = AFEC0_ChannelResultGet(POT_ADC_CH);
+		PotReading = (float)((uint32_t)AFEC0_ChannelResultGet((AFEC_CHANNEL_NUM)POT_ADC_CH));
 
         speed_ref_filtered = speed_ref_filtered + ((PotReading - speed_ref_filtered) * KFILTER_POT );
 		gCtrlParam.velRef = (float)((float)speed_ref_filtered * POT_ADC_COUNT_FW_SPEED_RATIO);
 
 		/* Restrict velocity reference so motor will be spinning in closed loop. */
-		if(gCtrlParam.velRef < OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC)
+		if(gCtrlParam.velRef < OPNLP_END_SPEED_RDPS_ELEC)
 		{
-			gCtrlParam.velRef = OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC;
+			gCtrlParam.velRef = OPNLP_END_SPEED_RDPS_ELEC;
 		}
 
 		/* Speed Ramp */
@@ -604,7 +611,7 @@ __STATIC_INLINE void MCAPP_SlowControlLoop(void)
 
 
 		/* Check if velocity reference is lower than minimum speed requirement */
-		if(gCtrlParam.velRef >= OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC)
+		if(gCtrlParam.velRef >= OPNLP_END_SPEED_RDPS_ELEC)
 		{
 			/* Execute the velocity control loop */
 			gPIParmQref.inMeas = gMCLIBEstimParam.velEstim;
@@ -633,13 +640,13 @@ void MCAPP_MotorStart(void)
 	NVIC_ClearPendingIRQ(AFEC0_IRQn);
     MCAPP_MotorControlParamInit();
 	NVIC_SetPriority(AFEC0_IRQn, 0);
-	AFEC0_CallbackRegister(MCAPP_ControlLoopISR, (uintptr_t)NULL);
+	AFEC0_CallbackRegister(MCAPP_ControlLoopISR, (uintptr_t)dummyforMisra);
 	NVIC_EnableIRQ(AFEC0_IRQn);
 	AFEC0_ChannelsInterruptEnable(AFEC_INTERRUPT_EOC_7_MASK);
-	((pio_registers_t*)PIO_PORT_D)->PIO_PDR = ~0xF8FFFFFF; // Enable PWML output.
+	((pio_registers_t*)PIO_PORT_D)->PIO_PDR = ~0xF8FFFFFFu; // Enable PWML output.
 
 	gCtrlParam.motorStatus = MOTOR_STATUS_RUNNING;
-	gCtrlParam.endSpeed = OPEN_LOOP_END_SPEED_RADS_PER_SEC_ELEC;
+	gCtrlParam.endSpeed = OPNLP_END_SPEED_RDPS_ELEC;
 	/* Clear fault before start */
     PWM0_FaultStatusClear(PWM_FAULT_ID_2);
 
@@ -657,9 +664,9 @@ void MCAPP_MotorStart(void)
 /******************************************************************************/
 void MCAPP_MotorStop(void)
 {
-	((pio_registers_t*)PIO_PORT_D)->PIO_PER = ~0xF8FFFFFF; // Disable PWML output.
+	((pio_registers_t*)PIO_PORT_D)->PIO_PER = ~0xF8FFFFFFu; // Disable PWML output.
     /* Disables PWM channels. */
-    PWM0_ChannelsStop(PWM_CHANNEL_0_MASK | PWM_CHANNEL_1_MASK | PWM_CHANNEL_2_MASK);
+    PWM0_ChannelsStop((PWM_CHANNEL_MASK)((uint8_t)PWM_CHANNEL_0_MASK | (uint8_t)PWM_CHANNEL_1_MASK | (uint8_t)PWM_CHANNEL_2_MASK));
 
 	/* Reset algorithm specific variables for next iteration.*/
 	MCAPP_MotorControlParamInit();
@@ -668,11 +675,11 @@ void MCAPP_MotorStop(void)
 	NVIC_DisableIRQ(AFEC0_IRQn);
 	NVIC_ClearPendingIRQ(AFEC0_IRQn);
 
-	gCtrlParam.endSpeed = 0;
-	gCtrlParam.velRef = 0;
+	gCtrlParam.endSpeed = 0.0f;
+	gCtrlParam.velRef = 0.0f;
 	gCtrlParam.motorStatus = MOTOR_STATUS_STOPPED;
     gMCAPPData.mcState = MC_APP_STATE_STOP;
-    speed_ref_filtered = 0;
+    speed_ref_filtered = 0.0f;
     adc_calib_done = false;
 }
 
@@ -684,10 +691,10 @@ void MCAPP_MotorStop(void)
 /******************************************************************************/
 static void MCAPP_SwitchDebounce(MC_APP_STATE state)
 {
-    if (!SWITCH_Get())
+    if (!(bool)SWITCH_Get())
     {
         gMCAPPData.switchCount++;
-        if (gMCAPPData.switchCount >= 0xFF)
+        if (gMCAPPData.switchCount >= 0xFFU)
         {
            gMCAPPData.switchCount = 0;
            gMCAPPData.switchState = MC_APP_SWITCH_PRESSED;
@@ -695,7 +702,7 @@ static void MCAPP_SwitchDebounce(MC_APP_STATE state)
     }
     if (gMCAPPData.switchState == MC_APP_SWITCH_PRESSED)
     {
-        if (SWITCH_Get())
+        if ((bool)SWITCH_Get())
         {
             gMCAPPData.switchCount = 0;
             gMCAPPData.switchState = MC_APP_SWITCH_RELEASED;
@@ -717,7 +724,7 @@ void MCAPP_Tasks(void)
 switch (gMCAPPData.mcState)
 {
     case MC_APP_STATE_INIT:
-        ((pio_registers_t*)PIO_PORT_D)->PIO_PER = ~0xF8FFFFFF; // Disable PWML output.
+        ((pio_registers_t*)PIO_PORT_D)->PIO_PER = ~0xF8FFFFFFu; // Disable PWML output.
         NVIC_DisableIRQ(AFEC0_IRQn);
         NVIC_ClearPendingIRQ(AFEC0_IRQn);
         AFEC0_ChannelsInterruptDisable(AFEC_INTERRUPT_EOC_7_MASK);
@@ -727,7 +734,7 @@ switch (gMCAPPData.mcState)
         }
         else
         {
-            asm("NOP");
+            NOP();
         }
         MCAPP_MotorControlParamInit();
         gMCAPPData.switchCount = 0xFF;
@@ -753,6 +760,7 @@ switch (gMCAPPData.mcState)
         break;
 
     default:
+        /* Undefined state: Should never come here */
         break;
   }
 

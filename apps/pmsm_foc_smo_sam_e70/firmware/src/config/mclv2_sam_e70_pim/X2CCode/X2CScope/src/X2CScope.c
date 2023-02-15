@@ -30,8 +30,9 @@
 /*
  * This file is part of X2C. http://www.mechatronic-simulation.org/
  */
-#include "X2CScopeCommunication.h"
-#include "X2CScope.h"
+#include "definitions.h"
+#include "../inc/X2CScopeCommunication.h"
+
 
 void X2CScope_Init(void)
 {
