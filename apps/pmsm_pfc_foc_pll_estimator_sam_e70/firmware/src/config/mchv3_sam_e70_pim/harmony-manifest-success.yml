@@ -4,16 +4,16 @@
 
 
 project: pmsm_pfc_foc_pll_estimator_sam_e70
-creation_date: 2023-03-06T13:39:56.002+05:30[Asia/Calcutta]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
+creation_date: 2023-07-14T13:54:43.141+05:30[Asia/Calcutta]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
 operating_system: Windows 10
 mhc_mode: Standalone            # [IDE|Standalone|Headless]
-mhc_version: NA
+mhc_version: v3.8.5
 mplabx_version: NA        # if MPLAB X plugin only
 plugin_version: NA        # if MPLAB X plugin only
 compiler: xc32
 
 modules:
-    - {name: "csp", version: "unknown"}
-    - {name: "dev_packs", version: "unknown"}
-    - {name: "x2c", version: "unknown"}
+    - {name: "csp", version: "v3.17.0"}
+    - {name: "dev_packs", version: "v3.17.0"}
+    - {name: "x2c", version: "v1.4.0"}
 

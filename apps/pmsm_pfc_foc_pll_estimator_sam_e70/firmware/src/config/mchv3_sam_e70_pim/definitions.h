@@ -48,9 +48,9 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include "X2CCode/X2CScope/inc/X2CScope.h"
 #include "peripheral/afec/plib_afec0.h"
 #include "peripheral/pwm/plib_pwm1.h"
-#include "X2CCode/X2CScope/inc/X2CScope.h"
 #include "peripheral/afec/plib_afec1.h"
 #include "peripheral/uart/plib_uart0.h"
 #include "peripheral/clk/plib_clk.h"
@@ -66,6 +66,12 @@ extern "C" {
 
 #endif
 // DOM-IGNORE-END
+
+/* Device Information */
+#define DEVICE_NAME			 "ATSAME70Q21B"
+#define DEVICE_ARCH			 "CORTEX-M7"
+#define DEVICE_FAMILY		 "SAME"
+#define DEVICE_SERIES		 "SAME70"
 
 /* CPU clock frequency */
 #define CPU_CLOCK_FREQUENCY 300000000
