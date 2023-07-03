@@ -59,7 +59,6 @@
 /* Initialize channel in quadrature mode */
 void TC0_QuadratureInitialize (void)
 {
-    uint32_t status;
     /* clock selection and waveform selection */
     TC0_REGS->TC_CHANNEL[0].TC_CMR = TC_CMR_TCCLKS_XC0 | TC_CMR_CAPTURE_LDRA_RISING;
     TC0_REGS->TC_CHANNEL[0].TC_RC = 0xFFFF;
@@ -68,10 +67,8 @@ void TC0_QuadratureInitialize (void)
     TC0_REGS->TC_BMR = TC_BMR_QDEN_Msk  | TC_BMR_MAXFILT(2U) | TC_BMR_EDGPHA_Msk
         | (TC_BMR_POSEN_Msk);
 
-    status = TC0_REGS->TC_QISR;  /* Clear interrupt status */
-
-    /* Ignore warning */
-    (void)status;
+    /* Clear interrupt status */
+    (void)TC0_REGS->TC_QISR;
 }
 
 void TC0_QuadratureStart (void)
@@ -86,7 +83,7 @@ void TC0_QuadratureStop (void)
 
 TC_QUADRATURE_STATUS TC0_QuadratureStatusGet(void)
 {
-    return (TC_QUADRATURE_STATUS)(TC0_REGS->TC_QISR & TC_QUADRATURE_STATUS_MSK);
+    return (TC_QUADRATURE_STATUS)(TC0_REGS->TC_QISR & (uint32_t)TC_QUADRATURE_STATUS_MSK);
 }
  
  
