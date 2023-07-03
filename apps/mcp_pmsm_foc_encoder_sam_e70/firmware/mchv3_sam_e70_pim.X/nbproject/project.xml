@@ -3,13 +3,9 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>mcp_pmsm_foc_encoder_sam_e70</name>
-            <creation-uuid>065b6c8b-8a23-46a1-ba97-146a6d8aea7f</creation-uuid>
+            <name>pmsm_foc_encoder_sam_e70</name>
+            <creation-uuid>ce6ee447-9285-432a-af14-87d002f397c2</creation-uuid>
             <make-project-type>0</make-project-type>
-            <c-extensions>c</c-extensions>
-            <cpp-extensions/>
-            <header-extensions>h</header-extensions>
-            <asminc-extensions/>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList/>

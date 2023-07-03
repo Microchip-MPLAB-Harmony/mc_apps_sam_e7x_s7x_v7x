@@ -96,7 +96,7 @@ void TC0_QuadratureStop (void);
 
 __STATIC_INLINE int16_t TC0_QuadraturePositionGet (void)
 {
-    return (TC0_REGS->TC_CHANNEL[0].TC_CV);
+    return (int16_t)(TC0_REGS->TC_CHANNEL[0].TC_CV);
 }
 
 TC_QUADRATURE_STATUS TC0_QuadratureStatusGet(void);

@@ -11,34 +11,10 @@
           <logicalFolder name="bsp" displayName="bsp" projectFiles="true">
             <itemPath>../src/config/mchv3_sam_e70_pim/bsp/bsp.h</itemPath>
           </logicalFolder>
-          <logicalFolder name="motor_control"
-                         displayName="motor_control"
-                         projectFiles="true">
-            <logicalFolder name="pmsm_foc" displayName="pmsm_foc" projectFiles="true">
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_function_coordinator.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_motor_control.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_flux_control.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_start_up.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_ramp_profiler.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_hardware_abstraction.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_speed_control.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_rotor_position.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_generic_library.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_interface_handling.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_userparams.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_current_calculation.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_current_control.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_pwm.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_voltage_measurement.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_flying_start.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_pmsm_foc.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_error_handler.h</itemPath>
-            </logicalFolder>
-          </logicalFolder>
           <logicalFolder name="peripheral" displayName="peripheral" projectFiles="true">
             <logicalFolder name="afec" displayName="afec" projectFiles="true">
-              <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/afec/plib_afec0.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/afec/plib_afec_common.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/afec/plib_afec0.h</itemPath>
             </logicalFolder>
             <logicalFolder name="clk" displayName="clk" projectFiles="true">
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/clk/plib_clk.h</itemPath>
@@ -65,18 +41,57 @@
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/uart/plib_uart_common.h</itemPath>
             </logicalFolder>
           </logicalFolder>
+          <logicalFolder name="QSpin" displayName="QSpin" projectFiles="true">
+            <logicalFolder name="Current_Calculation"
+                           displayName="Current_Calculation"
+                           projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Current_Calculation/mc_current_calculation.h</itemPath>
+            </logicalFolder>
+            <logicalFolder name="Field_Oriented_Control"
+                           displayName="Field_Oriented_Control"
+                           projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_flying_start.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_field_oriented_control.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_rotor_position_calculation.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_motor.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_torque_control.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_pwm.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_open_loop_startup.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_reference_control.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_flux_control.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_initial_position_detection.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_pi_control.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_speed_control.h</itemPath>
+            </logicalFolder>
+            <logicalFolder name="Hardware_Abstraction"
+                           displayName="Hardware_Abstraction"
+                           projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Hardware_Abstraction/mc_hardware_abstraction.h</itemPath>
+            </logicalFolder>
+            <logicalFolder name="Utilities" displayName="Utilities" projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Utilities/mc_utilities.h</itemPath>
+            </logicalFolder>
+            <logicalFolder name="Voltage_Calculation"
+                           displayName="Voltage_Calculation"
+                           projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Voltage_Calculation/mc_voltage_measurement.h</itemPath>
+            </logicalFolder>
+            <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/mc_key_manager.h</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/mc_application.h</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/mc_types.h</itemPath>
+          </logicalFolder>
           <logicalFolder name="X2CCode" displayName="X2CCode" projectFiles="true">
             <logicalFolder name="X2CScope" displayName="X2CScope" projectFiles="true">
               <itemPath>../src/config/mchv3_sam_e70_pim/X2CCode/X2CScope/inc/X2CScope.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/X2CCode/X2CScope/inc/X2CScopeCommunication.h</itemPath>
             </logicalFolder>
           </logicalFolder>
-          <itemPath>../src/config/mchv3_sam_e70_pim/interrupts.h</itemPath>
-          <itemPath>../src/config/mchv3_sam_e70_pim/device_cache.h</itemPath>
-          <itemPath>../src/config/mchv3_sam_e70_pim/toolchain_specifics.h</itemPath>
-          <itemPath>../src/config/mchv3_sam_e70_pim/device_vectors.h</itemPath>
           <itemPath>../src/config/mchv3_sam_e70_pim/device.h</itemPath>
+          <itemPath>../src/config/mchv3_sam_e70_pim/device_cache.h</itemPath>
+          <itemPath>../src/config/mchv3_sam_e70_pim/device_vectors.h</itemPath>
           <itemPath>../src/config/mchv3_sam_e70_pim/definitions.h</itemPath>
+          <itemPath>../src/config/mchv3_sam_e70_pim/toolchain_specifics.h</itemPath>
+          <itemPath>../src/config/mchv3_sam_e70_pim/interrupts.h</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="packs" displayName="packs" projectFiles="true">
@@ -84,100 +99,100 @@
                        displayName="ATSAME70Q21B_DFP"
                        projectFiles="true">
           <logicalFolder name="component" displayName="component" projectFiles="true">
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/twihs.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/spi.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/uart.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/chipid.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/pwm.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rtt.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/mcan.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/icm.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/dacc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/supc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rswdt.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/aes.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/fuses.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/smc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/spi.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/gpbr.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/twihs.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/hsmci.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/i2sc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/efc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/usart.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/usbhs.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/wdt.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/utmi.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/tc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/isi.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rstc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/xdmac.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/afec.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rswdt.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/trng.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/pio.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/matrix.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/qspi.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/pmc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/supc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rtc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/chipid.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/ssc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/uart.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/acc.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/component/gmac.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/ssc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/pmc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/trng.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/qspi.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/utmi.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/usart.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/fuses.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/hsmci.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/usbhs.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/smc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rtc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/afec.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/aes.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/pwm.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/efc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/xdmac.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/wdt.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/gpbr.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/pio.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rtt.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/matrix.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/i2sc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/icm.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/isi.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/dacc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/component/rstc.h</itemPath>
           </logicalFolder>
           <logicalFolder name="instance" displayName="instance" projectFiles="true">
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/supc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pioa.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/twihs0.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pmc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/tc3.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/gpbr.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/usart0.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/uart2.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/trng.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/afec0.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/gmac.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pioe.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/piob.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/spi0.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rtt.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/tc2.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/usbhs.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rstc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/usart1.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/uart3.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pwm1.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/wdt.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pioc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rtc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/dacc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/efc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/twihs2.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/spi1.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/tc1.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/usart2.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/uart0.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/xdmac.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/uart4.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pwm0.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rswdt.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/i2sc0.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/smc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/mcan1.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/matrix.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/aes.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/piod.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/hsmci.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/twihs1.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/usart2.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/icm.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/spi1.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/tc3.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/afec0.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/usbhs.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/uart2.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/wdt.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pwm1.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/acc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/i2sc1.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/uart1.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/isi.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pioe.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/mcan0.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pioa.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/tc2.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/twihs0.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/afec1.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/hsmci.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rtc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/fuses.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pwm0.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/chipid.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/smc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/trng.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/xdmac.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/qspi.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/utmi.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/tc0.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/uart1.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/i2sc1.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/mcan0.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/isi.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/acc.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/fuses.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/afec1.h</itemPath>
-            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/chipid.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/aes.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/uart0.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/i2sc0.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/mcan1.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/piob.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/tc1.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rtt.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/usart0.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/gpbr.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/uart4.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rswdt.h</itemPath>
             <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/ssc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/matrix.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/twihs2.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pioc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/supc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/pmc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/tc0.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/usart1.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/efc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/rstc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/spi0.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/gmac.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/dacc.h</itemPath>
+            <itemPath>../src/packs/ATSAME70Q21B_DFP/instance/uart3.h</itemPath>
           </logicalFolder>
           <logicalFolder name="pio" displayName="pio" projectFiles="true">
             <itemPath>../src/packs/ATSAME70Q21B_DFP/pio/same70q21b.h</itemPath>
@@ -188,15 +203,15 @@
           <logicalFolder name="CMSIS" displayName="CMSIS" projectFiles="true">
             <logicalFolder name="Core" displayName="Core" projectFiles="true">
               <logicalFolder name="Include" displayName="Include" projectFiles="true">
-                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_version.h</itemPath>
-                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/core_cm7.h</itemPath>
-                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_compiler.h</itemPath>
+                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_gcc.h</itemPath>
                 <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_armcc.h</itemPath>
                 <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/mpu_armv7.h</itemPath>
-                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_iccarm.h</itemPath>
-                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_armclang_ltm.h</itemPath>
-                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_gcc.h</itemPath>
                 <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cachel1_armv7.h</itemPath>
+                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_compiler.h</itemPath>
+                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_armclang_ltm.h</itemPath>
+                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_iccarm.h</itemPath>
+                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_version.h</itemPath>
+                <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/core_cm7.h</itemPath>
                 <itemPath>../src/packs/CMSIS/CMSIS/Core/Include/cmsis_armclang.h</itemPath>
               </logicalFolder>
             </logicalFolder>
@@ -225,29 +240,6 @@
           <logicalFolder name="bsp" displayName="bsp" projectFiles="true">
             <itemPath>../src/config/mchv3_sam_e70_pim/bsp/bsp.c</itemPath>
           </logicalFolder>
-          <logicalFolder name="motor_control"
-                         displayName="motor_control"
-                         projectFiles="true">
-            <logicalFolder name="pmsm_foc" displayName="pmsm_foc" projectFiles="true">
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_motor_control.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_flux_control.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_ramp_profiler.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_start_up.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_function_coordinator.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_speed_control.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_hardware_abstraction.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_current_calculation.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_interface_handling.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_rotor_position.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_generic_library.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_current_control.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_voltage_measurement.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_pmsm_foc.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_flying_start.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_pwm.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/motor_control/pmsm_foc/mc_error_handler.c</itemPath>
-            </logicalFolder>
-          </logicalFolder>
           <logicalFolder name="peripheral" displayName="peripheral" projectFiles="true">
             <logicalFolder name="afec" displayName="afec" projectFiles="true">
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/afec/plib_afec0.c</itemPath>
@@ -274,24 +266,61 @@
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/uart/plib_uart0.c</itemPath>
             </logicalFolder>
           </logicalFolder>
+          <logicalFolder name="QSpin" displayName="QSpin" projectFiles="true">
+            <logicalFolder name="Current_Calculation"
+                           displayName="Current_Calculation"
+                           projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Current_Calculation/mc_current_calculation.c</itemPath>
+            </logicalFolder>
+            <logicalFolder name="Field_Oriented_Control"
+                           displayName="Field_Oriented_Control"
+                           projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_flying_start.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_field_oriented_control.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_rotor_position_calculation.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_torque_control.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_motor.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_open_loop_startup.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_pwm.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_reference_control.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_flux_control.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_speed_control.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_pi_control.c</itemPath>
+            </logicalFolder>
+            <logicalFolder name="Hardware_Abstraction"
+                           displayName="Hardware_Abstraction"
+                           projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Hardware_Abstraction/mc_hardware_abstraction.c</itemPath>
+            </logicalFolder>
+            <logicalFolder name="Utilities" displayName="Utilities" projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Utilities/mc_utilities.c</itemPath>
+            </logicalFolder>
+            <logicalFolder name="Voltage_Calculation"
+                           displayName="Voltage_Calculation"
+                           projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Voltage_Calculation/mc_voltage_measurement.c</itemPath>
+            </logicalFolder>
+            <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/mc_key_manager.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/mc_application.c</itemPath>
+          </logicalFolder>
           <logicalFolder name="stdio" displayName="stdio" projectFiles="true">
             <itemPath>../src/config/mchv3_sam_e70_pim/stdio/xc32_monitor.c</itemPath>
           </logicalFolder>
           <logicalFolder name="X2CCode" displayName="X2CCode" projectFiles="true">
             <logicalFolder name="X2CScope" displayName="X2CScope" projectFiles="true">
-              <itemPath>../src/config/mchv3_sam_e70_pim/X2CCode/X2CScope/src/X2CScope.c</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/X2CCode/X2CScope/src/X2CScopeCommunication.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/X2CCode/X2CScope/src/X2CScope.c</itemPath>
             </logicalFolder>
           </logicalFolder>
-          <itemPath>../src/config/mchv3_sam_e70_pim/interrupts.c</itemPath>
-          <itemPath>../src/config/mchv3_sam_e70_pim/libc_syscalls.c</itemPath>
-          <itemPath>../src/config/mchv3_sam_e70_pim/initialization.c</itemPath>
-          <itemPath>../src/config/mchv3_sam_e70_pim/exceptions.c</itemPath>
           <itemPath>../src/config/mchv3_sam_e70_pim/startup_xc32.c</itemPath>
+          <itemPath>../src/config/mchv3_sam_e70_pim/exceptions.c</itemPath>
+          <itemPath>../src/config/mchv3_sam_e70_pim/libc_syscalls.c</itemPath>
+          <itemPath>../src/config/mchv3_sam_e70_pim/interrupts.c</itemPath>
+          <itemPath>../src/config/mchv3_sam_e70_pim/initialization.c</itemPath>
         </logicalFolder>
       </logicalFolder>
-      <itemPath>../src/config/mchv3_sam_e70_pim/pin_configurations.csv</itemPath>
       <itemPath>../src/main.c</itemPath>
+      <itemPath>../src/config/mchv3_sam_e70_pim/pin_configurations.csv</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -310,7 +339,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>pkob4hybrid</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>4.00</languageToolchainVersion>
+        <languageToolchainVersion>4.21</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
@@ -355,7 +384,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="../src;../src/config/mchv3_sam_e70_pim;../src/config/mchv3_sam_e70_pim/X2CCode;../src/packs/ATSAME70Q21B_DFP;../src/packs/CMSIS/;../src/packs/CMSIS/CMSIS/Core/Include"/>
+                  value="../src;../src/config/mchv3_sam_e70_pim;../src/config/mchv3_sam_e70_pim/QSpin;../src/config/mchv3_sam_e70_pim/QSpin/Current_Calculation/;../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/;../src/config/mchv3_sam_e70_pim/QSpin/Hardware_Abstraction/;../src/config/mchv3_sam_e70_pim/QSpin/Utilities/;../src/config/mchv3_sam_e70_pim/QSpin/Voltage_Calculation/;../src/config/mchv3_sam_e70_pim/X2CCode;../src/packs/ATSAME70Q21B_DFP;../src/packs/CMSIS/;../src/packs/CMSIS/CMSIS/Core/Include"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="true"/>
