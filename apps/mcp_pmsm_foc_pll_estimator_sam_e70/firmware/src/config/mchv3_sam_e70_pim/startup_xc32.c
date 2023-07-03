@@ -35,9 +35,14 @@
  */
  /* MISRAC 2012 deviation block start */
 /* MISRA C-2012 Rule 21.1 deviated 1 time. Deviation record ID -  H3_MISRAC_2012_R_21_1_DR_1 */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma coverity compliance block deviate:1 "MISRA C-2012 Rule 21.1" "H3_MISRAC_2012_R_21_1_DR_1"
 #ifdef __MPLAB_DEBUGGER_SIMULATOR
 #define __XC32_SKIP_STARTUP_GPNVM_WAIT
 #endif
+#pragma coverity compliance end_block "MISRA C-2012 Rule 21.1"
+#pragma GCC diagnostic pop
 /* MISRAC 2012 deviation block end */
 
 /*
@@ -51,6 +56,11 @@
 /* MISRAC 2012 deviation block start */
 /* MISRA C-2012 Rule 21.2 deviated 5 times. Deviation record ID -  H3_MISRAC_2012_R_21_2_DR_1 */
 /* MISRA C-2012 Rule 8.6 deviated 6 times.  Deviation record ID -  H3_MISRAC_2012_R_8_6_DR_1 */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma coverity compliance block \
+(deviate:5 "MISRA C-2012 Rule 21.2" "H3_MISRAC_2012_R_21_2_DR_1")\
+(deviate:6 "MISRA C-2012 Rule 8.6" "H3_MISRAC_2012_R_8_6_DR_1")
 
 /* array initialization  function */
 extern void __attribute__((long_call)) __libc_init_array(void);
@@ -65,7 +75,13 @@ extern void __attribute__((weak,long_call, alias("Dummy_App_Func"))) __xc32_on_b
 
 /* Linker defined variables */
 extern uint32_t __svectors;
+#if defined (__REINIT_STACK_POINTER)
+extern uint32_t _stack;
+#endif
 
+#pragma coverity compliance end_block "MISRA C-2012 Rule 8.6"
+#pragma coverity compliance end_block "MISRA C-2012 Rule 21.2"
+#pragma GCC diagnostic pop
 /* MISRAC 2012 deviation block end */
 
 
@@ -87,7 +103,7 @@ __STATIC_INLINE void __attribute__((optimize("-O1"))) TCM_Disable(void)
 #define GPNVM_TCM_SIZE_Msk        (0x3u << GPNVM_TCM_SIZE_Pos)
 
 /** Program GPNVM fuse for TCM configuration */
-__STATIC_INLINE void TCM_Configure(uint32_t neededGpnvmValue)
+__STATIC_INLINE void __attribute__((optimize("-O1"))) TCM_Configure(uint32_t neededGpnvmValue)
 {
     static uint32_t gpnvmReg;
     static uint32_t cmd;
@@ -142,11 +158,11 @@ __STATIC_INLINE void TCM_Configure(uint32_t neededGpnvmValue)
 #if (__ARM_FP==14) || (__ARM_FP==4)
 
 /* Enable FPU */
-__STATIC_INLINE void FPU_Enable(void)
+__STATIC_INLINE void __attribute__((optimize("-O1"))) FPU_Enable(void)
 {
     uint32_t primask = __get_PRIMASK();
     __disable_irq();
-     SCB->CPACR |= (((uint32_t)0xFU) << 20);
+    SCB->CPACR |= (((uint32_t)0xFU) << 20);
     __DSB();
     __ISB();
 
@@ -178,7 +194,7 @@ void __attribute__((optimize("-O1"), section(".text.Reset_Handler"), long_call, 
 
 #if defined (__REINIT_STACK_POINTER)
     /* Initialize SP from linker-defined _stack symbol. */
-    __asm__ volatile ("ldr sp, =_stack" : : : "sp");
+    __set_MSP((uint32_t)&_stack);
 
 #ifdef SCB_VTOR_TBLOFF_Msk
     /* Buy stack for locals */
