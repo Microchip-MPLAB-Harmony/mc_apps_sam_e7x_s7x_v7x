@@ -134,6 +134,7 @@ bool UART0_SerialSetup( UART_SERIAL_SETUP *setup, uint32_t srcClkFreq )
 bool UART0_Read( void *buffer, const size_t size )
 {
     bool status = false;
+    UART_ERROR errorinfo;
     uint32_t errorStatus = 0;
     size_t processedSize = 0;
 
@@ -143,7 +144,12 @@ bool UART0_Read( void *buffer, const size_t size )
     {
         /* Clear errors before submitting the request.
          * ErrorGet clears errors internally. */
-         (void) UART0_ErrorGet();
+         errorinfo = UART0_ErrorGet();
+
+         if(errorinfo != 0U)
+         {
+             /* Nothing to do */
+         }
 
         while( size > processedSize )
         {
@@ -196,16 +202,16 @@ bool UART0_Write( void *buffer, const size_t size )
 
 int UART0_ReadByte(void)
 {
-	uint32_t readbyte = (UART0_REGS->UART_RHR& UART_RHR_RXCHR_Msk);
+    uint32_t readbyte = (UART0_REGS->UART_RHR& UART_RHR_RXCHR_Msk);
     return (int)readbyte;
 }
 
 void UART0_WriteByte( int data )
 {
     while (UART_SR_TXRDY_Msk == (UART0_REGS->UART_SR & UART_SR_TXRDY_Msk))
-	{
-		/* Do Nothing */	
-	}
+    {
+        /* Do Nothing */
+    }
 
     UART0_REGS->UART_THR = (UART_THR_TXCHR(data) & UART_THR_TXCHR_Msk);
 }
