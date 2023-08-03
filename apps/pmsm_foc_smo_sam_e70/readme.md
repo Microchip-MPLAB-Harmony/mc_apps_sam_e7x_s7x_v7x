@@ -21,7 +21,7 @@ Key features enabled in this project are:
 - Speed control loop
 
 
-## MHC Project Configurations
+## MCC Project Configurations
 
 ![MHC Project Graph](images/project_graph.png)
 

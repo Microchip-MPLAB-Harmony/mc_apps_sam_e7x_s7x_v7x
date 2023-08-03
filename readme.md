@@ -30,7 +30,6 @@ notes and licensing information.
 |------------|-----------------------------------------------------------|
 | apps       | Demonstration applications for Motor Control              |
 | docs       | Contains documentation in html format for offline viewing (to be used only after cloning this repository onto a local machine). Use [github pages](https://microchip-mplab-harmony.github.io/mc_apps_sam_e7x_s7x_v7x/) of this repository for viewing it online. |
-|||
 
 
 ## Configurable Motor Control Examples (MCC with Harmony QSpin Motor Control)
@@ -41,18 +40,14 @@ The following applications are provided to demonstrate the Harmony QSpin to gene
 |:-----|:-----------|:------------|:-------------|
 | [PMSM FOC using PLL Estimator ](apps/mcp_pmsm_foc_pll_estimator_sam_e70/readme.md) | Sensorless Field Oriented Control of PMSM using PLL Estimator | [ATSAME70 Motor Control Plugin Module](https://www.microchip.com/Developmenttools/ProductDetails/MA320203) | [dsPICDEM™ MCLV-2 Support](https://www.microchip.com/DevelopmentTools/ProductDetails/DM330021-2) <br  />[dsPICDEM™ MCHV-3 Support](https://www.microchip.com/developmenttools/ProductDetails/dm330023-3) |
 | [PMSM FOC using Quadrature Encoder](apps/mcp_pmsm_foc_encoder_sam_e70/readme.md) | Sensored Field Oriented Control of PMSM using Quadrature Encoder |[ATSAME70 Motor Control Plugin Module](https://www.microchip.com/Developmenttools/ProductDetails/MA320203)| [dsPICDEM™ MCLV-2 Support](https://www.microchip.com/DevelopmentTools/ProductDetails/DM330021-2) <br  />[dsPICDEM™ MCHV-3 Support](https://www.microchip.com/developmenttools/ProductDetails/dm330023-3) |
-|||||
 
 
 ## Static Motor Control Examples
 
-These applications contain static algorithm code and peripherals are configured using MHC. Configurations can be changed in userparam.h file. 
+These applications contain static algorithm code and peripherals are configured using MCC. Configurations can be changed in userparam.h file. 
 
 | Name | Description|Control Board|Inverter Board|
 |:-----|:-----------|:------------|:-------------|
-| [PMSM FOC using PLL Estimator](apps/pmsm_foc_pll_estimator_sam_e70/readme.md) | Sensorless Field Oriented Control of PMSM using PLL Estimator | [ATSAME70 Motor Control Plugin Module](https://www.microchip.com/Developmenttools/ProductDetails/MA320203) | [dsPICDEM™ MCLV-2 Support](https://www.microchip.com/DevelopmentTools/ProductDetails/DM330021-2) <br  />[dsPICDEM™ MCHV-3 Support](https://www.microchip.com/developmenttools/ProductDetails/dm330023-3) |
-| [PMSM FOC using Quadrature Encoder](apps/pmsm_foc_encoder_sam_e70/readme.md) | Sensored Field Oriented Control of PMSM using Quadrature Encoder |[ATSAME70 Motor Control Plugin Module](https://www.microchip.com/Developmenttools/ProductDetails/MA320203)| [dsPICDEM™ MCLV-2 Support](https://www.microchip.com/DevelopmentTools/ProductDetails/DM330021-2) <br  />[dsPICDEM™ MCHV-3 Support](https://www.microchip.com/developmenttools/ProductDetails/dm330023-3) |
-|||||
 | [PFC and PMSM FOC using PLL Estimator](apps/pmsm_pfc_foc_pll_estimator_sam_e70/readme.md) | Power Factor Correction and Sensorless Field Oriented Control of PMSM using PLL Estimator |[ATSAME70 Motor Control Plugin Module](https://www.microchip.com/Developmenttools/ProductDetails/MA320203) |[dsPICDEM™ MCHV-3 Support](https://www.microchip.com/developmenttools/ProductDetails/dm330023-3) |
 | [PMSM FOC using Sliding Mode Observer](apps/pmsm_foc_smo_sam_e70/readme.md) | Sensorless Field Oriented Control of PMSM using Sliding Mode Observer |[ATSAME70 Motor Control Plugin Module](https://www.microchip.com/Developmenttools/ProductDetails/MA320203) | [dsPICDEM™ MCLV-2 Support](https://www.microchip.com/DevelopmentTools/ProductDetails/DM330021-2) |
 |||||

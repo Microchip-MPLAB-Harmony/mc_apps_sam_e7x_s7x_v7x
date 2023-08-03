@@ -22,7 +22,7 @@ Key features enabled in this project are:
 - Field weakening
 
 
-## MHC Project Configurations
+## MCC Project Configurations
 
 ![MHC Project Graph](images/project_graph.jpg)
 
@@ -47,7 +47,7 @@ Key features enabled in this project are:
     The UART is used for X2CScope communication to observe graphs and variable values in run time 
 
 ## Project Details
-For details refer [Harmony QSpin](https://microchip-mplab-harmony.github.io/motor_control/index.html)
+This project has been created using Harmony QSpin Tool. For details refer [Harmony QSpin](https://microchip-mplab-harmony.github.io/motor_control/index.html)
 
 ## Development Kits
 
@@ -64,7 +64,6 @@ To build the application, refer to the following table and open the project usin
 | Project Name      | Description                                    | Hardware Setup Guide |
 | ----------------- | ---------------------------------------------- | --------------------- |
 | mclv2_sam_e70_pim.X | MPLABX project for MCLV2 board with ATSAME70 PIM | [Hardware Setup and Running The Application on MCLV2 with ATSAME70 PIM](../docs/mclv2_atsame70_pim_encoder.md)|
-|||
 
 ### MCHV3 with ATSAME70 PIM
 #### Downloading and building the application
@@ -79,4 +78,3 @@ To build the application, refer to the following table and open the project usin
 | Project Name      | Description                                    | Hardware Setup Guide |
 | ----------------- | ---------------------------------------------- | --------------------- |
 | mchv3_sam_e70_pim.X | MPLABX project for MCHV3 board with ATSAME70 PIM | [Hardware Setup and Running The Application on MCHV3 with ATSAME70 PIM](../docs/mchv3_atsame70_pim_encoder.md)|
-|||
