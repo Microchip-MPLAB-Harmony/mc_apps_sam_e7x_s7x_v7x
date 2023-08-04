@@ -3,7 +3,7 @@
 	"category": "com.microchip.ide.project",
 	"content": {
 		"metaDataVersion": "1.1.0",
-		"name": "com.microchip.mcu32.mplabx.project.mc_apps_sam_e7x_s7x_v7x_pmsm_foc_encoder_sam_e70_mclv2_sam_e70_pim",
+		"name": "com.microchip.mcu32.mplabx.project.mc_apps_sam_e7x_s7x_v7x_pmsm_foc_encoder_sam_e70_mchv3_sam_e70_pim",
 		"version": "3.4.0",
 		"displayName": "PMSM FOC using Quadrature Encoder Example for SAM E70/S70/V70/V71 Family",
 		"projectName": "mcp_pmsm_foc_encoder_sam_e70",
@@ -39,7 +39,7 @@
 		"author": "Microchip",
 		"subcategories": [
 			[
-				"Development Kit", "MCLV2 Development Board"
+				"Development Kit", "mchv3 Development Board"
 			],
 			[
 				"Harmony", "Motor Control", "PMSM"
