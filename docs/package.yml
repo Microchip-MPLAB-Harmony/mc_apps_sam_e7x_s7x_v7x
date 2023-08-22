@@ -1,0 +1,12 @@
+package:
+  format-version: "1.0.0"
+  name: "mc_apps_sam_d7x_s7x_v7x"
+  type: "application"
+  status: "production"
+  required: true
+  version: "3.4.0"
+
+  dependencies:
+    - name: "motor_control"
+      type: "package"
+      version: "v3.10.0"
