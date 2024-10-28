@@ -1,19 +1,20 @@
-/*******************************************************************************
- Application source file
+/**
+ * @file application.c
+ *
+ * @brief 
+ *   Application source file
+ *
+ * @Company 
+ *    Microchip Technology Inc.
+ *
+ * @Summary
+ *   Header file defining application-specific details.
+ *
+ * @Description
+ *   This header file provides definitions and structures specific to the application,
+ *   including configuration settings, function prototypes, and any other necessary details.
+ */
 
-  Company:
-  Microchip Technology Inc.
-
-  File Name:
-  mc_tasks.c
-
-  Summary:
-  Application source file
-
-  Description:
-  Application source file
- 
- *******************************************************************************/
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
@@ -44,41 +45,41 @@
 /*******************************************************************************
 Headers inclusions
  *******************************************************************************/
-#include "mc_application.h" 
+#include "mc_application.h"
 
 /*******************************************************************************
- * Constants 
+ * Constants
  *******************************************************************************/
 
 /*******************************************************************************
- Private data-types 
+ Private data-types
  *******************************************************************************/
-   
+
 /*******************************************************************************
- Private variables 
+ Private variables
  *******************************************************************************/
- static button_response_t  mcAppI_StartStopButton_gds;
+static button_response_t  mcAppI_StartStopButton_gds;
 static uint32_t mcAppI_1msSyncCounter_gdu32;
 static uintptr_t dummyForMisra;
 static uint8_t runStatus = 0u;
 
 /*******************************************************************************
- Interface variables 
+ Interface variables
  *******************************************************************************/
 
 /*******************************************************************************
- Private Functions 
+ Private Functions
  *******************************************************************************/
- 
-/*! \brief Start stop button scan
+/**
+ * @brief Start/stop button scan
  *
- * Details.
- * Start stop button scan
+ * @details Controls motor start/stop based on button input.
  *
- * @param[in]:
- * @param[in/out]:
- * @param[out]:
- * @return:
+ * @param[in] None
+ * @param[in/out] None
+ * @param[out] None
+ *
+ * @return None
  */
 __STATIC_INLINE void mcAppI_MotorStartStop(void)
 {
@@ -97,7 +98,7 @@ __STATIC_INLINE void mcAppI_MotorStartStop(void)
     {
         /** Start motor  */
         mcFocI_FieldOrientedControlDisable( &mcFocI_ModuleData_gds );
-   
+
 
         /** Enable voltage source inverter */
         mcHalI_InverterPwmDisable();
@@ -106,17 +107,17 @@ __STATIC_INLINE void mcAppI_MotorStartStop(void)
     }
 }
 
-/*! \brief Start stop button scan
- * 
- * Details.
- * Start stop button scan
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Direction reverse button scan
+ *
+ * @details Reverses motor direction based on button input.
+ *
+ * @param[in] None
+ * @param[in/out] None
+ * @param[out] None
+ *
+ * @return None
  */
-
 __STATIC_INLINE void mcAppI_DirectionReverse(void)
 {
     if( 0u == runStatus )
@@ -124,21 +125,22 @@ __STATIC_INLINE void mcAppI_DirectionReverse(void)
        /** Change state variable to toggle motor spin direction  */
        mcFocI_MotorDirectionChange(&mcFocI_ModuleData_gds);
 
-   
+
         /** Set fault indicator */
         mcHal_DirectionIndication();
     }
 }
 
-/*! \brief 1 ms tasks handler
+/**
+ * @brief 1 ms tasks handler
  *
- * Details.
- * 1 ms tasks handler
+ * @details Handles tasks to be executed every 1 ms.
  *
- * @param[in]:
- * @param[in/out]:
- * @param[out]:
- * @return:
+ * @param[in] None
+ * @param[in/out] None
+ * @param[out] None
+ *
+ * @return None
  */
 __STATIC_INLINE void mcAppI_1msTasksHandler( void )
 {
@@ -146,29 +148,29 @@ __STATIC_INLINE void mcAppI_1msTasksHandler( void )
     /** Start-stop button scan  */
     mcAppI_StartStopButton_gds.inputVal = mcHalI_StartStopButtonState();
     mcUtils_ButtonResponse(&mcAppI_StartStopButton_gds, &mcAppI_MotorStartStop);
-    
-   
+
+
     /** Field Oriented control - Slow Tasks */
     mcFocI_FieldOrientedControlSlow(&mcFocI_ModuleData_gds);
 
 }
 
 /*******************************************************************************
- Interface Functions 
+ Interface Functions
  *******************************************************************************/
-
-/*! \brief Application initialization 
- * 
- * Details.
- * Application initialization 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Application initialization
+ *
+ * @details Initializes the application.
+ *
+ * @param[in] None
+ * @param[in/out] None
+ * @param[out] None
+ *
+ * @return None
  */
 void mcAppI_ApplicationInit( void )
-{   
+{
     /** ADC end of conversion interrupt generation for FOC control */
     mcHalI_AdcInterruptDisable();
     mcHalI_AdcInterruptClear();
@@ -194,29 +196,32 @@ void mcAppI_ApplicationInit( void )
 
     /** Set motor parameters */
     mcMotI_MotorParametersInit( &mcMotI_PMSM_gds);
-        
+
     /** Initialize Current calculation */
     mcCurI_CurrentCalculationInit(&mcCurI_ModuleData_gds);
 
     /** Initialize Voltage measurement  */
     mcVolI_VoltageCalculationInit( &mcVolI_ModuleData_gds );
-   
+
+
 
     /** Initialize PMSM motor control */
     mcFocI_FieldOrientedControlInit( &mcFocI_ModuleData_gds);
 
 
+
 }
 
-/*! \brief Over current reaction ISR
+/**
+ * @brief Over current reaction ISR
  *
- * Details.
- * Fault reaction ISR
+ * @details Interrupt service routine for over current reaction.
  *
- * @param[in]:
- * @param[in/out]:
- * @param[out]:
- * @return:
+ * @param[in] status Status information
+ * @param[in/out] context Interrupt context
+ * @param[out] None
+ *
+ * @return None
  */
 void mcAppI_OverCurrentReactionIsr( uint32_t status,  uintptr_t context )
 {
@@ -234,18 +239,19 @@ void mcAppI_OverCurrentReactionIsr( uint32_t status,  uintptr_t context )
 
 }
 
-/*! \brief Motor control application calibration
- * 
- * Details.
- *  Motor Control application calibration 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Motor control application calibration ISR
+ *
+ * @details Interrupt service routine for motor control application calibration.
+ *
+ * @param[in] status ADC status information
+ * @param[in/out] context Interrupt context
+ * @param[out] None
+ *
+ * @return None
  */
 void mcAppI_AdcCalibrationIsr( uint32_t status, uintptr_t context )
-{    
+{
     tmcTypes_StdReturn_e returnStatus;
 
     /** ADC end of conversion interrupt generation for FOC control */
@@ -270,22 +276,23 @@ void mcAppI_AdcCalibrationIsr( uint32_t status, uintptr_t context )
     }
 
     /** Calibration and monitoring update */
-    X2CScope_Update();
+    X2Cscope_Update();
 
      /** ADC end of conversion interrupt generation for FOC control */
     mcHalI_AdcInterruptClear();
     mcHalI_AdcInterruptEnable();
 }
 
-/*! \brief Interrupt tasks execution 
- * 
- * Details.
- *  Interrupt tasks execution 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief ADC finished ISR
+ *
+ * @details Interrupt service routine for ADC finished tasks.
+ *
+ * @param[in] status ADC status information
+ * @param[in/out] context Interrupt context
+ * @param[out] None
+ *
+ * @return None
  */
 void mcAppI_AdcFinishedIsr( uint32_t status, uintptr_t context )
 {
@@ -296,10 +303,11 @@ void mcAppI_AdcFinishedIsr( uint32_t status, uintptr_t context )
     /** Read phase currents  */
     mcHalI_PhaseACurrentGet();
     mcHalI_PhaseBCurrentGet();
-    
+
 
     /** Current calculation */
     mcCurI_CurrentCalculation(&mcCurI_ModuleData_gds);
+
 
     /** Initialize PMSM motor control */
     mcFocI_FieldOrientedControlFast( &mcFocI_ModuleData_gds);
@@ -318,7 +326,7 @@ void mcAppI_AdcFinishedIsr( uint32_t status, uintptr_t context )
 
 
     /** Calibration and monitoring update */
-    X2CScope_Update();
+    X2Cscope_Update();
 
     /** Increment interrupt counter */
     mcAppI_1msSyncCounter_gdu32++;
@@ -328,15 +336,16 @@ void mcAppI_AdcFinishedIsr( uint32_t status, uintptr_t context )
     mcHalI_AdcInterruptEnable();
 }
 
-/*! \brief Non-ISR tasks
+/**
+ * @brief Non-ISR tasks execution
  *
- * Details.
- * Non-ISR tasks
+ * @details Executes non-interrupt service routine tasks.
  *
- * @param[in]:
- * @param[in/out]:
- * @param[out]:
- * @return:
+ * @param[in] None
+ * @param[in/out] None
+ * @param[out] None
+ *
+ * @return None
  */
 void mcAppI_NonISRTasks( void )
 {
@@ -348,15 +357,16 @@ void mcAppI_NonISRTasks( void )
     }
 }
 
-/*! \brief Application reset 
- * 
- * Details.
- * Application reset 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Application reset
+ *
+ * @details Resets the application.
+ *
+ * @param[in] None
+ * @param[in/out] None
+ * @param[out] None
+ *
+ * @return None
  */
 void mcAppI_ApplicationReset( void )
 {

@@ -1,18 +1,18 @@
-/*******************************************************************************
- Voltage measurement 
-
-  Company:
-    Microchip Technology Inc.
-
-  File Name:
-    mc_voltage_measurement.h
-
-  Summary:
-   Voltage measurement 
-
-  Description:
-  Voltage measurement 
- *******************************************************************************/
+/**
+ * @brief Voltage calculation functions
+ *
+ * @Company Microchip Technology Inc.
+ *
+ * @File Name
+ *   mc_voltage_measurement.h
+ *
+ * @Summary
+ *   Header file which contains variables and function prototypes of voltage measurement functions.
+ *
+ * @Description
+ *   This file contains variables and function prototypes of voltage measurement functions
+ *   which are used in motor control applications.
+ */
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
@@ -53,7 +53,7 @@
  *******************************************************************************/
 
 /*******************************************************************************
- Default module parameters 
+ Default module parameters
  *******************************************************************************/
 
 /*******************************************************************************
@@ -81,71 +81,79 @@ typedef struct
 {
     /* Input ports */
     tmcVol_Input_s dInput;
-    
+
     /* Output ports */
     tmcVol_Output_s dOutput;
-    
+
     /* User Parameters */
     tmcVol_Parameters_s dParameters;
-       
+
 }tmcVol_ModuleData_s;
 
 /*******************************************************************************
- Interface Variables  
+ Interface Variables
  *******************************************************************************/
 extern tmcVol_ModuleData_s mcVolI_ModuleData_gds;
 
 /*******************************************************************************
  Static functions
  *******************************************************************************/
+/**
+ * @brief Set voltage measurement parameters.
+ *
+ * @details
+ * Sets the parameters for voltage measurement.
+ *
+ * @param[in] pParameters Pointer to the parameters structure.
+ */
 __STATIC_INLINE  void mcVol_ParametersSet( tmcVol_Parameters_s * const pParameters )
 {
     pParameters->adcToVoltsFactor = (float32_t)0.110696;
 }
 
+/**
+ * @brief Read voltage sensor input ports.
+ *
+ * @details
+ * Reads the voltage sensor input and updates the structure.
+ *
+ * @param[in,out] pInput Pointer to the input ports structure.
+ */
 __STATIC_INLINE void mcVol_InputPortsRead(tmcVol_Input_s * const pInput )
 {
     pInput->sensorInput = mcHalI_UbusAdcInput_gdu16;
 }
 
 /*******************************************************************************
- Interface Functions 
+ Interface Functions
  *******************************************************************************/
-
-/*! \brief Voltage calculation initialization function 
- * 
- * Details.
- *  Voltage calculation initialization function 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Initialize voltage calculation module.
+ *
+ * @details
+ * Initializes the voltage calculation module.
+ *
+ * @param[in,out] pModule Pointer to the module data structure.
  */
 void mcVolI_VoltageCalculationInit( tmcVol_ModuleData_s * const pModule );
 
-/*! \brief Voltage calculation function 
- * 
- * Details.
- *  Voltage calculation function 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Perform voltage calculation.
+ *
+ * @details
+ * Executes the voltage calculation process.
+ *
+ * @param[in,out] pModule Pointer to the module data structure.
  */
 void mcVolI_VoltageCalculation( tmcVol_ModuleData_s * const pModule );
 
-
-/*! \brief Voltage calculation reset 
- * 
- * Details.
- *  Voltage calculation reset 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Reset voltage calculation.
+ *
+ * @details
+ * Resets the voltage calculation module to initial state.
+ *
+ * @param[in,out] pModule Pointer to the module data structure.
  */
 void mcVolI_VoltageCalculationReset( tmcVol_ModuleData_s * const pModule );
 

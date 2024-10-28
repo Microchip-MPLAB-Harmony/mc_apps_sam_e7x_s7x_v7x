@@ -82,9 +82,6 @@ void AFEC0_Initialize(void)
 		AFEC_CGR_GAIN7(AFEC_CGR_GAIN_X1) | 
 		AFEC_CGR_GAIN10(AFEC_CGR_GAIN_X1);
 
-    /* Dual sample and hold mode */
-    AFEC0_REGS->AFEC_SHMR = AFEC_SHMR_DUAL0_Msk;
-
     /* Offset */
     AFEC0_REGS->AFEC_CSELR = (uint32_t)AFEC_CH0;
     AFEC0_REGS->AFEC_COCR = 512U;
@@ -105,7 +102,7 @@ void AFEC0_Initialize(void)
     AFEC0_CallbackObj.callback_fn = NULL;
 
     /* Enable channel */
-    AFEC0_REGS->AFEC_CHER = AFEC_CHER_CH0_Msk | AFEC_CHER_CH7_Msk | AFEC_CHER_CH10_Msk;
+    AFEC0_REGS->AFEC_CHER = AFEC_CHER_CH0_Msk | AFEC_CHER_CH6_Msk | AFEC_CHER_CH7_Msk | AFEC_CHER_CH10_Msk;
 }
 
 /* Enable AFEC channels */

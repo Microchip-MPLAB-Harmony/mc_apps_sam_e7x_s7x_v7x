@@ -48,15 +48,15 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "X2CCode/X2CScope/inc/X2CScope.h"
 #include "peripheral/afec/plib_afec0.h"
+#include "X2Cscope.h"
 #include "peripheral/uart/plib_uart0.h"
 #include "peripheral/clk/plib_clk.h"
 #include "peripheral/pio/plib_pio.h"
 #include "peripheral/nvic/plib_nvic.h"
 #include "peripheral/pwm/plib_pwm0.h"
 #include "peripheral/efc/plib_efc.h"
-#include "bsp/bsp.h"
+#include "peripheral/tc/plib_tc0.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility

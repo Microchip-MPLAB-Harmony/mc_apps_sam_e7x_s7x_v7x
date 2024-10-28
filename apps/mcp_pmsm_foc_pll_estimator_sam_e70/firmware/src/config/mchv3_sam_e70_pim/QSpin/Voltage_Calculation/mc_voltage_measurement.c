@@ -1,19 +1,20 @@
-/*******************************************************************************
- Voltage calculation functions 
-
-  Company:
-    Microchip Technology Inc.
-
-  File Name:
-    mc_voltage_measurement.c
-
-  Summary:
-  Voltage calculation functions 
-
-  Description:
-  Voltage Calculation functions 
- 
- *******************************************************************************/
+/**
+ * @brief 
+ *   Voltage calculation functions
+ *
+ * @Company 
+ *    Microchip Technology Inc.
+ *
+ * @File Name 
+ *    mc_voltage_measurement.c
+ *
+ * @Summary 
+ *    Implementation file for voltage measurement functions.
+ *
+ * @Description
+ *    This file contains the implementation of functions used for voltage 
+ *    measurement in motor control applications.
+ */
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
@@ -47,99 +48,87 @@ Headers inclusions
 #include "mc_voltage_measurement.h"
 
 /*******************************************************************************
- * Constants 
+ * Constants
  *******************************************************************************/
 
 /*******************************************************************************
- Private data-types 
+ Private data-types
  *******************************************************************************/
-  typedef struct 
+  typedef struct
   {
      float32_t adcToVoltsFactor;
   }tmcVol_State_s;
-  
+
 /*******************************************************************************
- Private variables 
+ Private variables
  *******************************************************************************/
 static tmcVol_State_s mcVol_State_mds;
 
 /*******************************************************************************
- Interface Variables  
+ Interface Variables
  *******************************************************************************/
 tmcVol_ModuleData_s mcVolI_ModuleData_gds;
 
 /*******************************************************************************
- Private Functions 
+ Private Functions
  *******************************************************************************/
 
 /*******************************************************************************
- Interface Functions 
+ Interface Functions
  *******************************************************************************/
-
-/*! \brief Voltage calculation initialization function 
- * 
- * Details.
- *  Voltage calculation initialization function 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Initialize voltage calculation module.
+ *
+ * @details
+ * Initializes the voltage calculation module.
+ *
+ * @param[in,out] pModule Pointer to the module data structure.
  */
 void  mcVolI_VoltageCalculationInit( tmcVol_ModuleData_s * const pModule )
 {
     /** Link state variable structure to the module */
     pModule->dParameters.pStatePointer = (void *)&mcVol_State_mds;
-    
+
     /** Set parameters */
     mcVol_ParametersSet( &pModule->dParameters);
-    
+
     /** Update state variables */
     mcVol_State_mds.adcToVoltsFactor = pModule->dParameters.adcToVoltsFactor;
-    
-    
 }
 
 
-/*! \brief Voltage calculation function 
- * 
- * Details.
- *  Voltage calculation function 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Perform voltage calculation.
+ *
+ * @details
+ * Executes the voltage calculation process.
+ *
+ * @param[in,out] pModule Pointer to the module data structure.
  */
 void mcVolI_VoltageCalculation( tmcVol_ModuleData_s * const pModule )
-{     
+{
     tmcVol_Input_s * pInput;
-     
+
     pInput = &pModule->dInput;
-    
+
      /** Get the linked state variable */
     tmcVol_State_s * pState;
     pState = (tmcVol_State_s *)pModule->dParameters.pStatePointer;
-       
+
     /** Read input ports */
     mcVol_InputPortsRead(pInput);
-    
+
     /** Calculate DC bus voltage */
     pModule->dOutput.uBus =   (float32_t)pInput->sensorInput * pState->adcToVoltsFactor;
 }
 
-
-
-
-/*! \brief Voltage calculation reset 
- * 
- * Details.
- *  Voltage calculation reset 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Reset voltage calculation.
+ *
+ * @details
+ * Resets the voltage calculation module to initial state.
+ *
+ * @param[in,out] pModule Pointer to the module data structure.
  */
 void mcVolI_VoltageCalculationReset( tmcVol_ModuleData_s * const pModule )
 {

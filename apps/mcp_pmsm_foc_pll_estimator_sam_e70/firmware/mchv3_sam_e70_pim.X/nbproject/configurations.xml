@@ -8,9 +8,6 @@
         <logicalFolder name="mchv3_sam_e70_pim"
                        displayName="mchv3_sam_e70_pim"
                        projectFiles="true">
-          <logicalFolder name="bsp" displayName="bsp" projectFiles="true">
-            <itemPath>../src/config/mchv3_sam_e70_pim/bsp/bsp.h</itemPath>
-          </logicalFolder>
           <logicalFolder name="peripheral" displayName="peripheral" projectFiles="true">
             <logicalFolder name="afec" displayName="afec" projectFiles="true">
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/afec/plib_afec_common.h</itemPath>
@@ -32,6 +29,10 @@
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/pwm/plib_pwm0.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/pwm/plib_pwm_common.h</itemPath>
             </logicalFolder>
+            <logicalFolder name="tc" displayName="tc" projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/tc/plib_tc0.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/tc/plib_tc_common.h</itemPath>
+            </logicalFolder>
             <logicalFolder name="uart" displayName="uart" projectFiles="true">
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/uart/plib_uart0.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/uart/plib_uart_common.h</itemPath>
@@ -46,18 +47,16 @@
             <logicalFolder name="Field_Oriented_Control"
                            displayName="Field_Oriented_Control"
                            projectFiles="true">
-              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_flying_start.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_field_oriented_control.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_rotor_position_calculation.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_motor.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_torque_control.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_pwm.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_open_loop_startup.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_reference_control.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_flux_control.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_initial_position_detection.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_pi_control.h</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_speed_control.h</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_rotor_position_estimation.h</itemPath>
             </logicalFolder>
             <logicalFolder name="Hardware_Abstraction"
                            displayName="Hardware_Abstraction"
@@ -76,11 +75,9 @@
             <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/mc_application.h</itemPath>
             <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/mc_types.h</itemPath>
           </logicalFolder>
-          <logicalFolder name="X2CCode" displayName="X2CCode" projectFiles="true">
-            <logicalFolder name="X2CScope" displayName="X2CScope" projectFiles="true">
-              <itemPath>../src/config/mchv3_sam_e70_pim/X2CCode/X2CScope/inc/X2CScope.h</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/X2CCode/X2CScope/inc/X2CScopeCommunication.h</itemPath>
-            </logicalFolder>
+          <logicalFolder name="X2Cscope" displayName="X2Cscope" projectFiles="true">
+            <itemPath>../src/config/mchv3_sam_e70_pim/X2Cscope/X2CscopeComm.h</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/X2Cscope/X2Cscope.h</itemPath>
           </logicalFolder>
           <itemPath>../src/config/mchv3_sam_e70_pim/device.h</itemPath>
           <itemPath>../src/config/mchv3_sam_e70_pim/device_cache.h</itemPath>
@@ -215,6 +212,12 @@
         </logicalFolder>
       </logicalFolder>
     </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="true">
+      <itemPath>Makefile</itemPath>
+      <itemPath>mchv3_sam_e70_pim.mc3</itemPath>
+    </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
                    projectFiles="true">
@@ -233,9 +236,6 @@
         <logicalFolder name="mchv3_sam_e70_pim"
                        displayName="mchv3_sam_e70_pim"
                        projectFiles="true">
-          <logicalFolder name="bsp" displayName="bsp" projectFiles="true">
-            <itemPath>../src/config/mchv3_sam_e70_pim/bsp/bsp.c</itemPath>
-          </logicalFolder>
           <logicalFolder name="peripheral" displayName="peripheral" projectFiles="true">
             <logicalFolder name="afec" displayName="afec" projectFiles="true">
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/afec/plib_afec0.c</itemPath>
@@ -255,6 +255,9 @@
             <logicalFolder name="pwm" displayName="pwm" projectFiles="true">
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/pwm/plib_pwm0.c</itemPath>
             </logicalFolder>
+            <logicalFolder name="tc" displayName="tc" projectFiles="true">
+              <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/tc/plib_tc0.c</itemPath>
+            </logicalFolder>
             <logicalFolder name="uart" displayName="uart" projectFiles="true">
               <itemPath>../src/config/mchv3_sam_e70_pim/peripheral/uart/plib_uart0.c</itemPath>
             </logicalFolder>
@@ -268,9 +271,7 @@
             <logicalFolder name="Field_Oriented_Control"
                            displayName="Field_Oriented_Control"
                            projectFiles="true">
-              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_flying_start.c</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_field_oriented_control.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_rotor_position_calculation.c</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_torque_control.c</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_motor.c</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_open_loop_startup.c</itemPath>
@@ -279,6 +280,7 @@
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_flux_control.c</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_speed_control.c</itemPath>
               <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_pi_control.c</itemPath>
+              <itemPath>../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/mc_rotor_position_estimation.c</itemPath>
             </logicalFolder>
             <logicalFolder name="Hardware_Abstraction"
                            displayName="Hardware_Abstraction"
@@ -299,11 +301,9 @@
           <logicalFolder name="stdio" displayName="stdio" projectFiles="true">
             <itemPath>../src/config/mchv3_sam_e70_pim/stdio/xc32_monitor.c</itemPath>
           </logicalFolder>
-          <logicalFolder name="X2CCode" displayName="X2CCode" projectFiles="true">
-            <logicalFolder name="X2CScope" displayName="X2CScope" projectFiles="true">
-              <itemPath>../src/config/mchv3_sam_e70_pim/X2CCode/X2CScope/src/X2CScopeCommunication.c</itemPath>
-              <itemPath>../src/config/mchv3_sam_e70_pim/X2CCode/X2CScope/src/X2CScope.c</itemPath>
-            </logicalFolder>
+          <logicalFolder name="X2Cscope" displayName="X2Cscope" projectFiles="true">
+            <itemPath>../src/config/mchv3_sam_e70_pim/X2Cscope/X2CscopeComm.c</itemPath>
+            <itemPath>../src/config/mchv3_sam_e70_pim/X2Cscope/X2Cscope.c</itemPath>
           </logicalFolder>
           <itemPath>../src/config/mchv3_sam_e70_pim/startup_xc32.c</itemPath>
           <itemPath>../src/config/mchv3_sam_e70_pim/exceptions.c</itemPath>
@@ -315,12 +315,6 @@
       <itemPath>../src/main.c</itemPath>
       <itemPath>../src/config/mchv3_sam_e70_pim/pin_configurations.csv</itemPath>
     </logicalFolder>
-    <logicalFolder name="ExternalFiles"
-                   displayName="Important Files"
-                   projectFiles="false">
-      <itemPath>Makefile</itemPath>
-      <itemPath>mchv3_sam_e70_pim.mc3</itemPath>
-    </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -330,21 +324,21 @@
         <targetDevice>ATSAME70Q21B</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>pkob4hybrid</platformTool>
+        <platformTool>noID</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>4.21</languageToolchainVersion>
+        <languageToolchainVersion>4.45</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="SAME70_DFP" vendor="Microchip" version="4.9.129"/>
-        <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
+        <pack name="SAME70_DFP" vendor="Microchip" version="4.11.257"/>
+        <pack name="CMSIS" vendor="ARM" version="6.1.0"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
       <compileType>
         <linkerTool>
           <linkerLibItems>
-            <linkerLibFileItem>../src/config/mchv3_sam_e70_pim/X2CCode/X2CScope/lib/libCORTEXM7_X2CScope.a</linkerLibFileItem>
+            <linkerLibFileItem>../src/config/mchv3_sam_e70_pim/X2Cscope/libx2cscope2-cm7-elf.a</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
         <archiverTool>
@@ -370,14 +364,13 @@
       <C32>
         <property key="additional-warnings" value="true"/>
         <property key="addresss-attribute-use" value="false"/>
-        <property key="appendMe" value=""/>
         <property key="enable-app-io" value="false"/>
         <property key="enable-omit-frame-pointer" value="false"/>
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="../src;../src/config/mchv3_sam_e70_pim;../src/config/mchv3_sam_e70_pim/QSpin;../src/config/mchv3_sam_e70_pim/QSpin/Current_Calculation/;../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/;../src/config/mchv3_sam_e70_pim/QSpin/Hardware_Abstraction/;../src/config/mchv3_sam_e70_pim/QSpin/Utilities/;../src/config/mchv3_sam_e70_pim/QSpin/Voltage_Calculation/;../src/config/mchv3_sam_e70_pim/X2CCode;../src/packs/ATSAME70Q21B_DFP;../src/packs/CMSIS/;../src/packs/CMSIS/CMSIS/Core/Include"/>
+                  value="../src;../src/config/mchv3_sam_e70_pim;../src/config/mchv3_sam_e70_pim/QSpin;../src/config/mchv3_sam_e70_pim/QSpin/Current_Calculation/;../src/config/mchv3_sam_e70_pim/QSpin/Field_Oriented_Control/;../src/config/mchv3_sam_e70_pim/QSpin/Hardware_Abstraction/;../src/config/mchv3_sam_e70_pim/QSpin/Parameters/;../src/config/mchv3_sam_e70_pim/QSpin/Rotor_Position_Calculation/;../src/config/mchv3_sam_e70_pim/QSpin/Utilities/;../src/config/mchv3_sam_e70_pim/QSpin/Voltage_Calculation/;../src/config/mchv3_sam_e70_pim/X2CCode;../src/config/mchv3_sam_e70_pim/X2Cscope;../src/packs/ATSAME70Q21B_DFP;../src/packs/CMSIS/;../src/packs/CMSIS/CMSIS/Core/Include"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="true"/>
@@ -427,7 +420,6 @@
         <property key="additional-options-use-response-files" value="false"/>
         <property key="additional-options-write-sla" value="false"/>
         <property key="allocate-dinit" value="false"/>
-        <property key="appendMe" value=""/>
         <property key="code-dinit" value="false"/>
         <property key="ebase-addr" value=""/>
         <property key="enable-check-sections" value="false"/>
@@ -467,7 +459,6 @@
       <C32CPP>
         <property key="additional-warnings" value="false"/>
         <property key="addresss-attribute-use" value="false"/>
-        <property key="appendMe" value=""/>
         <property key="check-new" value="false"/>
         <property key="eh-specs" value="true"/>
         <property key="enable-app-io" value="false"/>
@@ -496,7 +487,6 @@
         <property key="use-indirect-calls" value="false"/>
       </C32CPP>
       <C32Global>
-        <property key="appendMe" value=""/>
         <property key="common-include-directories" value=""/>
         <property key="gp-relative-option" value=""/>
         <property key="legacy-libc" value="false"/>
@@ -509,6 +499,120 @@
         <property key="stack-smashing" value=""/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
+      <Tool>
+        <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
+        <property key="ToolFirmwareFilePath"
+                  value="Press to browse for a specific firmware version"/>
+        <property key="ToolFirmwareOption.UpdateOptions"
+                  value="ToolFirmwareOption.UseLatest"/>
+        <property key="ToolFirmwareToolPack"
+                  value="Press to select which tool pack to use"/>
+        <property key="communication.interface" value="swd"/>
+        <property key="communication.interface.jtag" value="2wire"/>
+        <property key="communication.speed" value="2.000"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
+        <property key="debugoptions.simultaneous.debug" value="false"/>
+        <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="event.recorder.debugger.behavior" value="Running"/>
+        <property key="event.recorder.enabled" value="false"/>
+        <property key="event.recorder.scvd.files" value=""/>
+        <property key="freeze.timers" value="false"/>
+        <property key="lastid" value=""/>
+        <property key="memories.aux" value="false"/>
+        <property key="memories.bootflash" value="true"/>
+        <property key="memories.configurationmemory" value="true"/>
+        <property key="memories.configurationmemory2" value="true"/>
+        <property key="memories.dataflash" value="true"/>
+        <property key="memories.eeprom" value="true"/>
+        <property key="memories.exclude.configurationmemory" value="true"/>
+        <property key="memories.flashdata" value="true"/>
+        <property key="memories.id" value="true"/>
+        <property key="memories.instruction.ram.ranges"
+                  value="${memories.instruction.ram.ranges}"/>
+        <property key="memories.programmemory" value="true"/>
+        <property key="memories.programmemory.ranges" value="400000-5fffff"/>
+        <property key="programoptions.donoteraseauxmem" value="false"/>
+        <property key="programoptions.eraseb4program" value="true"/>
+        <property key="programoptions.pgmentry.voltage" value="low"/>
+        <property key="programoptions.pgmspeed" value="Med"/>
+        <property key="programoptions.preservedataflash" value="false"/>
+        <property key="programoptions.preservedataflash.ranges"
+                  value="${memories.dataflash.default}"/>
+        <property key="programoptions.preserveeeprom" value="false"/>
+        <property key="programoptions.preserveeeprom.ranges" value=""/>
+        <property key="programoptions.preserveprogram.ranges" value=""/>
+        <property key="programoptions.preserveprogramrange" value="false"/>
+        <property key="programoptions.preserveuserid" value="false"/>
+        <property key="programoptions.program.otpconfig" value="false"/>
+        <property key="programoptions.programcalmem" value="false"/>
+        <property key="programoptions.programuserotp" value="false"/>
+        <property key="programoptions.smart.program" value="When debugging only"/>
+        <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
+        <property key="script.reset_by_pin" value="false"/>
+        <property key="toolpack.updateoptions"
+                  value="toolpack.updateoptions.uselatestoolpack"/>
+        <property key="toolpack.updateoptions.packversion"
+                  value="Press to select which tool pack to use"/>
+      </Tool>
+      <pkob4hybrid>
+        <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
+        <property key="ToolFirmwareFilePath"
+                  value="Press to browse for a specific firmware version"/>
+        <property key="ToolFirmwareOption.UpdateOptions"
+                  value="ToolFirmwareOption.UseLatest"/>
+        <property key="ToolFirmwareToolPack"
+                  value="Press to select which tool pack to use"/>
+        <property key="communication.interface" value="swd"/>
+        <property key="communication.interface.jtag" value="2wire"/>
+        <property key="communication.speed" value="2.000"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
+        <property key="debugoptions.simultaneous.debug" value="false"/>
+        <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="event.recorder.debugger.behavior" value="Running"/>
+        <property key="event.recorder.enabled" value="false"/>
+        <property key="event.recorder.scvd.files" value=""/>
+        <property key="freeze.timers" value="false"/>
+        <property key="lastid" value=""/>
+        <property key="memories.aux" value="false"/>
+        <property key="memories.bootflash" value="true"/>
+        <property key="memories.configurationmemory" value="true"/>
+        <property key="memories.configurationmemory2" value="true"/>
+        <property key="memories.dataflash" value="true"/>
+        <property key="memories.eeprom" value="true"/>
+        <property key="memories.exclude.configurationmemory" value="true"/>
+        <property key="memories.flashdata" value="true"/>
+        <property key="memories.id" value="true"/>
+        <property key="memories.instruction.ram.ranges"
+                  value="${memories.instruction.ram.ranges}"/>
+        <property key="memories.programmemory" value="true"/>
+        <property key="memories.programmemory.ranges" value="400000-5fffff"/>
+        <property key="programoptions.donoteraseauxmem" value="false"/>
+        <property key="programoptions.eraseb4program" value="true"/>
+        <property key="programoptions.pgmentry.voltage" value="low"/>
+        <property key="programoptions.pgmspeed" value="Med"/>
+        <property key="programoptions.preservedataflash" value="false"/>
+        <property key="programoptions.preservedataflash.ranges"
+                  value="${memories.dataflash.default}"/>
+        <property key="programoptions.preserveeeprom" value="false"/>
+        <property key="programoptions.preserveeeprom.ranges" value=""/>
+        <property key="programoptions.preserveprogram.ranges" value=""/>
+        <property key="programoptions.preserveprogramrange" value="false"/>
+        <property key="programoptions.preserveuserid" value="false"/>
+        <property key="programoptions.program.otpconfig" value="false"/>
+        <property key="programoptions.programcalmem" value="false"/>
+        <property key="programoptions.programuserotp" value="false"/>
+        <property key="programoptions.smart.program" value="When debugging only"/>
+        <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
+        <property key="script.reset_by_pin" value="false"/>
+        <property key="toolpack.updateoptions"
+                  value="toolpack.updateoptions.uselatestoolpack"/>
+        <property key="toolpack.updateoptions.packversion"
+                  value="Press to select which tool pack to use"/>
+      </pkob4hybrid>
     </conf>
   </confs>
 </configurationDescriptor>

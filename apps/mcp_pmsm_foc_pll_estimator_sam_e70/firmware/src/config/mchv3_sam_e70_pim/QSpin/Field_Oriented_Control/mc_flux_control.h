@@ -6,7 +6,7 @@
 
   Summary:
     Header file which contains variables and function prototypes for flux control
- 
+
   Description:
     This file contains variables and function prototypes which are generally used for flux
     control
@@ -42,14 +42,14 @@
 #define MCFLX_H
 
 /*******************************************************************************
- * Header inclusions 
+ * Header inclusions
 *******************************************************************************/
 #include "mc_types.h"
 #include "mc_pi_control.h"
 #include "mc_motor.h"
 
 /*******************************************************************************
- Default Module configuration parameters 
+ Default Module configuration parameters
 *******************************************************************************/
 
 /*******************************************************************************
@@ -57,115 +57,104 @@ Type Definition
 *******************************************************************************/
 typedef struct
 {
-     float32_t Kp;
-     float32_t Ki;
-     float32_t dt;
-     void * pStatePointer;
+    float32_t Kp;     /**< Proportional gain for PI controller */
+    float32_t Ki;     /**< Integral gain for PI controller */
+    float32_t dt;      /**< Sampling time */
+
+    void * pStatePointer;     /**< Pointer to the state structure */
 }tmcFlx_Parameters_s;
 
 /*******************************************************************************
- * Interface variables 
+ * Interface variables
 *******************************************************************************/
-//#define RAM_EXECUTE
 
 /*******************************************************************************
  Static Interface Functions
 *******************************************************************************/
-/*! \brief Set module parameters
+/*! 
+ * @brief Set module parameters
  *
- * Details.
- * Set module parameters
+ * This function sets the parameters for the flux control module.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to module parameters structure
+ * @return None
  */
 __STATIC_INLINE void mcFlxI_ParametersSet( tmcFlx_Parameters_s * const pParameters )
 {
-   pParameters->Kp = (float32_t)0.1265;
-   pParameters->Ki =  (float32_t)69.5;
-   pParameters->dt = (float32_t)(0.00005);
+    pParameters->Kp = (float32_t)0.126903;
+    pParameters->Ki =  (float32_t)85.289047;
+    pParameters->dt = (float32_t)(0.00005);
+
 
 }
 
 /*******************************************************************************
- Interface Functions 
+ Interface Functions
 *******************************************************************************/
-/*! \brief Initialize flux control module
- * 
- * Details.
- * Initialize flux control module
- * 
- * @param[in]: None 
- * @param[in/out]: None
- * @param[out]: None 
- * @return: None
+/*! 
+ * @brief Initialize flux control module
+ *
+ * Initializes the flux control module.
+ *
+ * @param[in] pParameters Pointer to module parameters structure
+ * @return None
  */
 void  mcFlxI_FluxControlInit( tmcFlx_Parameters_s * const pParameters );
 
-/*! \brief Enable flux control module
+/*! 
+ * @brief Enable flux control module
  *
- * Details.
- * Enable flux control module
+ * Enables the flux control module.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to module parameters structure
+ * @return None
  */
 void  mcFlxI_FluxControlEnable( tmcFlx_Parameters_s * const pParameters );
 
-/*! \brief Disable flux control module
+/*! 
+ * @brief Disable flux control module
  *
- * Details.
- * Disable flux control module
+ * Disables the flux control module.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to module parameters structure
+ * @return None
  */
 void  mcFlxI_FluxControlDisable( tmcFlx_Parameters_s * const pParameters );
 
-/*! \brief Flux control
+/*! 
+ * @brief Manual flux control
  *
- * Details.
- * Flux control
+ * Performs manual flux control.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to module parameters structure
+ * @param[in] Out Output value for manual control
+ * @return None
  */
 void mcFlxI_FluxControlManual(  const tmcFlx_Parameters_s * const pParameters,
                                                          const float32_t  Out );
 
-/*! \brief Flux control
+/*! 
+ * @brief Automatic flux control
  *
- * Details.
- * Flux control
+ * Performs automatic flux control.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to module parameters structure
+ * @param[in] iDref Reference d-axis current
+ * @param[in] iDact Actual d-axis current
+ * @param[out] pOut Pointer to output variable for automatic control
+ * @return None
  */
 void mcFlxI_FluxControlAuto(  const tmcFlx_Parameters_s * const pParameters,
-                                              const float32_t iDref, const  float32_t iDact, const float32_t yLimit, float32_t * const pOut );
+                                              const float32_t iDref, const  float32_t iDact, const float32_t iDmax, float32_t * const pOut );
 
-/*! \brief Reset Flux control
- * 
- * Details.
- * Reset Flux control
- * 
- * @param[in]: None 
- * @param[in/out]: None
- * @param[out]: None 
- * @return: 
+/*! 
+ * @brief Reset flux control
+ *
+ * Resets the flux control module.
+ *
+ * @param[in] pParameters Pointer to module parameters structure
+ * @return None
  */
 void mcFlxI_FluxControlReset( const tmcFlx_Parameters_s * const pParameters );
-
-
 
 #endif // MCFLX_H

@@ -1,19 +1,19 @@
-/*******************************************************************************
-  Hardware abstraction source file
-
-  Company:
-    Microchip Technology Inc.
-
-  File Name:
-    mc_hardware_abstraction.c
-
-  Summary:
-    This file contains all the functions related to hardware abstraction
-
-  Description:
-    This file contains implementation of the hardware abstraction
- 
- *******************************************************************************/
+/**
+ * @brief 
+ *    Hardware abstraction source file
+ *
+ * @Company 
+ *    Microchip Technology Inc.
+ *
+ * @File Name
+ *   mc_hardware_abstraction.c
+ *
+ * @Summary
+ *   This file contains implementation of the hardware abstraction
+ *
+ * @Description
+ *   This file contains implementation of the hardware abstraction
+ */
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
@@ -53,26 +53,21 @@ Headers inclusions
 /*******************************************************************************
  * Interface variables
 *******************************************************************************/
-/** Analog interfaces */
-uint16_t mcHalI_IaAdcInput_gdu16;
-uint16_t mcHalI_IbAdcInput_gdu16;
-uint16_t mcHalI_UbusAdcInput_gdu16;
-uint16_t mcHalI_Potentiometer_gdu16;
-int16_t mcPwmI_Duty_gau16[3u];
+uint16_t mcHalI_IaAdcInput_gdu16;         /**< Phase A current ADC input */
+uint16_t mcHalI_IbAdcInput_gdu16;         /**< Phase B current ADC input */
+uint16_t mcHalI_UbusAdcInput_gdu16;     /**< DC bus voltage ADC input   */
+uint16_t mcHalI_Potentiometer_gdu16;      /**< Potentiometer ADC input     */
+int16_t mcPwmI_Duty_gau16[3u];              /**< PWM duty cycle array        */
 
 /*******************************************************************************
  * Interface Functions
 *******************************************************************************/
 
-/*! \brief Enable PWM inverter 
- * 
- * Details.
- * Enable PWM inverter
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Enable three phase inverter
+ *
+ * @details
+ * Enable three phase inverter
  */
 void mcHalI_InverterPwmEnable( void )
 {
@@ -81,15 +76,11 @@ void mcHalI_InverterPwmEnable( void )
     PWM0_ChannelOverrideEnable( PWM_CHANNEL_2 );
 }
 
-/*! \brief Disable PWM inverter 
- * 
- * Details.
- * Disable PWM inverter
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Disable three phase inverter
+ *
+ * @details
+ * Disable three phase inverter
  */
 void mcHalI_InverterPwmDisable( void )
 {
@@ -100,45 +91,35 @@ void mcHalI_InverterPwmDisable( void )
 }
 
 
-/*! \brief Set direction indicator
- * 
- * Details.
- * Set direction indicator
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Set direction indication
+ *
+ * @details
+ * Set direction indication
  */
 void mcHal_DirectionIndication( void )
 {
-    LED_02_Toggle();
+    PIO_PinToggle( PIO_PIN_PC23);
+
 }
 
-/*! \brief Set fault indicator
- * 
- * Details.
- * Set fault indicator
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Set fault indication
+ *
+ * @details
+ * Set fault indication
  */
 void mcHal_FaultIndicationSet( void )
 {
-   LED_01_Set();
+    PIO_PinSet( PIO_PIN_PC23);
+
 }
 
-/*! \brief ADC Enable
- * 
- * Details.
- * ADC Enable
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Enable ADC peripheral
+ *
+ * @details
+ * Enable ADC peripheral
  */
 void mcHalI_AdcEnable( void )
 {
@@ -146,63 +127,46 @@ void mcHalI_AdcEnable( void )
     __NOP();
 }
 
-/*! \brief PWM Enable
+/**
+ * @brief Enable PWM fault interrupt
  *
- * Details.
- * PWM Enable
- *
- * @param[in]:
- * @param[in/out]:
- * @param[out]:
- * @return:
+ * @details
+ * Enable PWM fault interrupt
  */
 void mcHalI_PwmInterruptEnable( void )
 {
     NVIC_EnableIRQ(PWM0_IRQn);
 }
 
-/*! \brief PWM timer Start
- * 
- * Details.
- * PWM timer Start
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Start PWM timer
+ *
+ * @details
+ * Start PWM timer
  */
 void mcHalI_PwmTimerStart( void )
 {
-    PWM0_ChannelsStart(PWM_CHANNEL_0_MASK); 
-    PWM0_ChannelsStart(PWM_CHANNEL_1_MASK); 
-    PWM0_ChannelsStart(PWM_CHANNEL_2_MASK); 
+    PWM0_ChannelsStart(PWM_CHANNEL_0_MASK);
+    PWM0_ChannelsStart(PWM_CHANNEL_1_MASK);
+    PWM0_ChannelsStart(PWM_CHANNEL_2_MASK);
 }
 
-/*! \brief ADC callback function
- * 
- * Details.
- * ADC callback function
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief ADC conversion complete interrupt callback function
+ *
+ * @details
+ * ADC conversion complete interrupt callback function
  */
-
 void mcHalI_AdcCallBackRegister( AFEC_CALLBACK callback, uintptr_t context )
 {
     AFEC0_CallbackRegister( callback, context);
 }
 
-/*! \brief PWM fault callback function
- * 
- * Details.
- * PWM fault callback function
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief PWM fault interrupt callback function
+ *
+ * @details
+ * PWM fault interrupt callback function
  */
 void mcHalI_PwmCallbackRegister( PWM_CALLBACK callback, uintptr_t context )
 {
@@ -212,9 +176,17 @@ void mcHalI_PwmCallbackRegister( PWM_CALLBACK callback, uintptr_t context )
 
 
 
+/**
+ * @brief Get start-stop button state
+ *
+ * @details
+ * Get start-stop button state
+ *
+ * @return  True if button is pressed, false if button is not pressed
+ */
 bool mcHalI_StartStopButtonState( void )
 {
-     return (bool)BUTTON_1_Get();
+    return  PIO_PinRead( PIO_PIN_PE2);
 }
 
 

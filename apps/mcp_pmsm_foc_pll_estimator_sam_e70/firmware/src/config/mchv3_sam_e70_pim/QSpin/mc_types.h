@@ -1,18 +1,21 @@
-/*******************************************************************************
- Motor control types
+/**
+ * @file mc_types.h
+ *
+ * @brief 
+ *   Motor control types
+ *
+ * @Company 
+ *    Microchip Technology Inc.
+ *
+ * @Summary
+ *   Header file defining motor control types.
+ *
+ * @Description
+ *   This header file defines various types used in motor control applications,
+ *   including data structures and enumerations for representing phase quantities,
+ *   coordinate frames, and standard return status codes.
+ */
 
-  Company:
-    Microchip Technology Inc.
-
-  File Name:
-    mc_types.h
-
-  Summary:
-    Motor control types
-
-  Description:
- Motor control types 
- *******************************************************************************/
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
@@ -77,18 +80,22 @@ typedef struct
     float32_t q;
 }tmcTypes_DQ_s;
 
-typedef enum
-{
-    StdReturn_Progress,
-    StdReturn_Success,
-    StdReturn_Fail,
-    StdReturn_Complete
-}tmcTypes_StdReturn_e;
-       
+/*! \brief Enumeration for standard return status codes */
+typedef enum {
+    StdReturn_Progress, /*!< Operation in progress */
+    StdReturn_Failed,   /*!< Operation failed */
+    StdReturn_Success,   /*!< Operation successful */
+    StdReturn_Complete, /*!< Operation successful */
+    StdReturn_Pending,  /*!< Operation pending */
+    StdReturn_Error,  /*!< Operation error */
+    StdReturn_Timeout,  /*!< Operation timeout */
+    StdReturn_Invalid,  /*!< Operation invalid */
+} tmcTypes_StdReturn_e;
+
 /*******************************************************************************
  Interface variables
  *******************************************************************************/
- 
+
 #endif //MC_TYPES_H
 
 /**

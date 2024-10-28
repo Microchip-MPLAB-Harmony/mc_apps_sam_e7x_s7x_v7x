@@ -1,16 +1,19 @@
-/*******************************************************************************
-  System Definitions
-
-  File Name:
-    mc_hardware_abstraction.h
-
-  Summary:
-    Header file which shares global variables and function prototypes.
-
-  Description:
-    This file contains the global variables and function prototypes for hardware abstraction.
-
- *******************************************************************************/
+/**
+ * @brief 
+ *    Hardware abstraction header file
+ *
+ * @Company 
+ *    Microchip Technology Inc.
+ *
+ * @File Name
+ *   mc_hardware_abstraction.h
+ *
+ * @Summary
+ *   Header file which shares global variables and function prototypes.
+ *
+ * @Description
+ *   This file contains the global variables and function prototypes for hardware abstraction.
+ */
 
 //DOM-IGNORE-BEGIN
 /*******************************************************************************
@@ -42,7 +45,7 @@
 
 
 /*******************************************************************************
-  Header inclusions  
+  Header inclusions
 *******************************************************************************/
 #include "mc_types.h"
 #include "definitions.h"
@@ -50,51 +53,47 @@
 /*******************************************************************************
  * Interface variables
 *******************************************************************************/
-/** Analog interfaces */
-extern uint16_t mcHalI_IaAdcInput_gdu16;
-extern uint16_t mcHalI_IbAdcInput_gdu16;
-extern uint16_t mcHalI_UbusAdcInput_gdu16;
-extern uint16_t mcHalI_Potentiometer_gdu16;
-extern int16_t mcPwmI_Duty_gau16[3u];
+extern uint16_t mcHalI_IaAdcInput_gdu16; /**< Phase A current ADC input */
+extern uint16_t mcHalI_IbAdcInput_gdu16; /**< Phase B current ADC input */
+extern uint16_t mcHalI_UbusAdcInput_gdu16; /**< DC bus voltage ADC input */
+extern uint16_t mcHalI_Potentiometer_gdu16; /**< Potentiometer ADC input */
+extern int16_t mcPwmI_Duty_gau16[3u];  /**< PWM duty cycle array */
 
 /*******************************************************************************
- * User defined data structure 
+ * User defined data structure
 *******************************************************************************/
+
 
 /*******************************************************************************
  * Static interface Functions
 *******************************************************************************/
 
-/*! \brief Get PWM period
+/**
+ * @brief Get PWM period.
  *
- * Details.
- * Get PWM period
+ * @details
+ * Get PWM period.
  *
- * @param[in]:
- * @param[in/out]:
- * @param[out]:
- * @return:
+ * @return PWM period.
  */
 __STATIC_INLINE uint16_t mcHalI_PwmPeriodGet( void )
 {
     return (uint16_t)PWM0_ChannelPeriodGet(PWM_CHANNEL_0);
 }
 
-/*! \brief Inverter Duty Set
- * 
- * Details.
- * Sets the PWM inverter duty
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Set the PWM inverter duty cycle.
+ *
+ * @details
+ * Sets the PWM inverter duty.
+ *
+ * @param[in] dutyCycle Pointer to the duty cycle array.
  */
 __STATIC_FORCEINLINE void mcHalI_InverterPwmSet( const int16_t * const dutyCycle )
 {
     uint16_t period;
     uint16_t duty[3u] = {0u};
-    
+
     period = (uint16_t)mcHalI_PwmPeriodGet();
     duty[0u] = period - (uint16_t)dutyCycle[0u];
     duty[1u] = period - (uint16_t)dutyCycle[1u];
@@ -103,49 +102,42 @@ __STATIC_FORCEINLINE void mcHalI_InverterPwmSet( const int16_t * const dutyCycle
     PWM0_ChannelDutySet(PWM_CHANNEL_0, duty[0u] );
     PWM0_ChannelDutySet(PWM_CHANNEL_1, duty[1u] );
     PWM0_ChannelDutySet(PWM_CHANNEL_2, duty[2u] );
-    
+
 }
 
-/*! \brief Get analog signals from ADC peripheral
- * 
- * Details.
- * Get analog signals from ADC peripheral
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Get Phase A current from ADC peripheral.
+ *
+ * @details
+ * Get analog signals from ADC peripheral.
+
+ * @param[out] Global variable 'mcHalI_IaAdcInput_gdu16'
  */
 __STATIC_FORCEINLINE void mcHalI_PhaseACurrentGet( void )
 {
     mcHalI_IaAdcInput_gdu16 = AFEC0_ChannelResultGet(AFEC_CH0);
 }
 
-/*! \brief Get analog signals from ADC peripheral
- * 
- * Details.
- * Get analog signals from ADC peripheral
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Get Phase B current from ADC peripheral.
+ *
+ * @details
+ * Get Phase B current from ADC peripheral.
+
+ * @param[out] Global variable 'mcHalI_IbAdcInput_gdu16'
  */
 __STATIC_FORCEINLINE void mcHalI_PhaseBCurrentGet( void )
 {
     mcHalI_IbAdcInput_gdu16 =  AFEC0_ChannelResultGet(AFEC_CH6);
 }
 
+/**
+ * @brief Get DC link voltage from ADC peripheral.
+ *
+ * @details
+ * Get DC link voltage from ADC peripheral.
 
-/*! \brief Get analog signals from ADC peripheral
- * 
- * Details.
- * Get analog signals from ADC peripheral
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+ * @param[out] Global variable 'mcHalI_UbusAdcInput_gdu16'
  */
 __STATIC_FORCEINLINE void mcHalI_DcLinkVoltageGet( void )
 {
@@ -153,15 +145,13 @@ __STATIC_FORCEINLINE void mcHalI_DcLinkVoltageGet( void )
     mcHalI_UbusAdcInput_gdu16 = AFEC0_ChannelResultGet(AFEC_CH7);
 }
 
-/*! \brief Get analog signals from ADC peripheral
- * 
- * Details.
- * Get analog signals from ADC peripheral
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Get potentiometer input from ADC peripheral.
+ *
+ * @details
+ * Get potentiometer input from ADC peripheral.
+
+ * @param[out] Global variable 'mcHalI_Potentiometer_gdu16'
  */
 __STATIC_FORCEINLINE void mcHalI_PotentiometerInputGet( void )
 {
@@ -170,172 +160,126 @@ __STATIC_FORCEINLINE void mcHalI_PotentiometerInputGet( void )
 }
 
 
-/*! \brief Get analog signals from ADC peripheral
- * 
- * Details.
- * Get analog signals from ADC peripheral
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Clear ADC interrupt flag
+ *
+ * @details
+ * Clear ADC interrupt flag
  */
 __STATIC_FORCEINLINE void mcHalI_AdcInterruptClear( void )
 {
     NVIC_ClearPendingIRQ(AFEC0_IRQn);
 }
 
-/*! \brief Get analog signals from ADC peripheral
- * 
- * Details.
- * Get analog signals from ADC peripheral
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief ADC interrupt disable
+ *
+ * @details
+ * ADC interrupt disable
  */
 __STATIC_FORCEINLINE void mcHalI_AdcInterruptDisable( void )
 {
     NVIC_DisableIRQ(AFEC0_IRQn);
 }
 
-/*! \brief Get analog signals from ADC peripheral
- * 
- * Details.
- * Get analog signals from ADC peripheral
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief ADC interrupt enable
+ *
+ * @details
+ * ADC interrupt enable
  */
 __STATIC_FORCEINLINE void mcHalI_AdcInterruptEnable( void )
 {
-    NVIC_EnableIRQ(AFEC0_IRQn); 
+    NVIC_EnableIRQ(AFEC0_IRQn);
 }
 
 
 /*******************************************************************************
  * Interface Functions
 *******************************************************************************/
-
-/*! \brief Enable PWM inverter
- * 
- * Details.
- * Enable PWM inverter
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Enable three phase inverter
+ *
+ * @details
+ * Enable three phase inverter
  */
 void mcHalI_InverterPwmEnable( void );
 
-/*! \brief Disable PWM inverter
- * 
- * Details.
- * Disable PWM inverter
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Disable three phase inverter
+ *
+ * @details
+ * Disable three phase inverter
  */
 void mcHalI_InverterPwmDisable( void );
 
 
-        /*! \brief Set fault indicator
-		 * 
-		 * Details.
-		 * Set fault indicator
-		 * 
-		 * @param[in]: 
-		 * @param[in/out]:
-		 * @param[out]:
-		 * @return:
-		 */
-        void mcHal_FaultIndicationSet( void );
-        
-       
-		 /*! \brief Set direction indicator
-		 * 
-		 * Details.
-		 * Set direction indicator
-		 * 
-		 * @param[in]: 
-		 * @param[in/out]:
-		 * @param[out]:
-		 * @return:
-		 */
-         void mcHal_DirectionIndication( void );
-         
-       
+/**
+ * @brief Set direction indication
+ *
+ * @details
+ * Set direction indication
+ */
+void mcHal_DirectionIndication( void );
 
+/**
+ * @brief Fault indication led state set
+ *
+ * @details
+ * Fault indication led state set
+ */
+void mcHal_FaultIndicationSet( void );
 
-/*! \brief ADC Enable
- * 
- * Details.
- * ADC Enable
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Enable ADC peripheral
+ *
+ * @details
+ * Enable ADC peripheral
  */
 void mcHalI_AdcEnable( void );
 
-
-/*! \brief PWM timer Start
- * 
- * Details.
- * PWM timer Start
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Start PWM timer
+ *
+ * @details
+ * Start PWM timer
  */
 void mcHalI_PwmTimerStart( void );
 
-/*! \brief ADC callback function
- * 
- * Details.
- * ADC callback function
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief ADC conversion complete interrupt callback function
+ *
+ * @details
+ * ADC conversion complete interrupt callback function
  */
 void mcHalI_AdcCallBackRegister( AFEC_CALLBACK callback, uintptr_t context );
 
-/*! \brief PWM fault callback function
- * 
- * Details.
- * PWM fault callback function
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief PWM fault interrupt callback function
+ *
+ * @details
+ * PWM fault interrupt callback function
  */
 void mcHalI_PwmCallbackRegister( PWM_CALLBACK callback, uintptr_t context );
 
-
- /*! \brief PWM interrupt enable
-  *
-  * Details.
-  * PWM interrupt enable
-  *
-  * @param[in]:
-  * @param[in/out]:
-  * @param[out]:
-  * @return:
-  */
- void mcHalI_PwmInterruptEnable( void );
+/**
+ * @brief Enable PWM fault interrupt
+ *
+ * @details
+ * Enable PWM fault interrupt
+ */
+void mcHalI_PwmInterruptEnable( void );
 
 
+
+/**
+ * @brief Get start-stop button state
+ *
+ * @details
+ * Get start-stop button state
+ *
+ * @return  True if button is pressed, false if button is not pressed
+ */
 bool mcHalI_StartStopButtonState( void );
 
 

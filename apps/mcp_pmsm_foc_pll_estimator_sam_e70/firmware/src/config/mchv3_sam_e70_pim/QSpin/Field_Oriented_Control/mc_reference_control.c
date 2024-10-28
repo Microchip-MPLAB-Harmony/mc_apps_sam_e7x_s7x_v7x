@@ -1,19 +1,20 @@
-/*******************************************************************************
- Reference control source file
-
-  Company:
-    - Microchip Technology Inc.
-
-  File Name:
-    - mc_reference_control.c
-
-  Summary:
-    - Reference control source file
-
-  Description:
-    - This file implements functions for reference control
- 
- *******************************************************************************/
+/**
+ * @brief 
+ *    Source file for reference control
+ *
+ * @File Name 
+ *    mc_reference_control.c
+ *
+ * @Company 
+ *    Microchip Technology Inc.
+ *
+ * @Summary
+ *    Source file which contains variables and function implementations for reference control.
+ *
+ * @Description
+ *    This file contains variables and function implementations which are generally used for reference
+ *    control in pulse width modulation. 
+ */
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
@@ -83,19 +84,15 @@ Private Functions
 /*******************************************************************************
  * Interface Functions
 *******************************************************************************/
-
-/*! \brief Initialize reference control module
- * 
- * Details.
- * Initialize reference control module
- * 
- * @param[in]: None 
- * @param[in/out]: None
- * @param[out]: None 
- * @return: None
+/**
+ * @brief Initialize reference control module
+ *
+ * This function initializes the reference control module.
+ *
+ * @param[in] pParameters Pointer to the reference parameters structure
  */
 void  mcRefI_ReferenceControlInit( tmcRef_Parameters_s * const pParameters )
-{  
+{
     /** Link state variable structure to the module */
     pParameters->pStatePointer = (void *)&mcRef_State_mds;
 
@@ -112,15 +109,12 @@ void  mcRefI_ReferenceControlInit( tmcRef_Parameters_s * const pParameters )
     mcRef_State_mds.initDone = true;
 }
 
-/*! \brief Enable reference control module
+/**
+ * @brief Enable reference control module
  *
- * Details.
- * Enable reference control module
+ * This function enables the reference control module.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to the reference parameters structure
  */
 void  mcRefI_ReferenceControlEnable( tmcRef_Parameters_s * const pParameters )
 {
@@ -142,15 +136,12 @@ void  mcRefI_ReferenceControlEnable( tmcRef_Parameters_s * const pParameters )
     pState->enable = true;
 }
 
-/*! \brief Disable reference control module
+/**
+ * @brief Disable reference control module
  *
- * Details.
- * Disable reference control module
+ * This function disables the reference control module.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to the reference parameters structure
  */
 void  mcRefI_ReferenceControlDisable( tmcRef_Parameters_s * const pParameters )
 {
@@ -173,15 +164,14 @@ void  mcRefI_ReferenceControlDisable( tmcRef_Parameters_s * const pParameters )
 
 }
 
-/*! \brief Reference control
+/**
+ * @brief Reference control
  *
- * Details.
- * Reference control
+ * This function performs the reference control.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to the reference parameters structure
+ * @param[in] command The command input
+ * @param[out] pOut Pointer to the output
  */
 void mcRefI_ReferenceControl(  tmcRef_Parameters_s * const pParameters,
                                                     const float32_t command, float32_t * const pOut )
@@ -230,16 +220,12 @@ void mcRefI_ReferenceControl(  tmcRef_Parameters_s * const pParameters,
       }
 }
 
-
-/*! \brief Reset Reference control
- * 
- * Details.
- * Reset Reference control
- * 
- * @param[in]: None 
- * @param[in/out]: None
- * @param[out]: None 
- * @return: 
+/**
+ * @brief Reset reference control
+ *
+ * This function resets the reference control.
+ *
+ * @param[in] pParameters Pointer to the reference parameters structure
  */
 void mcRefI_ReferenceControlReset( tmcRef_Parameters_s * const pParameters )
 {
