@@ -28,8 +28,7 @@
 #include "definitions.h"                // SYS function prototypes
 #include "mc_app.h"
 #include "pfc_app.h"
-#include "X2CScope.h"
-#include "X2CScopeCommunication.h"
+#include "X2CscopeComm.h"
 
 
 // *****************************************************************************
@@ -42,13 +41,12 @@ int main ( void )
 {
     /* Initialize all modules */
     SYS_Initialize ( NULL );
-    X2CScope_Init();
 
     while ( true )
     {
         MCAPP_Tasks();
         PFCAPP_Tasks();
-        X2CScope_Communicate();
+        X2Cscope_Communicate();
     }
 
     /* Execution should not come here during normal operation */

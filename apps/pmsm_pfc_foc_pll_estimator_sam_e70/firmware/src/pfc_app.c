@@ -47,8 +47,8 @@
 #include "definitions.h"                // SYS function prototypes
 #include "pfc_app.h"
 #include "userparams.h"
-#include "X2CScope.h"
-#include "X2CScopeCommunication.h"
+#include "X2Cscope.h"
+#include "X2CscopeComm.h"
 #include "math.h"
 
 #define PFC_CURRENT_OFFSET_SAMPLES   100U

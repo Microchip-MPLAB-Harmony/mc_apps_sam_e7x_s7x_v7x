@@ -49,8 +49,8 @@
 #include "definitions.h"                // SYS function prototypes
 #include "mc_app.h"
 #include "userparams.h"
-#include "X2CScope.h"
-#include "X2CScopeCommunication.h"
+#include "X2Cscope.h"
+#include "X2CscopeComm.h"
 #include "math.h"
 
 
@@ -507,7 +507,7 @@ __STATIC_INLINE void MCAPP_PWMDutyUpdate(uint32_t duty_PhU,uint32_t duty_PhV,uin
 	float phaseCurrentV;
 	float dcBusVoltage;
 
-	X2CScope_Update();
+	X2Cscope_Update();
 
 	/* PC23 GPIO is used for timing measurement. - Set High*/
 	LED_Set();

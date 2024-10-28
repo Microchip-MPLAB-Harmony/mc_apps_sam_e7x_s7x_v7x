@@ -49,8 +49,8 @@
 #include "definitions.h"                // SYS function prototypes
 #include "mclib_generic_float.h"
 #include "userparams.h"
-#include "X2CScope.h"
-#include "X2CScopeCommunication.h"
+#include "X2Cscope.h"
+#include "X2CscopeComm.h"
 #include "math.h"
 /******************************************************************************/
 /* Local Function Prototype                                                   */
