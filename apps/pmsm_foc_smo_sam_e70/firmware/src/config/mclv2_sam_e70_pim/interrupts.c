@@ -61,12 +61,7 @@
 // *****************************************************************************
 
 /* MISRA C-2012 Rule 8.6 deviated below. Deviation record ID -  H3_MISRAC_2012_R_8_6_DR_1 */
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunknown-pragmas"
-#pragma coverity compliance deviate "MISRA C-2012 Rule 8.6" "H3_MISRAC_2012_R_8_6_DR_1"
 extern uint32_t _stack;
-#pragma GCC diagnostic pop
-
 extern const H3DeviceVectors exception_table;
 
 extern void Dummy_Handler(void);
@@ -83,10 +78,7 @@ void __attribute__((optimize("-O1"), long_call, noreturn, used))Dummy_Handler(vo
 }
 
 /* MISRAC 2012 deviation block start */
-/* MISRA C-2012 Rule 8.6 deviated 71 times.  Deviation record ID -  H3_MISRAC_2012_R_8_6_DR_1 */
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunknown-pragmas"
-#pragma coverity compliance block deviate:71 "MISRA C-2012 Rule 8.6" "H3_MISRAC_2012_R_8_6_DR_1"
+/* MISRA C-2012 Rule 8.6 deviated 70 times.  Deviation record ID -  H3_MISRAC_2012_R_8_6_DR_1 */
 /* Device vectors list dummy definition*/
 extern void SVCall_Handler             ( void ) __attribute__((weak, alias("Dummy_Handler")));
 extern void PendSV_Handler             ( void ) __attribute__((weak, alias("Dummy_Handler")));
@@ -120,7 +112,6 @@ extern void TC1_CH0_Handler            ( void ) __attribute__((weak, alias("Dumm
 extern void TC1_CH1_Handler            ( void ) __attribute__((weak, alias("Dummy_Handler")));
 extern void TC1_CH2_Handler            ( void ) __attribute__((weak, alias("Dummy_Handler")));
 extern void DACC_Handler               ( void ) __attribute__((weak, alias("Dummy_Handler")));
-extern void PWM0_Handler               ( void ) __attribute__((weak, alias("Dummy_Handler")));
 extern void ICM_Handler                ( void ) __attribute__((weak, alias("Dummy_Handler")));
 extern void ACC_Handler                ( void ) __attribute__((weak, alias("Dummy_Handler")));
 extern void USBHS_Handler              ( void ) __attribute__((weak, alias("Dummy_Handler")));
@@ -161,8 +152,6 @@ extern void GMAC_Q4_Handler            ( void ) __attribute__((weak, alias("Dumm
 extern void GMAC_Q5_Handler            ( void ) __attribute__((weak, alias("Dummy_Handler")));
 
 
-#pragma coverity compliance end_block "MISRA C-2012 Rule 8.6"
-#pragma GCC diagnostic pop
 /* MISRAC 2012 deviation block end */
 
 /* Multiple handlers for vector */
@@ -215,7 +204,7 @@ const H3DeviceVectors exception_table=
     .pfnTC1_CH2_Handler            = TC1_CH2_Handler,
     .pfnAFEC0_Handler              = AFEC0_InterruptHandler,
     .pfnDACC_Handler               = DACC_Handler,
-    .pfnPWM0_Handler               = PWM0_Handler,
+    .pfnPWM0_Handler               = PWM0_InterruptHandler,
     .pfnICM_Handler                = ICM_Handler,
     .pfnACC_Handler                = ACC_Handler,
     .pfnUSBHS_Handler              = USBHS_Handler,

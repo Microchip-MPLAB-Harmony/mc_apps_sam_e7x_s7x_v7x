@@ -62,32 +62,97 @@
 // *****************************************************************************
 
 
-/*** Macros for DIRECTION_TOGGLE_BUTTON pin ***/
-#define DIRECTION_TOGGLE_BUTTON_Set()               (PIOC_REGS->PIO_SODR = (1<<1))
-#define DIRECTION_TOGGLE_BUTTON_Clear()             (PIOC_REGS->PIO_CODR = (1<<1))
-#define DIRECTION_TOGGLE_BUTTON_Toggle()            (PIOC_REGS->PIO_ODSR ^= (1<<1))
-#define DIRECTION_TOGGLE_BUTTON_OutputEnable()      (PIOC_REGS->PIO_OER = (1<<1))
-#define DIRECTION_TOGGLE_BUTTON_InputEnable()       (PIOC_REGS->PIO_ODR = (1<<1))
-#define DIRECTION_TOGGLE_BUTTON_Get()               ((PIOC_REGS->PIO_PDSR >> 1) & 0x1)
-#define DIRECTION_TOGGLE_BUTTON_PIN                  PIO_PIN_PC1
+/*** Macros for VPOT pin ***/
+#define VPOT_Get()               ((PIOB_REGS->PIO_PDSR >> 0U) & 0x1U)
+#define VPOT_PIN                  PIO_PIN_PB0
 
-/*** Macros for START_STOP_BUTTON pin ***/
-#define START_STOP_BUTTON_Set()               (PIOC_REGS->PIO_SODR = (1<<3))
-#define START_STOP_BUTTON_Clear()             (PIOC_REGS->PIO_CODR = (1<<3))
-#define START_STOP_BUTTON_Toggle()            (PIOC_REGS->PIO_ODSR ^= (1<<3))
-#define START_STOP_BUTTON_OutputEnable()      (PIOC_REGS->PIO_OER = (1<<3))
-#define START_STOP_BUTTON_InputEnable()       (PIOC_REGS->PIO_ODR = (1<<3))
-#define START_STOP_BUTTON_Get()               ((PIOC_REGS->PIO_PDSR >> 3) & 0x1)
-#define START_STOP_BUTTON_PIN                  PIO_PIN_PC3
+/*** Macros for VDC pin ***/
+#define VDC_Get()               ((PIOA_REGS->PIO_PDSR >> 18U) & 0x1U)
+#define VDC_PIN                  PIO_PIN_PA18
 
-/*** Macros for LED pin ***/
-#define LED_Set()               (PIOC_REGS->PIO_SODR = (1<<23))
-#define LED_Clear()             (PIOC_REGS->PIO_CODR = (1<<23))
-#define LED_Toggle()            (PIOC_REGS->PIO_ODSR ^= (1<<23))
-#define LED_OutputEnable()      (PIOC_REGS->PIO_OER = (1<<23))
-#define LED_InputEnable()       (PIOC_REGS->PIO_ODR = (1<<23))
-#define LED_Get()               ((PIOC_REGS->PIO_PDSR >> 23) & 0x1)
-#define LED_PIN                  PIO_PIN_PC23
+/*** Macros for IB pin ***/
+#define IB_Get()               ((PIOA_REGS->PIO_PDSR >> 17U) & 0x1U)
+#define IB_PIN                  PIO_PIN_PA17
+
+/*** Macros for IA pin ***/
+#define IA_Get()               ((PIOD_REGS->PIO_PDSR >> 30U) & 0x1U)
+#define IA_PIN                  PIO_PIN_PD30
+
+/*** Macros for BUTTON_02 pin ***/
+#define BUTTON_02_Set()               (PIOC_REGS->PIO_SODR = ((uint32_t)1U<<1U))
+#define BUTTON_02_Clear()             (PIOC_REGS->PIO_CODR = ((uint32_t)1U<<1U))
+#define BUTTON_02_Toggle()            (PIOC_REGS->PIO_ODSR ^= ((uint32_t)1U<<1U))
+#define BUTTON_02_OutputEnable()      (PIOC_REGS->PIO_OER = ((uint32_t)1U<<1U))
+#define BUTTON_02_InputEnable()       (PIOC_REGS->PIO_ODR = ((uint32_t)1U<<1U))
+#define BUTTON_02_Get()               ((PIOC_REGS->PIO_PDSR >> 1U) & 0x1U)
+#define BUTTON_02_PIN                  PIO_PIN_PC1
+
+/*** Macros for BUTTON_01 pin ***/
+#define BUTTON_01_Set()               (PIOC_REGS->PIO_SODR = ((uint32_t)1U<<3U))
+#define BUTTON_01_Clear()             (PIOC_REGS->PIO_CODR = ((uint32_t)1U<<3U))
+#define BUTTON_01_Toggle()            (PIOC_REGS->PIO_ODSR ^= ((uint32_t)1U<<3U))
+#define BUTTON_01_OutputEnable()      (PIOC_REGS->PIO_OER = ((uint32_t)1U<<3U))
+#define BUTTON_01_InputEnable()       (PIOC_REGS->PIO_ODR = ((uint32_t)1U<<3U))
+#define BUTTON_01_Get()               ((PIOC_REGS->PIO_PDSR >> 3U) & 0x1U)
+#define BUTTON_01_PIN                  PIO_PIN_PC3
+
+/*** Macros for PHASE_C_PWMH pin ***/
+#define PHASE_C_PWMH_Get()               ((PIOA_REGS->PIO_PDSR >> 13U) & 0x1U)
+#define PHASE_C_PWMH_PIN                  PIO_PIN_PA13
+
+/*** Macros for PHASE_B_PWML pin ***/
+#define PHASE_B_PWML_Get()               ((PIOD_REGS->PIO_PDSR >> 25U) & 0x1U)
+#define PHASE_B_PWML_PIN                  PIO_PIN_PD25
+
+/*** Macros for PHASE_C_PWML pin ***/
+#define PHASE_C_PWML_Get()               ((PIOD_REGS->PIO_PDSR >> 26U) & 0x1U)
+#define PHASE_C_PWML_PIN                  PIO_PIN_PD26
+
+/*** Macros for PHASE_A_PWML pin ***/
+#define PHASE_A_PWML_Get()               ((PIOD_REGS->PIO_PDSR >> 24U) & 0x1U)
+#define PHASE_A_PWML_PIN                  PIO_PIN_PD24
+
+/*** Macros for LED_02 pin ***/
+#define LED_02_Set()               (PIOA_REGS->PIO_SODR = ((uint32_t)1U<<24U))
+#define LED_02_Clear()             (PIOA_REGS->PIO_CODR = ((uint32_t)1U<<24U))
+#define LED_02_Toggle()            (PIOA_REGS->PIO_ODSR ^= ((uint32_t)1U<<24U))
+#define LED_02_OutputEnable()      (PIOA_REGS->PIO_OER = ((uint32_t)1U<<24U))
+#define LED_02_InputEnable()       (PIOA_REGS->PIO_ODR = ((uint32_t)1U<<24U))
+#define LED_02_Get()               ((PIOA_REGS->PIO_PDSR >> 24U) & 0x1U)
+#define LED_02_PIN                  PIO_PIN_PA24
+
+/*** Macros for PHASE_A_PWMH pin ***/
+#define PHASE_A_PWMH_Get()               ((PIOA_REGS->PIO_PDSR >> 11U) & 0x1U)
+#define PHASE_A_PWMH_PIN                  PIO_PIN_PA11
+
+/*** Macros for TRANSMIT pin ***/
+#define TRANSMIT_Get()               ((PIOA_REGS->PIO_PDSR >> 10U) & 0x1U)
+#define TRANSMIT_PIN                  PIO_PIN_PA10
+
+/*** Macros for PHASE_B_PWMH pin ***/
+#define PHASE_B_PWMH_Get()               ((PIOA_REGS->PIO_PDSR >> 12U) & 0x1U)
+#define PHASE_B_PWMH_PIN                  PIO_PIN_PA12
+
+/*** Macros for RECEIVE pin ***/
+#define RECEIVE_Get()               ((PIOA_REGS->PIO_PDSR >> 9U) & 0x1U)
+#define RECEIVE_PIN                  PIO_PIN_PA9
+
+/*** Macros for ENCODER_QEB pin ***/
+#define ENCODER_QEB_Get()               ((PIOA_REGS->PIO_PDSR >> 1U) & 0x1U)
+#define ENCODER_QEB_PIN                  PIO_PIN_PA1
+
+/*** Macros for ENCODER_QEA pin ***/
+#define ENCODER_QEA_Get()               ((PIOA_REGS->PIO_PDSR >> 0U) & 0x1U)
+#define ENCODER_QEA_PIN                  PIO_PIN_PA0
+
+/*** Macros for LED_01 pin ***/
+#define LED_01_Set()               (PIOC_REGS->PIO_SODR = ((uint32_t)1U<<23U))
+#define LED_01_Clear()             (PIOC_REGS->PIO_CODR = ((uint32_t)1U<<23U))
+#define LED_01_Toggle()            (PIOC_REGS->PIO_ODSR ^= ((uint32_t)1U<<23U))
+#define LED_01_OutputEnable()      (PIOC_REGS->PIO_OER = ((uint32_t)1U<<23U))
+#define LED_01_InputEnable()       (PIOC_REGS->PIO_ODR = ((uint32_t)1U<<23U))
+#define LED_01_Get()               ((PIOC_REGS->PIO_PDSR >> 23U) & 0x1U)
+#define LED_01_PIN                  PIO_PIN_PC23
 
 
 // *****************************************************************************

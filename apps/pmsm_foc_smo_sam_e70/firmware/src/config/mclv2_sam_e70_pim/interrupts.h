@@ -65,6 +65,7 @@ void BusFault_Handler (void);
 void UsageFault_Handler (void);
 void DebugMonitor_Handler (void);
 void AFEC0_InterruptHandler (void);
+void PWM0_InterruptHandler (void);
 
 
 
