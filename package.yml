@@ -1,7 +1,7 @@
 package:
   format-version: "1.0.0"
   name: "mc_apps_sam_d7x_s7x_v7x"
-  version: "v3.4.1"
+  version: "v3.5.0"
   type: "application"
   status: "production"
   required: false
@@ -9,4 +9,4 @@ package:
   dependencies:
     - name: "motor_control"
       type: "package"
-      version: "v3.10.1"
+      version: "fixed_point_dev_imprv"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Package name="mc_apps_sam_e7x_s7x_v7x">
     <Dependencies>
-        <Dependency name="motor_control" version="v3.10.0"/>
+        <Dependency name="motor_control" version="v3.11.0"/>
     </Dependencies>
 </Package>
