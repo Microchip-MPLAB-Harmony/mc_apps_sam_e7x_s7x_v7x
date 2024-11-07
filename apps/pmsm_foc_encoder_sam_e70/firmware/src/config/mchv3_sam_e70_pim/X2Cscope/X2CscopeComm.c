@@ -52,7 +52,7 @@ void sendSerial(uint8_t data)
  *
  * @return The received data byte, or 0 if no data is available.
  */
-uint8_t receiveSerial()
+uint8_t receiveSerial( void )
 {
     uint8_t data;
     bool status = UART0_Read(&data, 1);
@@ -74,7 +74,7 @@ uint8_t receiveSerial()
  *
  * @return 1 if data is available, 0 otherwise.
  */
-uint8_t isReceiveDataAvailable()
+uint8_t isReceiveDataAvailable( void )
 {
     bool status = UART0_ReceiverIsReady();
     return (uint8_t)status;
@@ -88,7 +88,7 @@ uint8_t isReceiveDataAvailable()
  *
  * @return 1 if the transmitter is ready, 0 if the buffer is full.
  */
-uint8_t isSendReady()
+uint8_t isSendReady( void )
 {
     bool status = UART0_TransmitterIsReady();
     return (uint8_t)status;

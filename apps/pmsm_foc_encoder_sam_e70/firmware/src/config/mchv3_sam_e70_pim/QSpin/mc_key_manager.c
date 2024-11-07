@@ -12,7 +12,7 @@
 
   Description:
   Key manager source file
- 
+
  *******************************************************************************/
 
 // DOM-IGNORE-BEGIN
@@ -47,30 +47,28 @@ Headers inclusions
 #include "mc_key_manager.h"
 
 /*******************************************************************************
- * Constants 
- *******************************************************************************/
-#define IPD_ALGORITHM_KEY        "GET_THE_KEY_FROM_LOCAL_SALES"
-#define ZSMT_ALGORITHM_KEY     "GET_THE_KEY_FROM_LOCAL_SALES"
-
-/*******************************************************************************
- Private data-types 
- *******************************************************************************/
-   
-/*******************************************************************************
- Private variables 
+ * Constants
  *******************************************************************************/
 
 /*******************************************************************************
- Interface variables 
+ Private data-types
+ *******************************************************************************/
+
+/*******************************************************************************
+ Private variables
+ *******************************************************************************/
+
+/*******************************************************************************
+ Interface variables
  *******************************************************************************/
 tmcKey_Keys_s mcKeyI_AlgorithmKeys_gds;
 
 /*******************************************************************************
- Private Functions 
+ Private Functions
  *******************************************************************************/
 
 /*******************************************************************************
- Interface Functions 
+ Interface Functions
  *******************************************************************************/
 
 /*! \brief Get algorithms key
@@ -101,18 +99,13 @@ __attribute__((noinline)) char * mcKeyI_ValidationKeyGet( const tmcKey_IPs_s ip)
  */
 void mcKeyI_KeyManagerInit(void)
 {
-     char * result;
-     
-     /** Initialize IPD key  */
-     result = strcpy(mcKeyI_AlgorithmKeys_gds.Keys[(uint8_t)KEY_IPD], IPD_ALGORITHM_KEY );
+    char * result = NULL;
 
-     /** Initialize ZSMT key  */
-    result = strcpy(mcKeyI_AlgorithmKeys_gds.Keys[(uint8_t)KEY_ZSMT], ZSMT_ALGORITHM_KEY );
-    
+
     if( NULL != result )
     {
         /** ToDO: */
     }
-  
+
 }
 

@@ -1,19 +1,22 @@
-/*******************************************************************************
- Flux control source file
-
-  Company:
-    - Microchip Technology Inc.
-
-  File Name:
-    - mc_flux_control.c
-
-  Summary:
-    - Flux control source file
-
-  Description:
-    - This file implements functions for flux control
- 
- *******************************************************************************/
+/**
+ * @brief 
+ *    Flux Control source file
+ *
+ * @File Name 
+ *    mc_flux_control.c
+ *
+ * @Company 
+ *   Microchip Technology Inc.
+ *
+ * @Summary
+ *    This file contains definitions for Flux Control functions and data structures.
+ *
+ * @Description
+ *    This file provides the implementation of functions and data structures necessary for 
+ *    Flux Control, which includes controlling the flux of a motor in various operating modes.
+ *    Functions include initialization, enabling/disabling, manual and automatic control modes,
+ *    flux weakening, and MTPA (Maximum Torque per Ampere) control.
+ */
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
@@ -49,8 +52,6 @@ Headers inclusions
 /*******************************************************************************
 Local configuration options
 *******************************************************************************/
-//#define RAM_EXECUTE
-
 
 /*******************************************************************************
  Private data types
@@ -82,21 +83,22 @@ Macro Functions
 Private Functions
 *******************************************************************************/
 
+
+
+
 /*******************************************************************************
- * Interface Functions 
+ * Interface Functions
 *******************************************************************************/
-/*! \brief Initialize flux control module
- * 
- * Details.
- * Initialize flux control module
- * 
- * @param[in]: None 
- * @param[in/out]: None
- * @param[out]: None 
- * @return: None
+/*! 
+ * @brief Initialize flux control module
+ *
+ * Initializes the flux control module.
+ *
+ * @param[in] pParameters Pointer to module parameters structure
+ * @return None
  */
 void  mcFlxI_FluxControlInit( tmcFlx_Parameters_s * const pParameters )
-{  
+{
     /** Link state variable structure to the module */
     pParameters->pStatePointer = (void *)&mcFlx_State_mds;
 
@@ -106,20 +108,20 @@ void  mcFlxI_FluxControlInit( tmcFlx_Parameters_s * const pParameters )
     /** Set PI controller parameters */
     mcUtils_PiControlInit( pParameters->Kp, pParameters->Ki, pParameters->dt, &mcFlx_State_mds.bPIController );
 
+
+
     /** Set initialization flag as true */
     mcFlx_State_mds.initDone = true;
 
 }
 
-/*! \brief Enable flux control module
+/*! 
+ * @brief Enable flux control module
  *
- * Details.
- * Enable flux control module
+ * Enables the flux control module.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to module parameters structure
+ * @return None
  */
 void  mcFlxI_FluxControlEnable( tmcFlx_Parameters_s * const pParameters )
 {
@@ -141,15 +143,13 @@ void  mcFlxI_FluxControlEnable( tmcFlx_Parameters_s * const pParameters )
     pState->enable = true;
 }
 
-/*! \brief Disable flux control module
+/*! 
+ * @brief Disable flux control module
  *
- * Details.
- * Disable flux control module
+ * Disables the flux control module.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to module parameters structure
+ * @return None
  */
 void  mcFlxI_FluxControlDisable( tmcFlx_Parameters_s * const pParameters )
 {
@@ -172,15 +172,14 @@ void  mcFlxI_FluxControlDisable( tmcFlx_Parameters_s * const pParameters )
 
 }
 
-/*! \brief Flux control
+/*! 
+ * @brief Flux control - Manual/ Tracking mode
  *
- * Details.
- * Flux control
+ * Performs Flux control - Manual/ Tracking mode
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to module parameters structure
+ * @param[in] Out Output value for manual control
+ * @return None
  */
 void mcFlxI_FluxControlManual(  const tmcFlx_Parameters_s * const pParameters,
                                                          const float32_t  Out )
@@ -201,18 +200,19 @@ void mcFlxI_FluxControlManual(  const tmcFlx_Parameters_s * const pParameters,
     }
 }
 
-/*! \brief Flux control
+/*! 
+ * @brief Flux control
  *
- * Details.
- * Flux control
+ * Performs flux control.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return: None
+ * @param[in] pParameters Pointer to module parameters structure
+ * @param[in] iDref Reference d-axis current
+ * @param[in] iDact Actual d-axis current
+ * @param[out] pOut Pointer to output variable for automatic control
+ * @return None
  */
 void mcFlxI_FluxControlAuto(  const tmcFlx_Parameters_s * const pParameters,
-                                              const float32_t iDref, const float32_t iDact, const float32_t yLimit, float32_t * const pOut )
+                                              const float32_t iDref, const float32_t iDact, const float32_t iDmax, float32_t * const pOut )
 {
     /** Get the linked state variable */
     tmcFlx_State_s * pState;
@@ -226,7 +226,7 @@ void mcFlxI_FluxControlAuto(  const tmcFlx_Parameters_s * const pParameters,
 
         /** ToDO: Calculate Ymax and Ymin based on the motor control states. Remove the magic numbers  */
         /** Limit update for PI controller */
-        mcUtils_PiLimitUpdate( -yLimit, yLimit, &pState->bPIController );
+        mcUtils_PiLimitUpdate( -iDmax, iDmax, &pState->bPIController );
 
         /** Excecute PI controller */
         mcUtils_PiControl( error, &pState->bPIController );
@@ -240,15 +240,13 @@ void mcFlxI_FluxControlAuto(  const tmcFlx_Parameters_s * const pParameters,
     }
 }
 
-/*! \brief Reset Flux control
+/*! 
+ * @brief Reset flux control
  *
- * Details.
- * Reset Flux control
+ * Resets the flux control module.
  *
- * @param[in]: None
- * @param[in/out]: None
- * @param[out]: None
- * @return:
+ * @param[in] pParameters Pointer to module parameters structure
+ * @return None
  */
 void mcFlxI_FluxControlReset( const tmcFlx_Parameters_s * const pParameters )
 {
@@ -258,6 +256,7 @@ void mcFlxI_FluxControlReset( const tmcFlx_Parameters_s * const pParameters )
 
     /** Reset PI Controller */
     mcUtils_PiControlReset( 0.0f, &pState->bPIController );
-}
 
+
+}
 

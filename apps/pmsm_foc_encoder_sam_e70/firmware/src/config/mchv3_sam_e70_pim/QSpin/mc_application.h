@@ -1,18 +1,19 @@
-/*******************************************************************************
- Application
-
-  Company:
-    Microchip Technology Inc.
-
-  File Name:
-    mc_tasks.h
-
-  Summary:
- Application
-
-  Description:
-   Application 
- *******************************************************************************/
+/**
+ * @file application.h
+ *
+ * @brief 
+ *   Application Header file
+ *
+ * @Company 
+ *    Microchip Technology Inc.
+ *
+ * @Summary
+ *   Header file defining application-specific details.
+ *
+ * @Description
+ *   This header file provides definitions and structures specific to the application,
+ *   including configuration settings, function prototypes, and any other necessary details.
+ */
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
@@ -47,97 +48,104 @@
  *******************************************************************************/
 #include "mc_types.h"
 #include "definitions.h"
-#include "mc_hardware_abstraction.h" 
+#include "mc_hardware_abstraction.h"
 #include "mc_current_calculation.h"
 #include "mc_voltage_measurement.h"
 #include "mc_motor.h"
 #include "mc_field_oriented_control.h"
+
+
+#include "mc_rotor_position_calculation.h"
 
 /*******************************************************************************
  Private data-types
  *******************************************************************************/
 
 /*******************************************************************************
- * Interface variables 
+ * Interface variables
  *******************************************************************************/
 
 
 /*******************************************************************************
- Interface Functions 
+ Interface Functions
  *******************************************************************************/
 
-/*! \brief Application initialization 
- * 
- * Details.
- * Application initialization 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Application initialization
+ *
+ * @details Initializes the application.
+ *
+ * @param[in] None
+ * @param[in/out] None
+ * @param[out] None
+ *
+ * @return None
  */
 void mcAppI_ApplicationInit( void );
 
-/*! \brief Over current reaction ISR
+/**
+ * @brief Over current reaction ISR
  *
- * Details.
- * Fault reaction ISR
+ * @details Interrupt service routine for over current reaction.
  *
- * @param[in]:
- * @param[in/out]:
- * @param[out]:
- * @return:
+ * @param[in] status Status information
+ * @param[in/out] context Interrupt context
+ * @param[out] None
+ *
+ * @return None
  */
-
 void mcAppI_OverCurrentReactionIsr( uint32_t status,  uintptr_t context );
 
-
-/*! \brief Motor control application calibration
- * 
- * Details.
- *  Motor Control application calibration 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Motor control application calibration ISR
+ *
+ * @details Interrupt service routine for motor control application calibration.
+ *
+ * @param[in] status ADC status information
+ * @param[in/out] context Interrupt context
+ * @param[out] None
+ *
+ * @return None
  */
 void mcAppI_AdcCalibrationIsr( uint32_t status, uintptr_t context );
 
 
-/*! \brief Interrupt tasks execution
+/**
+ * @brief ADC finished ISR
  *
- * Details.
- *  Interrupt tasks execution
+ * @details Interrupt service routine for ADC finished tasks.
  *
- * @param[in]:
- * @param[in/out]:
- * @param[out]:
- * @return:
+ * @param[in] status ADC status information
+ * @param[in/out] context Interrupt context
+ * @param[out] None
+ *
+ * @return None
  */
 void mcAppI_AdcFinishedIsr( uint32_t status, uintptr_t context );
 
-/*! \brief Non-ISR tasks
+/**
+ * @brief Non-ISR tasks execution
  *
- * Details.
- * Non-ISR tasks
+ * @details Executes non-interrupt service routine tasks.
  *
- * @param[in]:
- * @param[in/out]:
- * @param[out]:
- * @return:
+ * @param[in] None
+ * @param[in/out] None
+ * @param[out] None
+ *
+ * @return None
  */
 void mcAppI_NonISRTasks( void );
 
-/*! \brief Application reset 
- * 
- * Details.
- * Application reset 
- * 
- * @param[in]: 
- * @param[in/out]:
- * @param[out]:
- * @return:
+/**
+ * @brief Application reset
+ *
+ * @details Resets the application.
+ *
+ * @param[in] None
+ * @param[in/out] None
+ * @param[out] None
+ *
+ * @return None
  */
 void mcAppI_ApplicationReset( void );
 

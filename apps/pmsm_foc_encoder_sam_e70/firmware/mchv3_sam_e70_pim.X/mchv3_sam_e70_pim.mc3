@@ -13226,7 +13226,7 @@
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\QSpin\Current_Calculation\mc_current_calculation.h</file>
-         <hash>927015d487e87e0b2f48fbee9435d2f5f779aadfbc7a4ea46fc55b525f9eabaa</hash>
+         <hash>95349d9815662766190f015b69b766316076fe713bb49ad5fd5782ad39065668</hash>
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\QSpin\Field_Oriented_Control\mc_field_oriented_control.c</file>
@@ -13306,7 +13306,7 @@
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\QSpin\Hardware_Abstraction\mc_hardware_abstraction.h</file>
-         <hash>e6dc22bc766c4cda001dc72015dced5c36fa85e506e2aca0fa93eca130c984fc</hash>
+         <hash>979db97ddf6c2f6e790b21c397d7e1c21ad722fc4dc9eee3bfa29c6e613624d5</hash>
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\QSpin\Rotor_Position_Calculation\mc_rotor_position_calculation.c</file>
@@ -13334,7 +13334,7 @@
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\QSpin\mc_application.c</file>
-         <hash>6764ed15e050a258ea524fefe45a07f436749dac194b4522b5a47b7e8c950c6a</hash>
+         <hash>b43569c9a8d524d2406bc5781a4d75575467d0ad9ca5f80bfbe5ef1dc88bd0ce</hash>
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\QSpin\mc_application.h</file>
@@ -13342,7 +13342,7 @@
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\QSpin\mc_key_manager.c</file>
-         <hash>be311efba962d93b534df3539e3095d045b21141afa6ecbacd7f1c993073ece8</hash>
+         <hash>895a7bddc15d389a27ee3b3114f44f125e9896fec52885be3220d82d52c73c4e</hash>
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\QSpin\mc_key_manager.h</file>
@@ -13353,20 +13353,16 @@
          <hash>06ed943a03ed58226b0d7905ea201925f5ecb1fd75e22e9c64909bb07034cea1</hash>
       </entry>
       <entry>
-         <file>..\src\config\mchv3_sam_e70_pim\QSpin\mc_userparams.h</file>
-         <hash/>
-      </entry>
-      <entry>
          <file>..\src\config\mchv3_sam_e70_pim\X2Cscope\X2Cscope.c</file>
          <hash>c27b73ea52593163c291d6ef2750c4a68681b5a9ca907271a44b273429cd5788</hash>
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\X2Cscope\X2Cscope.h</file>
-         <hash>453b61b843e193b4f37abd386e2e467033e2b7aa1d8017b6dff6c2684d5faca3</hash>
+         <hash>b6d29061d00cbfcdad3bb5cf65502ca70dbae8d172e464fdc035df0ba8aab811</hash>
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\X2Cscope\X2CscopeComm.c</file>
-         <hash>d9039c7c767bc7eb70d73dc91ad4f18802f7a7ed964c3f51737236762b86ba85</hash>
+         <hash>7295114c6c56a7a082fdf5b59e3dc614a819deabbe36b5a223ef7498400547a3</hash>
       </entry>
       <entry>
          <file>..\src\config\mchv3_sam_e70_pim\X2Cscope\X2CscopeComm.h</file>

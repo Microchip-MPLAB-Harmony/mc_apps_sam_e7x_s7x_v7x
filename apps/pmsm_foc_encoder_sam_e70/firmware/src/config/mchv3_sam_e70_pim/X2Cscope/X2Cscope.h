@@ -51,14 +51,46 @@ Headers inclusions
 /**
  * @brief Structure to hold compilation date and time.
  */
+/* MISRA C-2012 21.2 deviated below. Deviation record ID - H3_MISRAC_2012_R_21_2_DR_1 */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma coverity compliance block deviate:1 "MISRA C-2012 Rule 21.2" "H3_MISRAC_2012_R_21_2_DR_1"
+
 typedef const struct compilationDate_type {
     uint8_t date[11];  /**< Compilation date in format YYYY-MM-DD */
     uint8_t time[8];   /**< Compilation time in format HH:MM:SS */
+
 } compilationDate_t;
+
+#pragma coverity compliance end_block "MISRA C-2012 Rule 21.2"
+#pragma GCC diagnostic pop
+/* MISRAC 2012 deviation block end */
+
+/*******************************************************************************
+ Interface variables 
+ *******************************************************************************/
+/**
+ * @brief X2Cscope buffer, defined in x2cscope.h, used for data sent to the host.
+ */
+extern int8_t X2CscopeArray[X2CSCOPE_BUFFER_SIZE];
+
+/**
+ * @brief Compilation date and time.
+ *
+ * This variable holds the compilation date and time, which can be read out
+ * by the "Get Device Info" X2Cscope service. The date and time are populated
+ * using the `__DATE__` and `__TIME__` macros.
+ */
+extern compilationDate_t compilationDate;
 
 /*******************************************************************************
  Interface Functions 
  *******************************************************************************/
+/* MISRA C-2012 8.6 deviated below. Deviation record ID - H3_MISRAC_2012_R_8_6_DR_1 */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma coverity compliance block deviate:2 "MISRA C-2012 Rule 8.6" "H3_MISRAC_2012_R_8_6_DR_1"
+
 /**
  * @brief Initialise the X2Cscope buffer and LNET protocol.
  * 
@@ -87,6 +119,10 @@ void X2Cscope_Communicate(void);
  * This function should be called at fixed periods.
  */
 void X2Cscope_Update(void);
+
+#pragma coverity compliance end_block "MISRA C-2012 Rule 8.6"
+#pragma GCC diagnostic pop
+/* MISRAC 2012 deviation block end */
 
 #ifdef __cplusplus
 }

@@ -153,7 +153,6 @@ void SYS_Initialize ( void* data )
  
      
     
-	BSP_Initialize();
 
 
     /* MISRAC 2012 deviation block start */
@@ -166,7 +165,7 @@ void SYS_Initialize ( void* data )
 
 
 
-    X2CScope_Init();
+    X2Cscope_Init();
 
     #pragma coverity compliance end_block "MISRA C-2012 Rule 11.3"
     #pragma coverity compliance end_block "MISRA C-2012 Rule 11.8"
